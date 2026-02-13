@@ -2,29 +2,29 @@
 
 ## Project Reference
 
-See: .paul/PROJECT.md (updated 2026-02-12)
+See: .paul/PROJECT.md (updated 2026-02-13)
 
 **Core value:** Comprehensive codebase auditing to senior/principal engineer standards through multi-agent epistemic-rigorous analysis — plus controlled evolution via AI-consumable transformation artifacts
-**Current focus:** Phase 1 — Foundation Standards — COMPLETE
+**Current focus:** Phase 3 — Domain Knowledge — Ready to plan
 
 ## Current Position
 
 Milestone: v0.1 Initial Release
-Phase: 1 of 8 (Foundation Standards) — Complete
-Plan: 01-02 complete (2/2 plans done)
-Status: Phase complete — transition required
-Last activity: 2026-02-13 — UNIFY complete for Plan 01-02, Phase 1 fully done
+Phase: 3 of 8 (Domain Knowledge) — Not started
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-02-13 — Phase 2 complete, transitioned to Phase 3
 
 Progress:
-- Milestone: [██░░░░░░░░] 20%
-- Phase 1: [██████████] 100%
+- Milestone: [███░░░░░░░] 25%
+- Phase 3: [░░░░░░░░░░] 0%
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ✓     [Loop complete — phase transition required]
+  ○        ○        ○     [Ready for next PLAN]
 ```
 
 ## Accumulated Context
@@ -45,22 +45,27 @@ PLAN ──▶ APPLY ──▶ UNIFY
 - Convention meta-structure: 7 sections (Purpose, Location, Naming, Required Structure, Cross-References, Example Skeleton, Anti-Patterns)
 - @-reference syntax for cross-component loading
 - SHA-256 content hashing for version-locking manifests
-- **NEW: Two-system architecture — AEGIS Core (Diagnosis) + AEGIS Transform (Controlled Evolution)**
-- **NEW: Three output layers — A (Diagnostic/Truth), B (Remediation Knowledge), C (Change Orchestration/PAUL)**
-- **NEW: Four intervention levels — Suggesting, Planning, Authorizing, Executing**
-- **NEW: 4-layer transformation model — Abstract → Framework → Language → Project**
-- **NEW: 5 Transform agents — Remediation Architect, Change Risk Modeler, Pedagogy Agent, Guardrail Generator, Execution Validator**
-- **NEW: "Diagnosis is decentralized. Intervention is centralized."**
-- **NEW: Safety/liability framework — conservative bias, confidence gating, no auto-execution**
-- **NEW: PAUL is the integration point for Layer C (execution planning)**
-- **NEW: Foundation standards must be updated BEFORE building Core content, to prevent rework**
+- Two-system architecture — AEGIS Core (Diagnosis) + AEGIS Transform (Controlled Evolution)
+- Three output layers — A (Diagnostic/Truth), B (Remediation Knowledge), C (Change Orchestration/PAUL)
+- Four intervention levels — Suggesting, Planning, Authorizing, Executing
+- 4-layer transformation model — Abstract → Framework → Language → Project
+- 5 Transform agents — Remediation Architect, Change Risk Modeler, Pedagogy Agent, Guardrail Generator, Execution Validator
+- "Diagnosis is decentralized. Intervention is centralized."
+- Safety/liability framework — conservative bias, confidence gating, no auto-execution
+- PAUL is the integration point for Layer C (execution planning)
 - Two-system directory layout: src/core/ + src/transform/ + shared src/domains|schemas|rules|tools
 - Dual format convention: Layer B/C artifacts have .md (human) + .yaml (machine) representations
 - Transform safety rules are priority: critical by default
 - Convention specs extended (not rewritten) with Transform sections
+- Confidence overall derivation: min(evidence_diversity, signal_freshness) dominates — conservative by design
+- Any confidence dimension = 1 caps overall at low — no compensation
+- Confidence vectors immutable once attached to findings
+- Disagreement principal_response always required regardless of status
+- Schema cross-references use @schema:{id} syntax, IDs: F-{DD}-{NNN} for findings, D-{NNN} for disagreements
+- **Phase 2 decisions:** Playbook IDs PB-{DD}-{NNN}, change-risk overall_risk uses highest-dimension-dominates derivation, intervention levels carry liability posture (advisor vs architectural_actor), unsafe context circuit breaker (risk dim ≥4 → force Suggesting), intervention level immutable after approval
 
 ### Deferred Issues
-- Roadmap needs update after Plan 01-02 completes (add Transform phases, revise phase count)
+None.
 
 ### Blockers/Concerns
 None.
@@ -68,13 +73,14 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-13
-Stopped at: Phase 1 complete — transition required but NOT yet executed
-Next action: Phase transition (git commit, roadmap update with Transform phases, route to Phase 2)
-Resume file: .paul/HANDOFF-2026-02-13.md
+Stopped at: Phase 2 complete, ready to plan Phase 3
+Next action: /paul:plan for Phase 3 (Domain Knowledge)
+Resume file: .paul/ROADMAP.md
 Resume context:
-- Phase 1 fully done (2/2 plans), loop closed
-- Phase transition workflow has NOT run yet (git commit + roadmap update pending)
-- Deferred issue: Roadmap needs Transform phases added
+- Phase 2 fully complete: 9 schemas + 5 rules across Core + Transform (3 plans, ~2060 lines)
+- Phase 3 has 2 plans: 03-01 (infrastructure domains) + 03-02 (application & synthesis domains)
+- Phases 3, 4, 5 are parallelizable (depend only on Phase 1 conventions)
+Git strategy: feature/v1-implementation (merge to main on v1 release)
 
 ---
 *STATE.md — Updated after every significant action*

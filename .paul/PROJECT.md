@@ -20,7 +20,9 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 
 ### Validated (Shipped)
 
-None yet.
+- Formal epistemic schema enforcement in agent outputs — Phase 2 (9 schema files: 5 Core + 4 Transform)
+- Disagreement resolution protocol between agents — Phase 2 (disagreement schema + protocol rules)
+- Signal normalization layer (tool output → unified format) — Phase 2 (signal schema)
 
 ### Active (In Progress)
 
@@ -35,9 +37,9 @@ None yet.
 - [ ] Phase 3 (Change Risk, Team Risk, Reality Gap) synthesis agents
 - [ ] Phase 4 (Adversarial Review) Devil's Advocate session
 - [ ] Phase 5 (Synthesis & Report) Principal Engineer final report
-- [ ] Formal epistemic schema enforcement in agent outputs
-- [ ] Disagreement resolution protocol between agents
-- [ ] Signal normalization layer (tool output → unified format)
+- ~~Formal epistemic schema enforcement~~ — Shipped Phase 2
+- ~~Disagreement resolution protocol~~ — Shipped Phase 2
+- ~~Signal normalization layer~~ — Shipped Phase 2
 - [ ] Cross-signal correlation engine
 - [ ] Tool integrations: SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft+Grype, CodeScene
 
@@ -45,7 +47,7 @@ None yet.
 
 - GUI/dashboard (CLI-first, report output is markdown)
 - Real-time monitoring (audit is point-in-time)
-- Auto-remediation (AEGIS reports, humans fix)
+- Auto-remediation (AEGIS Transform produces plans; PAUL executes with human oversight)
 
 ## Target Users
 
@@ -121,4 +123,4 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-02-12*
+*Last updated: 2026-02-13 after Phase 2*
