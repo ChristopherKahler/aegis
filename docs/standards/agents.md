@@ -6,12 +6,13 @@ Agents define **ASSEMBLY** — thin composition manifests that declare which per
 
 The agent manifest is intentionally thin. Identity lives in the persona file. Domain knowledge lives in domain files. Tool execution lives in tool files. Output structure lives in schema files. Behavioral constraints live in rule files. The agent file simply says: "compose these components together, and here are the assembly notes."
 
-AEGIS uses 12 agent files, one per agent identity, mirroring the persona set.
+AEGIS uses 12 agent files, one per agent identity, mirroring the persona set. AEGIS Transform adds 5 agent files for intervention specialists, bringing the total to 17.
 
 ## Location
 
 ```
-src/agents/
+src/core/agents/      (12 Core agent assemblies)
+src/transform/agents/ (5 Transform agent assemblies)
 ```
 
 ## Naming
@@ -62,7 +63,7 @@ parallel_eligible: [true | false]
 | `schemas.confidence` | string | yes | Schema ID for confidence assessment format |
 | `schemas.signal_input` | string | yes | Schema ID for incoming signal format |
 | `rules` | list of strings | yes | Rule IDs this agent must comply with (from `src/rules/`) |
-| `active_phases` | list of integers | yes | AEGIS phases (0-5) where this agent is invoked |
+| `active_phases` | list of integers | yes | AEGIS phases (0-5 for Core, 6-8 for Transform) where this agent is invoked |
 | `parallel_eligible` | boolean | yes | Whether this agent can run concurrently with others in the same phase |
 
 ### Body Sections (Minimal)
@@ -135,6 +136,53 @@ Example:
 - **Phase 4 input:** Consolidated finding set for final severity calibration]
 ````
 
+## Transform Agent Conventions
+
+Transform agents follow a different assembly pattern than Core agents, reflecting the centralized intervention model.
+
+**Core Design Principle:** *Diagnosis is decentralized. Intervention is centralized.*
+
+**Key architectural differences:**
+
+| Aspect | Core Agent | Transform Agent |
+|--------|-----------|-----------------|
+| Domain scope | 1-3 specific domains | ALL domains (full finding access) |
+| Execution model | Parallel (independent) | Sequential (coordinated pipeline) |
+| Input source | Tool signals + prior phase findings | Complete Layer A record (all findings, disagreements, reports) |
+| Output target | findings/{agent-id}/ | remediation/ or execution/ |
+| Rule set | Epistemic governance | Epistemic governance + safety rules |
+
+**Transform agent assembly:**
+
+```yaml
+---
+id: remediation-architect
+name: Remediation Architect
+persona: remediation-architect
+domains: ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"]
+tools: [git-history]
+schemas:
+  output: [playbook, change-risk]
+  confidence: confidence
+  signal_input: finding
+  layer_a_input: [finding, disagreement, report-section]
+rules: [epistemic-hygiene, safety-governance, conservative-bias]
+active_phases: [6, 8]
+parallel_eligible: false
+---
+```
+
+Note the differences from Core assembly:
+- `domains` includes ALL 14 domains (Transform agents see everything)
+- `schemas.signal_input` is `finding` (consumes Layer A findings, not raw tool signals)
+- `schemas.layer_a_input` — new field for Transform agents specifying which Core schemas they consume
+- `rules` includes safety-specific rules alongside shared epistemic rules
+- `parallel_eligible: false` — Transform agents execute sequentially in a coordinated pipeline
+
+**Transform agents consume ALL Core findings,** not just domain-scoped subsets. This is because remediation requires holistic understanding — a security fix may have architectural implications, a performance fix may have testing implications.
+
+**Transform agents share a common intervention pipeline** — they execute sequentially within each phase, not in parallel. Phase 6: Remediation Architect → Pedagogy Agent. Phase 7: Change Risk Modeler → Guardrail Generator. Phase 8: Execution Validator.
+
 ## Anti-Patterns
 
 | Anti-Pattern | Why It's Wrong |
@@ -145,3 +193,5 @@ Example:
 | Missing component references | Every agent must reference at least: one persona, one or more domains, one or more tools, output and confidence schemas, and at least one rule. An agent without rules is ungoverned. An agent without tools has no signal input. Incomplete manifests produce broken agents. |
 | Persona-agent ID mismatch | The agent `id` and `persona` field should align. The agent named `security-engineer` should reference the persona `security-engineer`. Mismatches create confusion about which identity drives which agent. |
 | Embedding prompt instructions | Agent manifests are not prompts. "You are a security expert who should..." is prompt engineering. The persona file handles identity. The workflow handles invocation. The agent file just assembles the pieces. |
+| Transform agent with domain-scoped input | Transform agents must see all findings, not just findings from their 'assigned' domains. Remediation that ignores cross-domain effects produces fixes that create new problems. |
+| Parallel-eligible Transform agents | Transform agents must execute sequentially. The Pedagogy Agent needs the Remediation Architect's output. The Guardrail Generator needs the Change Risk Modeler's scores. Parallelism breaks the intervention pipeline. |

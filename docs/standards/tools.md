@@ -6,6 +6,8 @@ Tools define **INPUTS** — how to run external analysis tools, parse their outp
 
 In AEGIS, tools produce **signals**; agents **interpret** them. A tool file never says what a finding means — it only says how to run the scanner, what the raw output looks like, and how to map that output into a normalized signal schema that agents can consume. The interpretation, severity assessment, and contextual judgment all happen at the agent layer.
 
+Some tools produce signals consumed by both Core diagnostic agents and Transform intervention agents. Additionally, Transform introduces a new category of tool usage: change-risk analysis tooling that feeds the Change Risk Modeler.
+
 AEGIS uses 7 or more tool files, one per external analysis tool.
 
 ## Location
@@ -50,7 +52,7 @@ install_command: [command to install, if required]
 |-------|------|----------|-------------|
 | `id` | string | yes | Kebab-case identifier, must match filename without extension |
 | `name` | string | yes | Human-readable tool name (e.g., "Semgrep", "Trivy") |
-| `type` | enum | yes | Tool category. One of: `static_analysis`, `vulnerability_scan`, `secrets_detection`, `iac_scan`, `sbom`, `history_mining`, `code_quality` |
+| `type` | enum | yes | Tool category. One of: `static_analysis`, `vulnerability_scan`, `secrets_detection`, `iac_scan`, `sbom`, `history_mining`, `code_quality`, `change_risk_analysis` |
 | `domains_fed` | list of strings | yes | Two-digit domain numbers this tool produces signals for |
 | `install_required` | boolean | yes | Whether the tool requires explicit installation |
 | `install_command` | string | conditional | Required if `install_required` is `true`. Exact command to install the tool. |
@@ -225,6 +227,38 @@ Transform raw tool output into AEGIS signal schema format.
 - [Additional false negative patterns]
 ````
 
+## Transform Tool Conventions
+
+Transform agents consume tool signals differently from Core agents. Core agents interpret signals as evidence for findings. Transform agents use signals as input for change-risk modeling and remediation context.
+
+**Tools that feed Transform (in addition to Core):**
+
+| Tool Category | Purpose | Change Risk Dimension |
+|--------------|---------|----------------------|
+| Dependency graph analyzers | Map module coupling and dependency chains | Coupling risk |
+| Test coverage mappers | Identify tested vs untested code paths | Regression probability |
+| Change impact analyzers | Estimate blast radius of proposed changes | Blast radius |
+| Git history miners | Identify change frequency, ownership, and churn patterns | All dimensions |
+
+**Reused Core tools for Transform:**
+- `git-history` tool signals feed both Core (Domain 11-12: change risk, ownership) and Transform (regression probability, blast radius estimation)
+- `sonarqube` complexity metrics inform both Core (code health) and Transform (architectural tension estimation)
+
+**Tool output normalization for change-risk signals:**
+
+Transform-specific normalization adds a change-risk mapping in addition to the standard signal normalization:
+
+| Raw Signal | Change Risk Signal | Transformation |
+|-----------|-------------------|----------------|
+| Test coverage percentage per file | `regression_probability_input` | Lower coverage = higher regression probability |
+| Import/dependency count per module | `coupling_risk_input` | More dependencies = higher coupling risk |
+| File modification frequency (churn) | `blast_radius_input` | High churn = many dependents = higher blast radius |
+| Cyclomatic complexity | `architectural_tension_input` | High complexity = harder to change safely |
+
+**New tool type: `change_risk_analysis`**
+
+Tools in this category produce signals specifically for the Change Risk Modeler. They follow the same convention structure (Purpose, Configuration, Execution, Output Format, Normalization, Limitations) but their normalization section maps to change-risk dimensions rather than finding severity.
+
 ## Anti-Patterns
 
 | Anti-Pattern | Why It's Wrong |
@@ -235,3 +269,5 @@ Transform raw tool output into AEGIS signal schema format.
 | Combining multiple tools in one file | Syft and Grype are complementary but separate tools with separate execution, output formats, and signal types. One file per tool, always. Cross-reference via domain affinities if needed. |
 | Omitting limitations | Every tool has blind spots. Failing to document what a tool *cannot* detect leads agents to assume absence of signals means absence of issues. Limitations are as important as capabilities. |
 | Prescriptive interpretation of output | "A HIGH severity Semgrep finding should be treated as critical" is prescriptive interpretation. The tool file maps `HIGH` to the signal field `tool_severity: high`. The agent decides the actual finding severity using its persona and domain knowledge. |
+| Tool that claims to assess change risk without evidence | A tool output that says 'high risk' without measurable data (coverage percentage, dependency count, churn rate) is not useful for Transform. Change risk must be grounded in quantifiable signals. |
+| Conflating tool severity with change risk | A Semgrep finding with severity 'HIGH' does not mean the fix has high change risk. Tool severity describes the problem's impact. Change risk describes the danger of the fix. These are orthogonal dimensions. |

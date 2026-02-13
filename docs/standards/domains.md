@@ -6,6 +6,8 @@ Domains define **WHAT** to audit. They encode failure patterns, audit questions,
 
 Domains are the *subject matter* that agents apply their personas against. The security persona applies its attacker mindset to the security domain's failure patterns. The SRE persona applies its reliability thinking to the observability domain's red flags. The domain supplies the knowledge; the persona supplies the reasoning.
 
+Domains also supply the best-practice pattern knowledge that Transform agents use when producing remediation. A domain that only describes failures without corresponding correct patterns cannot feed the Transform pipeline.
+
 AEGIS uses 14 domain files, numbered 00-13, covering the full surface area of a codebase audit.
 
 ## Location
@@ -58,6 +60,7 @@ Sections use standard markdown headers (`##`), not XML tags. Order matters.
 | Overview | `## Overview` | What this domain covers and why it matters to an audit. |
 | Audit Questions | `## Audit Questions` | Specific questions an agent should answer about this domain. Bulleted list. |
 | Failure Patterns | `## Failure Patterns` | Known failure modes. Each with: pattern name, description, indicators, severity tendency. |
+| Best Practice Patterns | `## Best Practice Patterns` | Correct patterns that correspond to each failure pattern. Required for Transform remediation. |
 | Red Flags | `## Red Flags` | Quick indicators that something is wrong. Bulleted list of observable signals. |
 | Tool Affinities | `## Tool Affinities` | Which tools produce signals relevant to this domain. Structured table. |
 | Standards & Frameworks | `## Standards & Frameworks` | Relevant industry standards. Bulleted list with brief relevance notes. |
@@ -70,6 +73,7 @@ Sections use standard markdown headers (`##`), not XML tags. Order matters.
 | Referenced BY | Agent assembly manifests (`src/agents/`) | `domains: [{DD}, {DD}]` field in agent frontmatter |
 | References | Tool IDs (`src/tools/`) | In the Tool Affinities section table |
 | Does NOT reference | Personas, schemas, rules | Domain knowledge is neutral; persona reasoning is applied at runtime |
+| Referenced BY | Transform agents (`src/transform/agents/`) | Transform agents consume domain best-practice patterns for remediation context |
 
 ## Example Skeleton
 
@@ -121,6 +125,22 @@ frameworks (domain-12)."]
 
 [Repeat for each failure pattern. Aim for 5-10 per domain.]
 
+## Best Practice Patterns
+
+### [Pattern Name — e.g., "Centralized Authentication"]
+
+- **Replaces Failure Pattern:** [Which failure pattern this corrects — e.g., "Broken Authentication"]
+- **Abstract Pattern:** [Language-agnostic principle — e.g., "Authentication should be handled by a single, well-tested module that all request handlers delegate to"]
+- **Framework Mappings:**
+  - [Framework 1]: [Implementation — e.g., "Laravel: Use middleware guards with `auth:sanctum`"]
+  - [Framework 2]: [Implementation — e.g., "Express: Use passport.js with centralized strategy configuration"]
+  - [Framework 3]: [Implementation — e.g., "Spring Boot: Use Spring Security filter chain"]
+- **Language Patterns:**
+  - [Language 1]: [Pattern — e.g., "PHP: `Auth::check()` middleware, never inline credential comparison"]
+  - [Language 2]: [Pattern — e.g., "Node.js: JWT verification middleware with centralized secret management"]
+
+[Repeat for each best practice pattern. Every failure pattern should have a corresponding best practice.]
+
 ## Red Flags
 
 - [Red flag 1 — e.g., "Any file named `password`, `secret`, or `key` in source tree"]
@@ -167,3 +187,5 @@ Relevance levels: `primary` (core signal source), `supporting` (supplementary da
 | Opinion leaking into failure patterns | "This terrible pattern" or "developers often lazily..." introduces bias. Failure patterns are factual: here is the pattern, here are its indicators, here is its typical severity. No editorializing. |
 | Mixing domain scopes | Each domain has clear boundaries. Security does not discuss testing strategy. Architecture does not discuss deployment. If a concern spans domains, each domain covers its slice and cross-references are handled at the agent level through multi-domain assignments. |
 | Omitting the Tool Affinities section | Even if a domain has no direct tool signals, state that explicitly. An empty section with "No direct tool signals; this domain relies on manual analysis and agent reasoning" is better than a missing section. |
+| Domains that only describe failures | A domain without best-practice patterns cannot feed Transform remediation. Anti-patterns without corresponding correct patterns produce diagnosis without treatment. |
+| Generic best practices without framework mapping | A best practice that says "use authentication middleware" without framework-specific implementations is not actionable at Layers 2-4 of the transformation model. |

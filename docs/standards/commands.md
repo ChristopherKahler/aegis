@@ -6,23 +6,30 @@ Commands define **ENTRY** — user-facing slash commands that provide a guided w
 
 Commands are the only part of AEGIS that users interact with directly. Everything else — personas, domains, tools, schemas, rules, agents, workflows — operates behind the command layer. A well-designed command makes AEGIS feel like a guided experience rather than a raw framework.
 
-AEGIS uses approximately 4 command files, each providing a distinct user entry point.
+AEGIS uses approximately 8 command files: 4 for Core audit operations and 4 for Transform remediation operations.
 
 ## Location
 
 ```
-src/commands/
+src/core/commands/      (Core audit commands)
+src/transform/commands/ (Transform remediation commands)
 ```
 
 ## Naming
 
 **Pattern:** `{kebab-name}.md`
 
-**Examples:**
+**Core examples:**
 - `audit.md`
 - `resume.md`
 - `status.md`
 - `report.md`
+
+**Transform examples:**
+- `transform.md`
+- `playbook.md`
+- `remediate.md`
+- `guardrails.md`
 
 Commands are invoked by users as `aegis:{kebab-name}` (e.g., `/aegis:audit`).
 
@@ -60,9 +67,10 @@ argument-hint: "[optional-arg]"
 
 | Direction | What | How |
 |-----------|------|-----|
-| References | Workflows (`src/workflows/`) | By path in `<execution_context>` |
+| References | Core Workflows (`src/core/workflows/`) | By path in `<execution_context>` |
+| References | Transform Workflows (`src/transform/workflows/`) | By path in `<execution_context>` |
 | References | `.aegis/` state files | For prerequisite checking and state display |
-| Referenced BY | Users | Slash command invocation (e.g., `/aegis:audit`) |
+| Referenced BY | Users | Slash command invocation (e.g., `/aegis:audit`, `/aegis:transform`) |
 
 Commands are the **entry points** of the dependency graph. Users invoke commands; commands invoke workflows; workflows invoke agents.
 
@@ -184,6 +192,50 @@ If [1] selected, delegate to first workflow in sequence.
 </success_criteria>
 ````
 
+## Transform Command Conventions
+
+Transform commands are entry points to the remediation pipeline. They follow the same structural conventions as Core commands (frontmatter + XML sections) but include Transform-specific safety requirements.
+
+**The 4 Transform commands:**
+
+| Command | Invocation | Purpose |
+|---------|-----------|---------|
+| Transform | `/aegis:transform` | Initiate Transform pipeline on a completed audit |
+| Playbook | `/aegis:playbook {finding-id}` | Generate remediation playbook for a specific finding |
+| Remediate | `/aegis:remediate` | Generate full remediation plan (all findings) |
+| Guardrails | `/aegis:guardrails` | Generate project rules from audit findings |
+
+**Safety requirement:** All Transform commands must display intervention level and confidence information before proceeding with any output generation. The user must confirm before Transform produces output at Planning level or above.
+
+**Example Transform command flow:**
+
+```
+/aegis:transform
+
+[1] Check prerequisites:
+    - Verify completed Core audit (.aegis/report/ exists)
+    - Verify Layer A integrity (all phases 0-5 complete)
+
+[2] Display Transform scope:
+    - Finding count: N findings across M domains
+    - Estimated playbook count: ~P
+    - Maximum intervention level available: [based on confidence distribution]
+
+[3] Select Transform scope:
+    [1] Full Transform — all findings, all phases (6-8)
+    [2] Selective — choose specific findings or domains
+    [3] Playbooks only — Phase 6 only (no risk scoring or PAUL project)
+    [4] Cancel
+
+[4] Confirm and execute:
+    - Display: "Transform will produce remediation at intervention levels: Suggesting (N), Planning (M), Authorizing (K)"
+    - Require explicit confirmation before proceeding
+```
+
+**Transform commands delegate to Transform workflows** in `src/transform/workflows/`, following the same delegation pattern as Core commands.
+
+**Prerequisite enforcement:** Transform commands MUST verify that Core audit is complete before allowing Transform to proceed. A Transform command that runs against an incomplete Layer A record produces unreliable remediation.
+
 ## Anti-Patterns
 
 | Anti-Pattern | Why It's Wrong |
@@ -194,3 +246,5 @@ If [1] selected, delegate to first workflow in sequence.
 | Duplicating workflow steps | If the command's `<process>` section contains detailed analysis steps, those steps should be in a workflow file instead. The command guides the user to the right workflow and hands off. It does not replicate the workflow's internals. |
 | Hardcoded paths or tool names | Commands should reference workflows and state files by their standard locations. Hardcoding tool names or specific file paths (beyond `.aegis/` conventions) makes commands brittle when the framework evolves. |
 | Missing cancellation options | Every decision point must include a way to cancel or go back. Users should never feel trapped in a command flow. Always include a "Cancel" or "Pause" option. |
+| Transform command without safety display | Every Transform command must show intervention levels and confidence before producing output. Generating remediation without user awareness of the intervention level violates the safety framework. |
+| Transform command that skips prerequisite check | Transform requires a complete Layer A record. A command that allows Transform to run against an incomplete audit produces remediation based on partial information — potentially dangerous. |

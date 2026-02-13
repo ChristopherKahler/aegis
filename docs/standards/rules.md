@@ -8,10 +8,13 @@ Rules exist because multi-agent systems are prone to epistemic drift. Without ex
 
 AEGIS uses a small number of rule files. Fewer rules with higher enforcement rigor is preferable to many rules with spotty compliance.
 
+AEGIS Transform introduces additional rule categories for safety governance. Transform rules constrain the intervention pipeline — ensuring that remediation is conservative, confidence-gated, and never auto-executed.
+
 ## Location
 
 ```
-src/rules/
+src/rules/            (Shared — applies to all agents)
+src/transform/rules/  (Transform-specific safety rules)
 ```
 
 ## Naming
@@ -22,6 +25,9 @@ src/rules/
 - `epistemic-hygiene.md`
 - `disagreement-protocol.md`
 - `agent-boundaries.md`
+- `safety-governance.md`
+- `conservative-bias.md`
+- `confidence-gating.md`
 
 ## Required Structure
 
@@ -42,7 +48,7 @@ priority: [critical | quality | guidance]
 |-------|------|----------|-------------|
 | `id` | string | yes | Kebab-case identifier, must match filename without extension |
 | `name` | string | yes | Human-readable rule name |
-| `scope` | string or list | yes | What this rule applies to: `all_agents`, `personas`, `workflows`, `schemas`, or a combination |
+| `scope` | string or list | yes | What this rule applies to: `all_agents`, `personas`, `workflows`, `schemas`, `transform_agents`, or a combination |
 | `priority` | enum | yes | `critical` (violation invalidates output), `quality` (violation degrades output), `guidance` (best practice, not enforced) |
 
 ### Body Sections (All Required)
@@ -149,6 +155,55 @@ file should be split.]
 - [Additional violations with explanations]
 ````
 
+## Transform Safety Rules
+
+Transform introduces a new category of rules: **safety governance**. These rules constrain what Transform agents are allowed to produce and at what confidence levels.
+
+**Safety Rule Categories:**
+
+**1. Conservative Bias**
+- Default to the lowest intervention level that serves the user
+- When uncertain about intervention level, downgrade (Authorizing → Planning, Planning → Suggesting)
+- Never escalate intervention level without explicit evidence justification
+- Enforcement: Workflow validates that intervention level assignment includes evidence
+
+**2. Confidence Gating**
+- Minimum finding confidence required per intervention level:
+  - Suggesting: Low (any finding can produce a suggestion)
+  - Planning: Medium (requires at least 2 evidence sources)
+  - Authorizing: High (requires 3+ evidence sources with cross-validation)
+  - Executing (via PAUL): High (requires 3+ cross-validated sources)
+- Enforcement: Schema validation rejects playbooks where intervention level exceeds confidence threshold
+
+**3. Unsafe Context Flagging**
+- If any change risk dimension exceeds "high" threshold, flag as unsafe
+- Unsafe changes are automatically downgraded to Suggesting intervention level
+- Must explain why the change is risky (specific dimension and evidence)
+- Enforcement: Risk scoring workflow checks thresholds before allowing higher intervention levels
+
+**4. No Auto-Execution**
+- AEGIS Transform NEVER applies changes to codebases
+- Transform produces plans; PAUL executes plans with human oversight
+- No bypass mechanism, no trusted mode, no override
+- This is a hard architectural boundary, not a configuration option
+- Enforcement: No Transform workflow includes file-modification steps. If a workflow attempts to write to the target codebase (outside `.aegis/`), it is a critical violation.
+
+**5. Change Risk Rules**
+- Every remediation must have blast radius assessment with evidence
+- Coupling analysis required before recommending structural changes
+- Regression probability must be stated with evidence (test coverage data)
+- Changes to untested code paths require explicit "no test coverage" warning
+- Enforcement: Playbook schema requires risk_metadata object with all four dimensions
+
+**6. Liability Rules**
+- System is Advisor when producing Suggesting/Planning outputs
+- System is Architectural Actor when producing Authorizing outputs
+- Higher liability levels require higher confidence and lower change risk
+- When acting as Architectural Actor, must include explicit disclaimer and confidence statement
+- Enforcement: Authorizing-level playbooks must include liability acknowledgment section
+
+**Transform rules have `priority: critical` by default.** A Transform agent that violates safety governance produces output that is potentially harmful. Unlike Core rules where a quality violation degrades output, a Transform safety violation can cause damage to the target codebase.
+
 ## Anti-Patterns
 
 | Anti-Pattern | Why It's Wrong |
@@ -159,3 +214,5 @@ file should be split.]
 | Too many rules | Governance fatigue is real. When agents are loaded with 50 rules, they effectively follow zero. Keep rule files few (3-5 files) and keep rules per file focused (3-7 rules). Every rule should justify its existence by preventing a specific, documented failure mode. |
 | Rules without rationale | A rule without a "why" is an arbitrary constraint. Agents (and the humans maintaining AEGIS) need to understand the reasoning. If you can't articulate why a rule exists, it probably shouldn't. |
 | Rules that duplicate schema validation | "Severity must be one of: critical, high, medium, low, informational" is schema validation (belongs in `src/schemas/`). Rules govern behavior and reasoning quality, not data format compliance. |
+| Safety rules treated as guidance | Transform safety rules are critical, not guidance. A playbook that bypasses confidence gating is not 'slightly wrong' — it is potentially harmful. Treat safety rules with the same rigor as the epistemic hygiene rules. |
+| Generic safety rules without enforcement mechanism | 'Be careful with changes' is not a safety rule. 'Reject playbooks where intervention level is Authorizing and finding confidence is below High' is a safety rule. Every safety rule must have a concrete, automatable enforcement mechanism. |
