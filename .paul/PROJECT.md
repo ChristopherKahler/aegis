@@ -14,7 +14,7 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 |-----------|-------|
 | Version | 0.0.0 |
 | Status | Design |
-| Last Updated | 2026-02-12 |
+| Last Updated | 2026-02-15 |
 
 ## Requirements
 
@@ -23,6 +23,7 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 - Formal epistemic schema enforcement in agent outputs — Phase 2 (9 schema files: 5 Core + 4 Transform)
 - Disagreement resolution protocol between agents — Phase 2 (disagreement schema + protocol rules)
 - Signal normalization layer (tool output → unified format) — Phase 2 (signal schema)
+- 14 audit domain knowledge modules with failure patterns and best practices — Phase 3 (14 domain files: 6 infrastructure + 8 application/synthesis)
 
 ### Active (In Progress)
 
@@ -94,6 +95,8 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 | 7-layer epistemic schema | Forces structured reasoning, prevents opinion soup | 2026-02-12 | Active |
 | Disagreements as first-class objects | Senior engineers surface disagreement, not hide it | 2026-02-12 | Active |
 | Reality Gap as dedicated framework | Most incidents live in code-vs-runtime divergence | 2026-02-12 | Active |
+| Strict 1:1 failure/best-practice mapping in domains | Convention requires each failure pattern has exactly one corresponding best practice — prevents many-to-one dilution | 2026-02-13 | Active |
+| Synthesis domain pattern (Domain 13) | Synthesis domains describe process failures, not codebase failures — enables meta-analysis domains | 2026-02-15 | Active |
 
 ## Success Metrics
 
@@ -123,4 +126,4 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-02-13 after Phase 2*
+*Last updated: 2026-02-15 after Phase 3*

@@ -2,29 +2,29 @@
 
 ## Project Reference
 
-See: .paul/PROJECT.md (updated 2026-02-13)
+See: .paul/PROJECT.md (updated 2026-02-15)
 
 **Core value:** Comprehensive codebase auditing to senior/principal engineer standards through multi-agent epistemic-rigorous analysis — plus controlled evolution via AI-consumable transformation artifacts
-**Current focus:** Phase 3 — Domain Knowledge — In Progress
+**Current focus:** Phase 4 — Tool Integration — Not Started
 
 ## Current Position
 
 Milestone: v0.1 Initial Release
-Phase: 3 of 8 (Domain Knowledge) — In Progress
-Plan: 03-01 complete, ready for next PLAN
-Status: Loop complete — 6 infrastructure domains created, verified, reconciled
-Last activity: 2026-02-13 — Unified plan 03-01 (SUMMARY.md created)
+Phase: 4 of 8 (Tool Integration) — Not Started
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-02-15 — Phase 3 complete, transitioned to Phase 4
 
 Progress:
-- Milestone: [███░░░░░░░] 30%
-- Phase 3: [█████░░░░░] 50% (1/2 plans complete)
+- Milestone: [████░░░░░░] 38%
+- Phase 4: [░░░░░░░░░░] 0%
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ✓     [Loop complete — ready for next PLAN]
+  ○        ○        ○     [Ready for new PLAN]
 ```
 
 ## Accumulated Context
@@ -63,6 +63,7 @@ PLAN ──▶ APPLY ──▶ UNIFY
 - Disagreement principal_response always required regardless of status
 - Schema cross-references use @schema:{id} syntax, IDs: F-{DD}-{NNN} for findings, D-{NNN} for disagreements
 - **Phase 2 decisions:** Playbook IDs PB-{DD}-{NNN}, change-risk overall_risk uses highest-dimension-dominates derivation, intervention levels carry liability posture (advisor vs architectural_actor), unsafe context circuit breaker (risk dim ≥4 → force Suggesting), intervention level immutable after approval
+- **Phase 3 decisions:** Strict 1:1 failure/best-practice mapping enforced as convention requirement, synthesis domain pattern established (Domain 13 describes process failures, not codebase failures), parallel subagent generation with post-hoc verification proven effective
 
 ### Deferred Issues
 None.
@@ -72,14 +73,15 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-13
-Stopped at: Plan 03-01 loop complete (PLAN ✓ APPLY ✓ UNIFY ✓)
-Next action: /paul:plan — Plan 03-02 for remaining 8 application/synthesis domains (03-06, 09, 11-13)
-Resume file: .paul/phases/03-domain-knowledge/03-01-SUMMARY.md
+Last session: 2026-02-15
+Stopped at: Phase 3 complete, ready to plan Phase 4
+Next action: /paul:plan for Phase 4 (Tool Integration)
+Resume file: .paul/ROADMAP.md
 Resume context:
-- Plan 03-01 complete: 6 infrastructure domains (00, 01, 02, 07, 08, 10)
-- Plan 03-02 next: 8 application/synthesis domains (03 Correctness, 04 Security, 05 Compliance, 06 Testing, 09 Maintainability, 11 Change Risk, 12 Team/Ownership, 13 Risk Synthesis)
-- Same domain convention applies — 8 sections, 1:1 failure/best-practice mapping
+- Phase 3 complete: 14/14 domain knowledge modules delivered (2 plans, 14 files, 100+ failure patterns with 1:1 best practices)
+- Phase 4 (Tool Integration): 2 planned plans — tool adapter specs for SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft+Grype, git-history
+- Phase 4 depends on Phase 1 (conventions) and Phase 2 (signal normalization schema) — both complete
+- Research likely needed for Semgrep rules, Trivy output formats, Gitleaks config, Checkov policies
 Git strategy: feature/v1-implementation (merge to main on v1 release)
 
 ---

@@ -10,7 +10,7 @@ Each phase produces artifacts for both systems where applicable. Core artifacts 
 
 **v0.1 Initial Release** (v0.1.0)
 Status: In progress
-Phases: 2 of 8 complete
+Phases: 3 of 8 complete
 
 ## Phases
 
@@ -18,7 +18,7 @@ Phases: 2 of 8 complete
 |-------|------|-------|-----------------|--------|-----------|
 | 1 | Foundation Standards | 2 | (standards docs) | Complete | 2026-02-13 |
 | 2 | Schemas & Rules | 3 | schemas, rules | Complete | 2026-02-13 |
-| 3 | Domain Knowledge | 2 | domains | Not started | - |
+| 3 | Domain Knowledge | 2 | domains | Complete | 2026-02-15 |
 | 4 | Tool Integration | 2 | tools | Not started | - |
 | 5 | Personas | 3 | personas | Not started | - |
 | 6 | Agent Assembly & Workflows | 3 | agents, workflows | Not started | - |
@@ -107,8 +107,8 @@ Phases: 2 of 8 complete
 - Domain 13: Risk Synthesis & Forecasting
 
 **Plans:**
-- [ ] 03-01: Infrastructure domains — 00 Context, 01 Architecture, 02 Data, 07 Reliability, 08 Performance, 10 Operability
-- [ ] 03-02: Application & synthesis domains — 03 Correctness, 04 Security, 05 Compliance, 06 Testing, 09 Maintainability, 11 Change Risk, 12 Team Risk, 13 Risk Synthesis
+- [x] 03-01: Infrastructure domains — 00 Context, 01 Architecture, 02 Data, 07 Reliability, 08 Performance, 10 Operability
+- [x] 03-02: Application & synthesis domains — 03 Correctness, 04 Security, 05 Compliance, 06 Testing, 09 Maintainability, 11 Change Risk, 12 Team Risk, 13 Risk Synthesis
 
 ### Phase 4: Tool Integration
 
@@ -236,4 +236,4 @@ Phases: 2 of 8 complete
 
 ---
 *Roadmap created: 2026-02-12*
-*Last updated: 2026-02-13 — Phase 2 complete, all schemas and rules delivered*
+*Last updated: 2026-02-15 — Phase 3 complete, all 14 domain knowledge modules delivered*
