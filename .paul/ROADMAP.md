@@ -10,7 +10,7 @@ Each phase produces artifacts for both systems where applicable. Core artifacts 
 
 **v0.1 Initial Release** (v0.1.0)
 Status: In progress
-Phases: 3 of 8 complete
+Phases: 4 of 8 complete
 
 ## Phases
 
@@ -19,7 +19,7 @@ Phases: 3 of 8 complete
 | 1 | Foundation Standards | 2 | (standards docs) | Complete | 2026-02-13 |
 | 2 | Schemas & Rules | 3 | schemas, rules | Complete | 2026-02-13 |
 | 3 | Domain Knowledge | 2 | domains | Complete | 2026-02-15 |
-| 4 | Tool Integration | 2 | tools | Not started | - |
+| 4 | Tool Integration | 2 | tools | Complete | 2026-02-18 |
 | 5 | Personas | 3 | personas | Not started | - |
 | 6 | Agent Assembly & Workflows | 3 | agents, workflows | Not started | - |
 | 7 | Commands & UX | 2 | commands | Not started | - |
@@ -128,8 +128,8 @@ Phases: 3 of 8 complete
 - Git history mining adapter (churn, author concentration, file age, change frequency)
 
 **Plans:**
-- [ ] 04-01: Core tool adapters — SonarQube, Semgrep, Trivy, Gitleaks
-- [ ] 04-02: Extended tool adapters — Checkov, Syft+Grype, git history mining
+- [x] 04-01: Core tool adapters — SonarQube, Semgrep, Trivy, Gitleaks
+- [x] 04-02: Extended tool adapters — Checkov, Syft, Grype, git history mining
 
 ### Phase 5: Personas
 
@@ -236,4 +236,4 @@ Phases: 3 of 8 complete
 
 ---
 *Roadmap created: 2026-02-12*
-*Last updated: 2026-02-15 — Phase 3 complete, all 14 domain knowledge modules delivered*
+*Last updated: 2026-02-18 — Phase 4 complete, all 8 tool adapter specifications delivered*

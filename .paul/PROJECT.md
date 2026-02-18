@@ -24,6 +24,7 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 - Disagreement resolution protocol between agents — Phase 2 (disagreement schema + protocol rules)
 - Signal normalization layer (tool output → unified format) — Phase 2 (signal schema)
 - 14 audit domain knowledge modules with failure patterns and best practices — Phase 3 (14 domain files: 6 infrastructure + 8 application/synthesis)
+- Tool integrations: SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft, Grype, git-history — Phase 4 (8 tool adapter specifications, 4,008 total lines)
 
 ### Active (In Progress)
 
@@ -42,7 +43,8 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 - ~~Disagreement resolution protocol~~ — Shipped Phase 2
 - ~~Signal normalization layer~~ — Shipped Phase 2
 - [ ] Cross-signal correlation engine
-- [ ] Tool integrations: SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft+Grype, CodeScene
+- ~~Tool integrations: SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft+Grype~~ — Shipped Phase 4
+- [ ] CodeScene integration (optional paid enhancement)
 
 ### Out of Scope
 
@@ -97,6 +99,8 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 | Reality Gap as dedicated framework | Most incidents live in code-vs-runtime divergence | 2026-02-12 | Active |
 | Strict 1:1 failure/best-practice mapping in domains | Convention requires each failure pattern has exactly one corresponding best practice — prevents many-to-one dilution | 2026-02-13 | Active |
 | Synthesis domain pattern (Domain 13) | Synthesis domains describe process failures, not codebase failures — enables meta-analysis domains | 2026-02-15 | Active |
+| SBOM pipeline: Syft → Grype | Syft catalogs inventory, Grype scans for CVEs — separate tools, complementary pipeline | 2026-02-18 | Active |
+| git-history dual normalization | Git history feeds both Core diagnosis (Domains 11, 12) and Transform change-risk modeling | 2026-02-18 | Active |
 
 ## Success Metrics
 
@@ -104,7 +108,7 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 |--------|--------|---------|--------|
 | Audit domains covered | 14 | 0 | Not started |
 | Agent personas implemented | 12 | 0 | Not started |
-| Tool integrations working | 7+ | 1 (SonarQube) | In progress |
+| Tool integrations working | 7+ | 8 (all OSS tools) | Complete |
 | End-to-end audit on real repo | 1 | 0 | Not started |
 
 ## Tech Stack
@@ -126,4 +130,4 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-02-15 after Phase 3*
+*Last updated: 2026-02-18 after Phase 4*
