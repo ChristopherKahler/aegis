@@ -25,6 +25,7 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 - Signal normalization layer (tool output → unified format) — Phase 2 (signal schema)
 - 14 audit domain knowledge modules with failure patterns and best practices — Phase 3 (14 domain files: 6 infrastructure + 8 application/synthesis)
 - Tool integrations: SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft, Grype, git-history — Phase 4 (8 tool adapter specifications, 4,008 total lines)
+- 17 agent persona specifications (12 Core + 5 Transform) with distinct cognitive identities — Phase 5 (17 persona files, 1,829 total lines)
 
 ### Active (In Progress)
 
@@ -32,7 +33,7 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 
 ### Planned (Next)
 
-- [ ] PAUL-style agent prompt templates for all 12 personas
+- [ ] Agent assembly manifests (12 Core + 5 Transform) and orchestration workflows
 - [ ] Phase 0 (Context & Threat Modeling) session workflow
 - [ ] Phase 1 (Signal Gathering) tool integration and automation
 - [ ] Phase 2 (Deep Domain Audits) parallel agent sessions
@@ -107,7 +108,7 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
 | Audit domains covered | 14 | 0 | Not started |
-| Agent personas implemented | 12 | 0 | Not started |
+| Agent personas implemented | 17 | 17 | Complete |
 | Tool integrations working | 7+ | 8 (all OSS tools) | Complete |
 | End-to-end audit on real repo | 1 | 0 | Not started |
 
@@ -130,4 +131,4 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-02-18 after Phase 4*
+*Last updated: 2026-02-18 after Phase 5*

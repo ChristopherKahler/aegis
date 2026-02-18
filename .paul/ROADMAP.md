@@ -10,7 +10,7 @@ Each phase produces artifacts for both systems where applicable. Core artifacts 
 
 **v0.1 Initial Release** (v0.1.0)
 Status: In progress
-Phases: 4 of 8 complete
+Phases: 5 of 8 complete
 
 ## Phases
 
@@ -20,7 +20,7 @@ Phases: 4 of 8 complete
 | 2 | Schemas & Rules | 3 | schemas, rules | Complete | 2026-02-13 |
 | 3 | Domain Knowledge | 2 | domains | Complete | 2026-02-15 |
 | 4 | Tool Integration | 2 | tools | Complete | 2026-02-18 |
-| 5 | Personas | 3 | personas | Not started | - |
+| 5 | Personas | 3 | personas | Complete | 2026-02-18 |
 | 6 | Agent Assembly & Workflows | 3 | agents, workflows | Not started | - |
 | 7 | Commands & UX | 2 | commands | Not started | - |
 | 8 | End-to-End Validation | 1 | (validation) | Not started | - |
@@ -160,9 +160,9 @@ Phases: 4 of 8 complete
 - Execution Validator (verifies proposed changes maintain system invariants)
 
 **Plans:**
-- [ ] 05-01: Core audit personas — Principal Engineer, Architect, Data Engineer, Security Engineer, Compliance Officer, Senior App Engineer
-- [ ] 05-02: Operations & synthesis personas — SRE, Performance Engineer, Test Engineer, Staff Engineer, Reality Gap Analyst, Devil's Advocate
-- [ ] 05-03: Transform personas — Remediation Architect, Change Risk Modeler, Pedagogy Agent, Guardrail Generator, Execution Validator
+- [x] 05-01: Core audit personas — Principal Engineer, Architect, Data Engineer, Security Engineer, Compliance Officer, Senior App Engineer
+- [x] 05-02: Operations & synthesis personas — SRE, Performance Engineer, Test Engineer, Staff Engineer, Reality Gap Analyst, Devil's Advocate
+- [x] 05-03: Transform personas — Remediation Architect, Change Risk Modeler, Pedagogy Agent, Guardrail Generator, Execution Validator
 
 ### Phase 6: Agent Assembly & Workflows
 
@@ -236,4 +236,4 @@ Phases: 4 of 8 complete
 
 ---
 *Roadmap created: 2026-02-12*
-*Last updated: 2026-02-18 — Phase 4 complete, all 8 tool adapter specifications delivered*
+*Last updated: 2026-02-18 — Phase 5 complete, all 17 persona specifications delivered (12 Core + 5 Transform)*
