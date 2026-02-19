@@ -10,7 +10,7 @@ Each phase produces artifacts for both systems where applicable. Core artifacts 
 
 **v0.1 Initial Release** (v0.1.0)
 Status: In progress
-Phases: 6 of 8 complete
+Phases: 7 of 8 complete
 
 ## Phases
 
@@ -22,7 +22,7 @@ Phases: 6 of 8 complete
 | 4 | Tool Integration | 2 | tools | Complete | 2026-02-18 |
 | 5 | Personas | 3 | personas | Complete | 2026-02-18 |
 | 6 | Agent Assembly & Workflows | 3 | agents, workflows | Complete | 2026-02-19 |
-| 7 | Commands & UX | 2 | commands | Not started | - |
+| 7 | Commands & UX | 2 | commands | Complete | 2026-02-19 |
 | 8 | End-to-End Validation | 1 | (validation) | Not started | - |
 
 **Parallelization note:** Phases 3, 4, and 5 depend only on Phase 1 conventions (not on each other). They can be developed in any order or interleaved. Phase 2 (schemas/rules) should come first among them since schemas define the output contracts that domains reference and tools normalize into.
@@ -212,8 +212,8 @@ Phases: 6 of 8 complete
 - Audit run configuration (which agents to include, which tools to run, scope overrides, intervention level)
 
 **Plans:**
-- [ ] 07-01: Core commands (/aegis:audit, /aegis:resume, /aegis:status, /aegis:report) + audit configuration
-- [ ] 07-02: Transform commands (/aegis:remediate, /aegis:transform) + intervention level configuration
+- [x] 07-01: Core commands (/aegis:audit, /aegis:resume, /aegis:status, /aegis:report) + audit configuration
+- [x] 07-02: Transform commands (/aegis:transform, /aegis:remediate, /aegis:playbook, /aegis:guardrails) + safety prerequisites
 
 ### Phase 8: End-to-End Validation
 

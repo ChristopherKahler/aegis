@@ -26,6 +26,9 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 - 14 audit domain knowledge modules with failure patterns and best practices — Phase 3 (14 domain files: 6 infrastructure + 8 application/synthesis)
 - Tool integrations: SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft, Grype, git-history — Phase 4 (8 tool adapter specifications, 4,008 total lines)
 - 17 agent persona specifications (12 Core + 5 Transform) with distinct cognitive identities — Phase 5 (17 persona files, 1,829 total lines)
+- 17 agent assembly manifests (12 Core + 5 Transform) — Phase 6 (thin composition manifests)
+- 12 orchestration workflows (8 Core + 4 Transform) — Phase 6 (phase orchestration + utilities + safety governance)
+- 8 user-facing slash commands (4 Core + 4 Transform) — Phase 7 (guided wizard UX with safety prerequisites, 1,371 total lines)
 
 ### Active (In Progress)
 
@@ -33,13 +36,10 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 
 ### Planned (Next)
 
-- [ ] Agent assembly manifests (12 Core + 5 Transform) and orchestration workflows
-- [ ] Phase 0 (Context & Threat Modeling) session workflow
-- [ ] Phase 1 (Signal Gathering) tool integration and automation
-- [ ] Phase 2 (Deep Domain Audits) parallel agent sessions
-- [ ] Phase 3 (Change Risk, Team Risk, Reality Gap) synthesis agents
-- [ ] Phase 4 (Adversarial Review) Devil's Advocate session
-- [ ] Phase 5 (Synthesis & Report) Principal Engineer final report
+- ~~User-facing slash commands (/aegis:audit, /aegis:resume, /aegis:status, /aegis:report)~~ — Shipped Phase 7
+- ~~Transform commands (/aegis:transform, /aegis:remediate, /aegis:playbook, /aegis:guardrails)~~ — Shipped Phase 7
+- ~~Agent assembly manifests (12 Core + 5 Transform)~~ — Shipped Phase 6
+- ~~Phase orchestration workflows (Phases 0-8)~~ — Shipped Phase 6
 - ~~Formal epistemic schema enforcement~~ — Shipped Phase 2
 - ~~Disagreement resolution protocol~~ — Shipped Phase 2
 - ~~Signal normalization layer~~ — Shipped Phase 2
@@ -131,4 +131,4 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-02-18 after Phase 5*
+*Last updated: 2026-02-19 after Phase 6*
