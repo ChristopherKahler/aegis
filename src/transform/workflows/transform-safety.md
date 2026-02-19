@@ -13,7 +13,7 @@ Output: Safety validation result (pass/fail per item), intervention level adjust
 @src/transform/rules/safety-governance.md
 @src/transform/rules/change-risk-rules.md
 @src/transform/schemas/intervention-level.md
-@src/transform/schemas/confidence.md (or src/schemas/confidence.md)
+@src/schemas/confidence.md
 @src/transform/schemas/change-risk.md
 Items to validate (passed by invoking workflow):
 - Playbooks with intervention level classifications

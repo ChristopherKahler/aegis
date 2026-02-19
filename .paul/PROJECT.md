@@ -12,9 +12,9 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 
 | Attribute | Value |
 |-----------|-------|
-| Version | 0.0.0 |
-| Status | Design |
-| Last Updated | 2026-02-15 |
+| Version | 0.1.0 |
+| Status | Validated (spec-complete) |
+| Last Updated | 2026-02-19 |
 
 ## Requirements
 
@@ -29,10 +29,12 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 - 17 agent assembly manifests (12 Core + 5 Transform) — Phase 6 (thin composition manifests)
 - 12 orchestration workflows (8 Core + 4 Transform) — Phase 6 (phase orchestration + utilities + safety governance)
 - 8 user-facing slash commands (4 Core + 4 Transform) — Phase 7 (guided wizard UX with safety prerequisites, 1,371 total lines)
+- Complete spec validation (cross-reference integrity, convention compliance, composition correctness) — Phase 8 (90/90 files validated, 6 cross-ref fixes)
+- Version-lock manifest with SHA-256 content hashes for all 90 spec files — Phase 8 (traceability for reproducible audit compositions)
 
 ### Active (In Progress)
 
-- [ ] System design documented (README.md) — complete
+- [ ] README.md alignment with delivered specs (written Phase 1, may have drifted through 7 phases of content creation)
 
 ### Planned (Next)
 
@@ -102,15 +104,19 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 | Synthesis domain pattern (Domain 13) | Synthesis domains describe process failures, not codebase failures — enables meta-analysis domains | 2026-02-15 | Active |
 | SBOM pipeline: Syft → Grype | Syft catalogs inventory, Grype scans for CVEs — separate tools, complementary pipeline | 2026-02-18 | Active |
 | git-history dual normalization | Git history feeds both Core diagnosis (Domains 11, 12) and Transform change-risk modeling | 2026-02-18 | Active |
+| Version-lock = traceability, not immutability | Specs evolve as real usage reveals gaps; manifest tracks which versions produced which audit results — the audit system must itself be auditable | 2026-02-19 | Active |
+| v0.1 = validated specs, runtime = future milestone | Live execution (orchestrating Claude Code sessions on real codebases) requires implementation beyond specification | 2026-02-19 | Active |
 
 ## Success Metrics
 
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
-| Audit domains covered | 14 | 0 | Not started |
+| Audit domains covered | 14 | 14 | Complete |
 | Agent personas implemented | 17 | 17 | Complete |
 | Tool integrations working | 7+ | 8 (all OSS tools) | Complete |
-| End-to-end audit on real repo | 1 | 0 | Not started |
+| Spec validation (cross-ref + convention) | 90 files | 90/90 pass | Complete |
+| Version-lock manifest | 1 | 1 (SHA-256) | Complete |
+| End-to-end audit on real repo | 1 | 0 | Future milestone |
 
 ## Tech Stack
 
@@ -131,4 +137,5 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
+*Last updated: 2026-02-19 after Phase 8 — v0.1 milestone complete*
 *Last updated: 2026-02-19 after Phase 6*

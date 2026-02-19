@@ -5,26 +5,26 @@
 See: .paul/PROJECT.md (updated 2026-02-18)
 
 **Core value:** Comprehensive codebase auditing to senior/principal engineer standards through multi-agent epistemic-rigorous analysis — plus controlled evolution via AI-consumable transformation artifacts
-**Current focus:** Phase 7 complete — all 8 commands delivered. Ready for Phase 8.
+**Current focus:** v0.1 milestone COMPLETE — all 8 phases delivered
 
 ## Current Position
 
-Milestone: v0.1 Initial Release
-Phase: 7 of 8 (Commands & UX) — Complete
-Plan: 07-02 unified, loop closed
-Status: Phase 7 complete, ready for Phase 8 (End-to-End Validation)
-Last activity: 2026-02-19 — Phase 7 complete, all 2 plans unified
+Milestone: v0.1 Initial Release — COMPLETE
+Phase: 8 of 8 (End-to-End Validation) — Complete
+Plan: 08-01 unified, loop closed
+Status: Milestone complete — 90 spec files validated, version-locked at v0.1.0
+Last activity: 2026-02-19 — Phase 8 complete, v0.1 milestone finished
 
 Progress:
-- Milestone: [█████████░] 90%
-- Phase 7: [██████████] 100% (2/2 plans complete)
+- Milestone: [██████████] 100% (8/8 phases complete)
+- Phase 8: [██████████] 100% (1/1 plans complete)
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ✓     [Loop complete — Phase 7 done]
+  ✓        ✓        ✓     [Loop complete — v0.1 milestone done]
 ```
 
 ## Accumulated Context
@@ -70,6 +70,7 @@ PLAN ──▶ APPLY ──▶ UNIFY
 - **Phase 6 decisions (06-02):** Phase 1 is pure tool orchestration (no reasoning agents); Phase 2 all 8 agents parallel-eligible; Phase 3 sequential (Staff→RGA) for synthesis quality; Phase 4 Devil's Advocate failure is CRITICAL (non-optional); Phase 5 hard gate on principal_response before synthesis; disagreement resolution is utility workflow (not phase)
 - **Phase 6 decisions (06-03):** Transform agents use signal_input=finding (consume Layer A, not raw signals); intervention-level schema added to output of agents that classify intervention levels; transform-safety workflow invoked as utility by all phase workflows (not standalone); safety is per-item pass/downgrade/refuse pattern
 - **Phase 7 decisions (07-01):** Audit configuration embedded in audit wizard (not separate command); report.md gates on Phases 0-4 only (it triggers Phase 5); read-only commands get empty execution_context with comment; wizard UX pattern: numbered options + cancel/back at every decision point
+- **Phase 8 decisions (08-01):** Validation scoped to specification integrity (not live runtime execution — future milestone); 6 cross-ref fixes applied during validation (domain owner_agents ID mismatch, transform workflow paths, combined tool ID); subagent false-positive on workflow XML nesting caught and corrected via manual verification
 
 ### Deferred Issues
 None.
@@ -80,13 +81,13 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-19
-Stopped at: Phase 7 complete — all 8 commands delivered
-Next action: /paul:plan for Phase 8 (End-to-End Validation)
-Resume file: .paul/phases/07-commands-ux/07-02-SUMMARY.md
+Stopped at: v0.1 milestone complete — all 8 phases delivered
+Next action: Git commit for Phase 8, then /paul:complete-milestone or plan next milestone
+Resume file: .paul/phases/08-end-to-end-validation/08-01-SUMMARY.md
 Resume context:
-- Phase 7 fully complete: 2/2 plans unified
-- All 8 commands (4 Core + 4 Transform) delivered (1,371 total lines)
-- Next: Phase 8 — End-to-End Validation (run full audit on a real codebase)
+- v0.1 milestone: 8/8 phases, 90 spec files, 14,992 lines, validated and version-locked
+- README alignment needed before public release (written Phase 1, 7 phases of drift possible)
+- Next milestone options: runtime implementation, README update, or release preparation
 Git strategy: feature/v1-implementation (merge to main on v1 release)
 
 ---

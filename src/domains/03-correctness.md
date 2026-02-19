@@ -2,7 +2,7 @@
 id: domain-03
 number: "03"
 name: Correctness & Logic
-owner_agents: [senior-application-engineer]
+owner_agents: [senior-app-engineer]
 ---
 
 ## Overview

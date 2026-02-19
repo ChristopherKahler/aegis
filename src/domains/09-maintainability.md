@@ -2,7 +2,7 @@
 id: domain-09
 number: "09"
 name: Maintainability & Code Health
-owner_agents: [senior-application-engineer]
+owner_agents: [senior-app-engineer]
 ---
 
 ## Overview

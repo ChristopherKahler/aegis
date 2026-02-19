@@ -9,8 +9,8 @@ Each phase produces artifacts for both systems where applicable. Core artifacts 
 ## Current Milestone
 
 **v0.1 Initial Release** (v0.1.0)
-Status: In progress
-Phases: 7 of 8 complete
+Status: Complete
+Phases: 8 of 8 complete
 
 ## Phases
 
@@ -23,7 +23,7 @@ Phases: 7 of 8 complete
 | 5 | Personas | 3 | personas | Complete | 2026-02-18 |
 | 6 | Agent Assembly & Workflows | 3 | agents, workflows | Complete | 2026-02-19 |
 | 7 | Commands & UX | 2 | commands | Complete | 2026-02-19 |
-| 8 | End-to-End Validation | 1 | (validation) | Not started | - |
+| 8 | End-to-End Validation | 1 | (validation) | Complete | 2026-02-19 |
 
 **Parallelization note:** Phases 3, 4, and 5 depend only on Phase 1 conventions (not on each other). They can be developed in any order or interleaved. Phase 2 (schemas/rules) should come first among them since schemas define the output contracts that domains reference and tools normalize into.
 
@@ -232,8 +232,8 @@ Phases: 7 of 8 complete
 - Version-lock the validated component set
 
 **Plans:**
-- [ ] 08-01: Full end-to-end audit + Transform pipeline on real codebase with evaluation and refinement
+- [x] 08-01: Specification validation (cross-reference integrity, convention compliance, version-lock manifest)
 
 ---
 *Roadmap created: 2026-02-12*
-*Last updated: 2026-02-19 — Phase 6 complete, all 17 agents + 12 workflows delivered (Core + Transform)*
+*Last updated: 2026-02-19 — v0.1 milestone complete, all 8 phases delivered*

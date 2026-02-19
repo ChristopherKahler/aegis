@@ -4,7 +4,7 @@ Orchestrates remediation synthesis by invoking the Remediation Architect to grou
 
 <phase_context>
 Phase: 6 — Remediation Synthesis
-Prior phase output: Complete Core audit record — Phase 5 report (.aegis/reports/), all findings (.aegis/findings/), all disagreements (.aegis/disagreements/), resolution records, confidence scores, audit scope (.aegis/scope.md)
+Prior phase output: Complete Core audit record — Phase 5 report (.aegis/report/), all findings (.aegis/findings/), all disagreements (.aegis/disagreements/), resolution records, confidence scores, audit scope (.aegis/scope.md)
 Agents invoked: remediation-architect (first), pedagogy-agent (second) — sequential, not parallel
 Output: remediation/playbooks/ (layered remediation plans), remediation/patterns/ (cross-cutting analysis), remediation/REMEDIATION-SUMMARY.md
 </phase_context>
@@ -13,7 +13,7 @@ Output: remediation/playbooks/ (layered remediation plans), remediation/patterns
 @.aegis/STATE.md
 @.aegis/MANIFEST.md
 @.aegis/scope.md
-@.aegis/reports/REPORT.md
+@.aegis/report/AEGIS-REPORT.md
 @.aegis/findings/*.md (all agent finding sets)
 @.aegis/disagreements/*.md (all disagreement records)
 @src/transform/agents/remediation-architect.md
@@ -30,7 +30,7 @@ Output: remediation/playbooks/ (layered remediation plans), remediation/patterns
 <step name="validate_prerequisites" priority="first">
 1. Verify .aegis/STATE.md shows Phase 5 (Report Generation) complete:
    a. Check phase_5_complete: true
-   b. Check .aegis/reports/REPORT.md exists
+   b. Check .aegis/report/AEGIS-REPORT.md exists
    c. Verify all findings and disagreement records are present
 2. If Phase 5 is not complete:
    a. Halt with error: "Phase 5 (Report Generation) not complete. Core audit must finish before Transform begins."

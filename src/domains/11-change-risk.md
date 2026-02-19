@@ -222,7 +222,8 @@ Change risk examines change amplification, refactor safety, blast radius, and mo
 | git-history | Change amplification, co-change patterns, hotspots | primary |
 | sonarqube | Coupling metrics, complexity, code smells | supporting |
 | semgrep | Anti-patterns, tight coupling detection | contextual |
-| syft-grype | Dependency analysis, version tracking | contextual |
+| syft | SBOM inventory, dependency analysis | contextual |
+| grype | CVE matching, version tracking | contextual |
 
 ## Standards & Frameworks
 
