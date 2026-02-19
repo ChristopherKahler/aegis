@@ -153,7 +153,7 @@ What to audit:
 - Least-privilege enforcement
 - Sensitive data in logs
 
-### Domain 5 — Compliance, Privacy & Governance
+### Domain 5 — Compliance Privacy & Governance
 
 | Aspect | Details |
 |---|---|
@@ -259,7 +259,7 @@ What to audit:
 
 | Aspect | Details |
 |---|---|
-| Owner | Staff Engineer / Tech Lead Agent |
+| Owner | Staff Engineer Agent |
 | Why it matters | "How dangerous is it to touch this code?" predicts velocity decay, team burnout, and rewrite pressure |
 
 What to audit:
@@ -269,11 +269,11 @@ What to audit:
 - Modularity health
 - How risky future changes are
 
-### Domain 12 — Team, Ownership & Knowledge Risk
+### Domain 12 — Team Ownership & Knowledge Risk
 
 | Aspect | Details |
 |---|---|
-| Owner | Staff Engineer / Tech Lead Agent |
+| Owner | Staff Engineer Agent |
 | Why it matters | Systems fail socially before they fail technically |
 
 What to audit:
@@ -356,7 +356,7 @@ Evaluates AuthN/AuthZ, secrets handling, injection risks, supply chain, cryptogr
 
 ### 5. Compliance Officer
 
-**Domains:** 5 (Compliance, Privacy & Governance)
+**Domains:** 5 (Compliance Privacy & Governance)
 
 Evaluates PII handling, data retention, encryption, audit logging, consent tracking, and regulatory exposure.
 
@@ -384,9 +384,9 @@ Evaluates algorithmic complexity, N+1 queries, caching, resource usage, async be
 
 Evaluates test pyramid, determinism, mutation resistance, contract tests, failure coverage, and test-as-documentation quality.
 
-### 10. Staff Engineer / Tech Lead
+### 10. Staff Engineer
 
-**Domains:** 11 (Change Risk & Evolvability), 12 (Team, Ownership & Knowledge Risk)
+**Domains:** 11 (Change Risk & Evolvability), 12 (Team Ownership & Knowledge Risk)
 
 Evaluates change amplification, refactor safety, blast radius, bus factor, knowledge silos, and documentation debt. This is a synthesis-heavy role that draws on git history and social signals.
 
@@ -447,10 +447,10 @@ Outputs: Audit scope document, threat model, risk profile, explicit non-goals.
 Run automated tools. Gather signals across six orthogonal dimensions. No opinions yet. Just evidence.
 
 **Signal dimensions:**
-1. **Structure** — SonarQube, CodeScene, dependency graphs
+1. **Structure** — SonarQube, Semgrep, dependency graphs
 2. **Behavior** — Profilers, async analysis
 3. **History** — Git churn, file age vs modification frequency, author concentration
-4. **Dependencies** — Trivy, Syft + Grype, OpenSSF Scorecard
+4. **Dependencies** — Trivy, Syft, Grype, OpenSSF Scorecard
 5. **Policy posture** — Checkov, Gitleaks, Semgrep
 6. **Runtime contracts** — OpenAPI/gRPC schema validation, backward compatibility
 
@@ -466,7 +466,7 @@ Sessions can run in parallel. Each produces a structured findings file.
 
 ### Phase 3 — Change Risk, Team Risk & Reality Gap
 
-**Agents:** Staff Engineer / Tech Lead, Reality Gap Analyst
+**Agents:** Staff Engineer, Reality Gap Analyst
 
 Synthesis-heavy roles that draw on Phase 2 findings + git history + configuration analysis.
 
@@ -722,6 +722,32 @@ AEGIS Transform executes in three phases (6-8), extending the Core diagnostic pi
 **Output:** Layer C execution artifacts. Complete PAUL project ready for user's AI assistant to execute.
 
 **Critical:** AEGIS Transform does NOT execute changes. Phase 8 produces a plan. The user's AI assistant, operating through PAUL, executes the plan with human oversight at every gate.
+
+---
+
+## Commands
+
+AEGIS is invoked through slash commands — guided wizard experiences that delegate to workflows, present options, and manage the full audit-to-remediation pipeline.
+
+### Core Commands (Diagnostic)
+
+| Command | Purpose |
+|---------|---------|
+| `/aegis:audit` | Initiate a full diagnostic audit — guided wizard that configures scope, runs tools, orchestrates agents, and produces findings |
+| `/aegis:resume` | Resume an interrupted audit from the last completed phase |
+| `/aegis:status` | Show current audit position, phase progress, and next action |
+| `/aegis:report` | Generate or regenerate the final diagnostic report from completed findings |
+
+### Transform Commands (Evolution)
+
+| Command | Purpose |
+|---------|---------|
+| `/aegis:remediate` | Generate remediation knowledge (Layer B) from diagnostic findings |
+| `/aegis:transform` | Generate execution plans (Layer C) from remediation knowledge |
+| `/aegis:playbook` | View or regenerate remediation playbooks for specific findings |
+| `/aegis:guardrails` | Generate project rules (`.claude/CLAUDE.md`, linter configs) from audit findings |
+
+All commands use a wizard UX pattern: numbered options, cancel/back at every decision point, and clear confirmation before executing phases that consume significant resources.
 
 ---
 
@@ -1257,18 +1283,25 @@ Hidden failures: Clock skew, partial failures, retry storms, cascading timeouts,
 
 | Tool | What It Does | Domains Served | Cost |
 |---|---|---|---|
-| **SonarQube** | Code smells, bugs, maintainability, duplication, complexity analysis | 3, 7, 9 | Free (Community Edition) |
-| **Semgrep** | Security-focused SAST — XSS, SQL injection, IDOR, hardcoded secrets, business logic vulnerabilities. 20,000+ rules, 30+ languages, 10-second median scan | 3, 4 | Free (OSS) / Paid (Pro) |
+| **SonarQube** | Code smells, bugs, maintainability, duplication, complexity analysis | 1, 3, 6, 9 | Free (Community Edition) |
+| **Semgrep** | Security-focused SAST — XSS, SQL injection, IDOR, hardcoded secrets, business logic vulnerabilities. 20,000+ rules, 30+ languages, 10-second median scan | 1, 3, 4, 5, 6, 9 | Free (OSS) / Paid (Pro) |
 | **Trivy** | All-in-one security scanner — OS packages, app dependencies, IaC files, license compliance | 4, 5 | Free |
-| **Gitleaks** | Secrets detection — scans git history for API keys, passwords, tokens. 160+ secret patterns | 4 | Free |
+| **Gitleaks** | Secrets detection — scans git history for API keys, passwords, tokens. 160+ secret patterns | 4, 5 | Free |
 
 ### High Value
 
 | Tool | What It Does | Domains Served | Cost |
 |---|---|---|---|
+| **Checkov** | IaC security scanner — Terraform, CloudFormation, K8s, Helm, Dockerfiles. 3,000+ policies covering CIS benchmarks | 4, 5 | Free |
+| **Syft** | SBOM generation — complete package inventory across all ecosystems (containers, filesystems, archives) | 4, 5 | Free |
+| **Grype** | Vulnerability scanning — matches SBOM inventory against CVE databases. Paired with Syft for full supply chain analysis | 4, 5 | Free |
+| **Git History Miner** | Git log mining — file churn rates, author concentration, change coupling, file age vs modification frequency | 11, 12 | Free (built-in) |
+
+### Optional (Paid Enhancement)
+
+| Tool | What It Does | Domains Served | Cost |
+|---|---|---|---|
 | **CodeScene** | Hotspot analysis, code churn + complexity correlation, author concentration, change coupling, knowledge distribution, CodeHealth score (25+ factors) | 1, 9, 11, 12 | ~EUR 18/mo/author |
-| **Checkov** | IaC security scanner — Terraform, CloudFormation, K8s, Helm, Dockerfiles. 3,000+ policies covering CIS benchmarks | 5, 8, Reality Gap | Free |
-| **Syft + Grype** | SBOM generation (Syft) + vulnerability scanning (Grype). Complete package inventory across all ecosystems | 4 (supply chain) | Free |
 
 ### Useful
 
@@ -1286,19 +1319,16 @@ Hidden failures: Clock skew, partial failures, retry storms, cascading timeouts,
 | **CodeClimate** | Automated code review for maintainability | Overlaps significantly with SonarQube |
 | **Snyk** | Full platform (SAST, SCA, container, IaC) | Enterprise SaaS. Trivy covers most use cases for free |
 
-### Custom (Build These)
+### Custom (Future Runtime)
 
 **Signal Normalization Layer**
-Tools speak different languages. The system must convert all findings into: severity, confidence, blast radius, domain relevance.
+Tools speak different languages. The signal schema (already specified) converts all findings into: severity, confidence, blast radius, domain relevance.
 
 **Cross-Signal Correlation Engine**
 Where the system becomes exceptional:
 - High churn + low tests = change risk
 - Async code + blocking calls = latent perf bug
 - PII fields + logs = compliance risk
-
-**Git Log Mining Scripts**
-Extract from git history: file churn rates, author concentration, bug density over time, file age vs modification frequency.
 
 ---
 
@@ -1346,15 +1376,32 @@ Phase 1 gathers evidence across six orthogonal dimensions:
 2. **Behavior** — Performance profiles, async analysis, flamegraphs
 3. **History** — Git churn, file age, author concentration, bug density over time
 4. **Dependencies** — Vulnerability scans, SBOM, supply chain health scores
-5. **Runtime Characteristics** — OpenAPI/gRPC schemas, backward compatibility checks
-6. **Policy Posture** — IaC compliance, secrets exposure, governance policies
+5. **Policy Posture** — IaC compliance, secrets exposure, governance policies
+6. **Runtime Contracts** — OpenAPI/gRPC schemas, backward compatibility checks
 
 ---
 
-## Related Reading
+## v0.1 Status
 
-The original design conversation that shaped AEGIS is preserved as reference material:
+AEGIS v0.1.0 is a **validated specification set** — 90 markdown files across 8 component types that define the complete multi-agent audit system.
 
-**[`reference/original-design-conversation.md`](reference/original-design-conversation.md)**
+| Component Type | Count | Location |
+|----------------|-------|----------|
+| Domains | 14 | `src/domains/` |
+| Schemas | 9 (5 shared + 4 transform) | `src/schemas/` + `src/transform/schemas/` |
+| Rules | 5 (3 shared + 2 transform) | `src/rules/` + `src/transform/rules/` |
+| Tools | 8 | `src/tools/` |
+| Personas | 17 (12 core + 5 transform) | `src/core/personas/` + `src/transform/personas/` |
+| Agents | 17 (12 core + 5 transform) | `src/core/agents/` + `src/transform/agents/` |
+| Workflows | 12 (8 core + 4 transform) | `src/core/workflows/` + `src/transform/workflows/` |
+| Commands | 8 (4 core + 4 transform) | `src/core/commands/` + `src/transform/commands/` |
+| **Total** | **90 files** | **~15,000 lines** |
 
-This is a multi-turn conversation exploring the audit domain, agent personas, epistemic schema, reality gap framework, and disagreement visualization model. It is NOT the source of truth (this README is), but is useful for understanding the reasoning behind design decisions and for gleaning ideas that haven't yet been formalized into the system.
+### What v0.1 Is
+
+The specifications are the blueprints. They define every agent's identity, every domain's knowledge, every schema's contract, every tool's integration, every workflow's orchestration, and every command's UX. All cross-references have been validated (310 references, 0 broken). All files conform to their component type conventions. A version-lock manifest (SHA-256 content hashes) provides traceability for reproducible audit compositions.
+
+### What v0.1 Is Not
+
+v0.1 does not include runtime execution — actually orchestrating Claude Code sessions to run audits on real codebases. That requires a session orchestration layer, tool execution runtime, artifact persistence layer, and report generation engine. The specifications tell the runtime what to build. The runtime is the next milestone.
+

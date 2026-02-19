@@ -233,6 +233,7 @@ Phases: 8 of 8 complete
 
 **Plans:**
 - [x] 08-01: Specification validation (cross-reference integrity, convention compliance, version-lock manifest)
+- [x] 08-02: README alignment (section-by-section audit against delivered specs, 13 fixes, Commands + v0.1 Status sections added)
 
 ---
 *Roadmap created: 2026-02-12*

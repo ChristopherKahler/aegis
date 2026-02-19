@@ -5,19 +5,19 @@
 See: .paul/PROJECT.md (updated 2026-02-18)
 
 **Core value:** Comprehensive codebase auditing to senior/principal engineer standards through multi-agent epistemic-rigorous analysis — plus controlled evolution via AI-consumable transformation artifacts
-**Current focus:** v0.1 milestone COMPLETE — all 8 phases delivered
+**Current focus:** v0.1 milestone COMPLETE — all phases delivered, README aligned
 
 ## Current Position
 
 Milestone: v0.1 Initial Release — COMPLETE
 Phase: 8 of 8 (End-to-End Validation) — Complete
-Plan: 08-01 unified, loop closed
-Status: Milestone complete — 90 spec files validated, version-locked at v0.1.0
-Last activity: 2026-02-19 — Phase 8 complete, v0.1 milestone finished
+Plan: 08-02 unified, loop closed
+Status: Milestone complete — specs validated, README aligned, ready for release prep
+Last activity: 2026-02-19 — Plan 08-02 unified (README alignment)
 
 Progress:
 - Milestone: [██████████] 100% (8/8 phases complete)
-- Phase 8: [██████████] 100% (1/1 plans complete)
+- Phase 8: [██████████] 100% (2/2 plans complete)
 
 ## Loop Position
 
@@ -81,13 +81,13 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-19
-Stopped at: v0.1 milestone complete — all 8 phases delivered
-Next action: Git commit for Phase 8, then /paul:complete-milestone or plan next milestone
-Resume file: .paul/phases/08-end-to-end-validation/08-01-SUMMARY.md
+Stopped at: v0.1 milestone fully complete (specs + README)
+Next action: User discussion — installation/usage content, then next milestone planning
+Resume file: .paul/phases/08-end-to-end-validation/08-02-SUMMARY.md
 Resume context:
-- v0.1 milestone: 8/8 phases, 90 spec files, 14,992 lines, validated and version-locked
-- README alignment needed before public release (written Phase 1, 7 phases of drift possible)
-- Next milestone options: runtime implementation, README update, or release preparation
+- v0.1 milestone: 8/8 phases, 90 spec files, README aligned
+- User wants to discuss: new user installation, how to use AEGIS
+- Next milestone options: runtime implementation, release preparation, usage docs
 Git strategy: feature/v1-implementation (merge to main on v1 release)
 
 ---
