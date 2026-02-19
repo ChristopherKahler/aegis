@@ -5,26 +5,26 @@
 See: .paul/PROJECT.md (updated 2026-02-18)
 
 **Core value:** Comprehensive codebase auditing to senior/principal engineer standards through multi-agent epistemic-rigorous analysis — plus controlled evolution via AI-consumable transformation artifacts
-**Current focus:** Phase 5 complete — ready for Phase 6
+**Current focus:** Phase 6 complete — all 17 agents + 12 workflows delivered. Ready for Phase 7.
 
 ## Current Position
 
 Milestone: v0.1 Initial Release
-Phase: 5 of 8 (Personas) — Complete
-Plan: All 3 plans complete
-Status: Phase 5 complete, ready for Phase 6 (Agent Assembly & Workflows)
-Last activity: 2026-02-18 — Phase 5 unified: 17 personas delivered (1,829 lines total)
+Phase: 6 of 8 (Agent Assembly & Workflows) — Complete
+Plan: 06-03 unified, loop closed
+Status: Phase 6 complete, ready for Phase 7 (Commands & UX)
+Last activity: 2026-02-19 — Phase 6 complete, all 3 plans unified
 
 Progress:
-- Milestone: [██████░░░░] 63%
-- Phase 5: [██████████] 100% (3/3 plans complete)
+- Milestone: [████████░░] 80%
+- Phase 6: [██████████] 100% (3/3 plans complete)
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ✓     [Phase 5 complete — ready for next phase]
+  ✓        ✓        ✓     [Loop complete — Phase 6 done]
 ```
 
 ## Accumulated Context
@@ -66,6 +66,9 @@ PLAN ──▶ APPLY ──▶ UNIFY
 - **Phase 3 decisions:** Strict 1:1 failure/best-practice mapping enforced as convention requirement, synthesis domain pattern established (Domain 13 describes process failures, not codebase failures), parallel subagent generation with post-hoc verification proven effective
 - **Phase 4 decisions:** SBOM pipeline pattern (Syft inventory → Grype CVE matching), git-history dual normalization (Core + Transform change-risk), all tools platform-agnostic with Docker variants, Syft/Grype separate files per convention
 - **Phase 5 decisions:** Cognitive fingerprint pattern (unique fear archetype per persona), identity-not-job-description approach, Transform triggers must be intervention-oriented (never diagnostic), all 17 personas verified distinct across fear archetypes/risk philosophies/mental models, Sonnet for content generation with Opus verification
+- **Phase 6 decisions (06-01):** Meta-reasoners (Principal/Devil's Advocate) get empty domains[]/tools[] — consume findings not signals; Reality Gap Analyst cross-domain [00,01,07,10]; Staff Engineer phases [2,3] only (synthesis, not signal gathering); tool assignments derived from domain tool affinity tables (primary + key supporting)
+- **Phase 6 decisions (06-02):** Phase 1 is pure tool orchestration (no reasoning agents); Phase 2 all 8 agents parallel-eligible; Phase 3 sequential (Staff→RGA) for synthesis quality; Phase 4 Devil's Advocate failure is CRITICAL (non-optional); Phase 5 hard gate on principal_response before synthesis; disagreement resolution is utility workflow (not phase)
+- **Phase 6 decisions (06-03):** Transform agents use signal_input=finding (consume Layer A, not raw signals); intervention-level schema added to output of agents that classify intervention levels; transform-safety workflow invoked as utility by all phase workflows (not standalone); safety is per-item pass/downgrade/refuse pattern
 
 ### Deferred Issues
 None.
@@ -75,14 +78,14 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-18
-Stopped at: Phase 5 complete — transition done
-Next action: /paul:plan for Phase 6 Plan 06-01 (Core agent assembly manifests + session handoff workflow)
-Resume file: .paul/phases/05-personas/05-03-SUMMARY.md
+Last session: 2026-02-19
+Stopped at: Phase 6 complete, transition done
+Next action: /paul:plan for Phase 7 (Commands & UX) — or /paul:pause if stopping
+Resume file: .paul/phases/06-agents-workflows/06-03-SUMMARY.md
 Resume context:
-- Phase 5 complete: 17 personas (12 Core + 5 Transform), 1,829 lines total
-- Phase 6 ready: Agent Assembly & Workflows (3 plans: 06-01, 06-02, 06-03)
-- All building blocks complete: schemas, rules, domains, tools, personas
+- Phase 6 fully complete: 3/3 plans unified, git commit pending
+- All 17 agents (12 Core + 5 Transform) and 12 workflows (8 Core + 4 Transform) delivered
+- Next: Phase 7 — Commands & UX (user-facing slash commands)
 Git strategy: feature/v1-implementation (merge to main on v1 release)
 
 ---

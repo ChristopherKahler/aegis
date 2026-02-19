@@ -10,7 +10,7 @@ Each phase produces artifacts for both systems where applicable. Core artifacts 
 
 **v0.1 Initial Release** (v0.1.0)
 Status: In progress
-Phases: 5 of 8 complete
+Phases: 6 of 8 complete
 
 ## Phases
 
@@ -21,7 +21,7 @@ Phases: 5 of 8 complete
 | 3 | Domain Knowledge | 2 | domains | Complete | 2026-02-15 |
 | 4 | Tool Integration | 2 | tools | Complete | 2026-02-18 |
 | 5 | Personas | 3 | personas | Complete | 2026-02-18 |
-| 6 | Agent Assembly & Workflows | 3 | agents, workflows | Not started | - |
+| 6 | Agent Assembly & Workflows | 3 | agents, workflows | Complete | 2026-02-19 |
 | 7 | Commands & UX | 2 | commands | Not started | - |
 | 8 | End-to-End Validation | 1 | (validation) | Not started | - |
 
@@ -189,9 +189,9 @@ Phases: 5 of 8 complete
 - Transform safety workflow: Confidence gating, intervention level enforcement
 
 **Plans:**
-- [ ] 06-01: Core agent assembly manifests (all 12) + session handoff workflow
-- [ ] 06-02: Core phase orchestration workflows (Phases 0-5) + disagreement resolution workflow
-- [ ] 06-03: Transform agent manifests (all 5) + Layer B/C pipeline workflows + safety workflow
+- [x] 06-01: Core agent assembly manifests (all 12) + session handoff workflow
+- [x] 06-02: Core phase orchestration workflows (Phases 0-5) + disagreement resolution workflow
+- [x] 06-03: Transform agent manifests (all 5) + Layer B/C pipeline workflows + safety workflow
 
 ### Phase 7: Commands & UX
 
@@ -236,4 +236,4 @@ Phases: 5 of 8 complete
 
 ---
 *Roadmap created: 2026-02-12*
-*Last updated: 2026-02-18 — Phase 5 complete, all 17 persona specifications delivered (12 Core + 5 Transform)*
+*Last updated: 2026-02-19 — Phase 6 complete, all 17 agents + 12 workflows delivered (Core + Transform)*
