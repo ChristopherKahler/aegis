@@ -10,12 +10,12 @@ Output: Audit scope document (.aegis/scope.md), threat model (.aegis/threat-mode
 </phase_context>
 
 <required_input>
-@src/core/agents/principal-engineer.md
-@src/core/personas/principal-engineer.md
-@src/schemas/finding.md
-@src/schemas/confidence.md
-@src/rules/epistemic-hygiene.md
-@src/rules/agent-boundaries.md
+@~/.claude/aegis/core/agents/principal-engineer.md
+@~/.claude/aegis/core/personas/principal-engineer.md
+@~/.claude/aegis/schemas/finding.md
+@~/.claude/aegis/schemas/confidence.md
+@~/.claude/aegis/rules/epistemic-hygiene.md
+@~/.claude/aegis/rules/agent-boundaries.md
 Target repository: structure, README, deployment configs, CI/CD pipelines, business context documents
 </required_input>
 

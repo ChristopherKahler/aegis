@@ -16,13 +16,13 @@ Output: remediation/playbooks/ (layered remediation plans), remediation/patterns
 @.aegis/report/AEGIS-REPORT.md
 @.aegis/findings/*.md (all agent finding sets)
 @.aegis/disagreements/*.md (all disagreement records)
-@src/transform/agents/remediation-architect.md
-@src/transform/agents/pedagogy-agent.md
-@src/transform/schemas/playbook.md
-@src/transform/schemas/intervention-level.md
-@src/transform/rules/safety-governance.md
-@src/transform/rules/change-risk-rules.md
-@src/transform/workflows/transform-safety.md
+@~/.claude/aegis/transform/agents/remediation-architect.md
+@~/.claude/aegis/transform/agents/pedagogy-agent.md
+@~/.claude/aegis/transform/schemas/playbook.md
+@~/.claude/aegis/transform/schemas/intervention-level.md
+@~/.claude/aegis/transform/rules/safety-governance.md
+@~/.claude/aegis/transform/rules/change-risk-rules.md
+@~/.claude/aegis/transform/workflows/transform-safety.md
 </required_input>
 
 <process>

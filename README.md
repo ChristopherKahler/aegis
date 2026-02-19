@@ -1394,7 +1394,7 @@ AEGIS v0.1.0 is a **validated specification set** — 90 markdown files across 8
 | Personas | 17 (12 core + 5 transform) | `src/core/personas/` + `src/transform/personas/` |
 | Agents | 17 (12 core + 5 transform) | `src/core/agents/` + `src/transform/agents/` |
 | Workflows | 12 (8 core + 4 transform) | `src/core/workflows/` + `src/transform/workflows/` |
-| Commands | 8 (4 core + 4 transform) | `src/core/commands/` + `src/transform/commands/` |
+| Commands | 8 (4 core + 4 transform) | `commands/` |
 | **Total** | **90 files** | **~15,000 lines** |
 
 ### What v0.1 Is
@@ -1404,4 +1404,50 @@ The specifications are the blueprints. They define every agent's identity, every
 ### What v0.1 Is Not
 
 v0.1 does not include runtime execution — actually orchestrating Claude Code sessions to run audits on real codebases. That requires a session orchestration layer, tool execution runtime, artifact persistence layer, and report generation engine. The specifications tell the runtime what to build. The runtime is the next milestone.
+
+---
+
+## v0.2 — Installation & Runtime (In Progress)
+
+v0.2 makes AEGIS installable and runnable as a Claude Code extension. The framework installs to `~/.claude/aegis/` and commands install to `~/.claude/commands/aegis/`, mirroring the PAUL framework installation pattern.
+
+### Directory Structure
+
+```
+~/.claude/aegis/              # Framework files (installed)
+├── core/
+│   ├── agents/               # 12 Core agent manifests
+│   ├── personas/             # 12 Core persona specs
+│   └── workflows/            # 8 Core orchestration workflows
+├── transform/
+│   ├── agents/               # 5 Transform agent manifests
+│   ├── personas/             # 5 Transform persona specs
+│   ├── workflows/            # 4 Transform workflows
+│   ├── schemas/              # 4 Transform schemas
+│   └── rules/                # 2 Transform rules
+├── domains/                  # 14 audit domain knowledge modules
+├── schemas/                  # 5 shared schemas
+├── rules/                    # 3 shared rules
+└── tools/                    # 8 tool adapter specifications
+
+~/.claude/commands/aegis/     # Slash commands (installed)
+├── audit.md                  # /aegis:audit
+├── resume.md                 # /aegis:resume
+├── status.md                 # /aegis:status
+├── report.md                 # /aegis:report
+├── transform.md              # /aegis:transform
+├── remediate.md              # /aegis:remediate
+├── playbook.md               # /aegis:playbook
+└── guardrails.md             # /aegis:guardrails
+```
+
+### v0.2 Phases
+
+| Phase | Name | Status |
+|-------|------|--------|
+| 9 | Command Conversion | Complete — commands relocated, `@` references rewritten, `allowed-tools` added |
+| 10 | Install System | Planned — interactive install script with per-tool Y/N |
+| 11 | Project Init & Validation | Planned — `/aegis:init` + `/aegis:validate` commands |
+| 12 | Multi-Session UX | Planned — checkpoints, handoffs, session management |
+| 13 | Getting Started | Planned — user documentation and setup guide |
 

@@ -13,15 +13,15 @@ Output: Normalized signal files (.aegis/signals/{tool-id}.md per tool), signal s
 @.aegis/STATE.md
 @.aegis/MANIFEST.md
 @.aegis/scope.md
-@src/schemas/signal.md
-@src/tools/sonarqube.md
-@src/tools/semgrep.md
-@src/tools/trivy.md
-@src/tools/gitleaks.md
-@src/tools/checkov.md
-@src/tools/syft.md
-@src/tools/grype.md
-@src/tools/git-history.md
+@~/.claude/aegis/schemas/signal.md
+@~/.claude/aegis/tools/sonarqube.md
+@~/.claude/aegis/tools/semgrep.md
+@~/.claude/aegis/tools/trivy.md
+@~/.claude/aegis/tools/gitleaks.md
+@~/.claude/aegis/tools/checkov.md
+@~/.claude/aegis/tools/syft.md
+@~/.claude/aegis/tools/grype.md
+@~/.claude/aegis/tools/git-history.md
 </required_input>
 
 <process>

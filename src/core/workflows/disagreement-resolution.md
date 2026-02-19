@@ -13,13 +13,13 @@ Output: Updated disagreement records in .aegis/disagreements/ with principal_res
 @.aegis/STATE.md
 @.aegis/disagreements/*.md (all disagreement records with status: open)
 @.aegis/findings/*.md (findings referenced by disagreements)
-@src/core/agents/principal-engineer.md
-@src/core/personas/principal-engineer.md
-@src/schemas/disagreement.md
-@src/schemas/finding.md
-@src/schemas/confidence.md
-@src/rules/disagreement-protocol.md
-@src/rules/epistemic-hygiene.md
+@~/.claude/aegis/core/agents/principal-engineer.md
+@~/.claude/aegis/core/personas/principal-engineer.md
+@~/.claude/aegis/schemas/disagreement.md
+@~/.claude/aegis/schemas/finding.md
+@~/.claude/aegis/schemas/confidence.md
+@~/.claude/aegis/rules/disagreement-protocol.md
+@~/.claude/aegis/rules/epistemic-hygiene.md
 </required_input>
 
 <process>

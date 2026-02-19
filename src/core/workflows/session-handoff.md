@@ -12,11 +12,11 @@ Output: Validated session artifacts in .aegis/, updated .aegis/STATE.md, assembl
 <required_input>
 @.aegis/STATE.md
 @.aegis/MANIFEST.md
-@src/schemas/finding.md
-@src/schemas/disagreement.md
-@src/schemas/confidence.md
-@src/schemas/signal.md
-@src/core/agents/{agent-id}.md (the agent that just completed)
+@~/.claude/aegis/schemas/finding.md
+@~/.claude/aegis/schemas/disagreement.md
+@~/.claude/aegis/schemas/confidence.md
+@~/.claude/aegis/schemas/signal.md
+@~/.claude/aegis/core/agents/{agent-id}.md (the agent that just completed)
 </required_input>
 
 <process>

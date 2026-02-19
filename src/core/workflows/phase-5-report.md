@@ -16,16 +16,16 @@ Output: Final AEGIS report sections in .aegis/report/, completed .aegis/STATE.md
 @.aegis/threat-model.md
 @.aegis/findings/*.md (ALL finding files from ALL phases)
 @.aegis/disagreements/*.md (ALL disagreement records — must all have principal_response)
-@src/core/agents/principal-engineer.md
-@src/core/personas/principal-engineer.md
-@src/schemas/finding.md
-@src/schemas/disagreement.md
-@src/schemas/confidence.md
-@src/schemas/report-section.md
-@src/rules/epistemic-hygiene.md
-@src/rules/disagreement-protocol.md
-@src/rules/agent-boundaries.md
-@src/core/workflows/session-handoff.md
+@~/.claude/aegis/core/agents/principal-engineer.md
+@~/.claude/aegis/core/personas/principal-engineer.md
+@~/.claude/aegis/schemas/finding.md
+@~/.claude/aegis/schemas/disagreement.md
+@~/.claude/aegis/schemas/confidence.md
+@~/.claude/aegis/schemas/report-section.md
+@~/.claude/aegis/rules/epistemic-hygiene.md
+@~/.claude/aegis/rules/disagreement-protocol.md
+@~/.claude/aegis/rules/agent-boundaries.md
+@~/.claude/aegis/core/workflows/session-handoff.md
 </required_input>
 
 <process>

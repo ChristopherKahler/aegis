@@ -5,26 +5,26 @@
 See: .paul/PROJECT.md (updated 2026-02-18)
 
 **Core value:** Comprehensive codebase auditing to senior/principal engineer standards through multi-agent epistemic-rigorous analysis — plus controlled evolution via AI-consumable transformation artifacts
-**Current focus:** v0.1 milestone COMPLETE — all phases delivered, README aligned
+**Current focus:** v0.2 Installation & Runtime — making AEGIS installable and usable
 
 ## Current Position
 
-Milestone: v0.1 Initial Release — COMPLETE
-Phase: 8 of 8 (End-to-End Validation) — Complete
-Plan: 08-02 unified, loop closed
-Status: Milestone complete — specs validated, README aligned, ready for release prep
-Last activity: 2026-02-19 — Plan 08-02 unified (README alignment)
+Milestone: v0.2 Installation & Runtime
+Phase: 9 of 13 (Command Conversion) — Complete
+Plan: 09-01 complete
+Status: Phase 9 complete, ready for Phase 10
+Last activity: 2026-02-19 — Phase 9 complete (command conversion)
 
 Progress:
-- Milestone: [██████████] 100% (8/8 phases complete)
-- Phase 8: [██████████] 100% (2/2 plans complete)
+- v0.2: [██░░░░░░░░] 20% (1/5 phases complete)
+- Phase 9: [██████████] 100% — Complete
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ✓     [Loop complete — v0.1 milestone done]
+  ✓        ✓        ✓     [Loop complete — ready for next PLAN]
 ```
 
 ## Accumulated Context
@@ -71,6 +71,8 @@ PLAN ──▶ APPLY ──▶ UNIFY
 - **Phase 6 decisions (06-03):** Transform agents use signal_input=finding (consume Layer A, not raw signals); intervention-level schema added to output of agents that classify intervention levels; transform-safety workflow invoked as utility by all phase workflows (not standalone); safety is per-item pass/downgrade/refuse pattern
 - **Phase 7 decisions (07-01):** Audit configuration embedded in audit wizard (not separate command); report.md gates on Phases 0-4 only (it triggers Phase 5); read-only commands get empty execution_context with comment; wizard UX pattern: numbered options + cancel/back at every decision point
 - **Phase 8 decisions (08-01):** Validation scoped to specification integrity (not live runtime execution — future milestone); 6 cross-ref fixes applied during validation (domain owner_agents ID mismatch, transform workflow paths, combined tool ID); subagent false-positive on workflow XML nesting caught and corrected via manual verification
+- **v0.2 vision (user-defined):** Installation & Runtime milestone. Structure mirrors PAUL: `~/.claude/aegis/` (framework — all spec files), `~/.claude/commands/aegis/` (commands only). Interactive install script with Y/N per OSS tool, auto-installs dependencies, tests accessibility. New commands: `/aegis:init` (project setup, creates .aegis/ in target repo), `/aegis:validate` (test tools work, troubleshoot). Multi-session UX: frequent automatic checkpoints, easy handoff generation, set-and-forget between phases. Getting Started doc. Key gap: v0.1 command specs are not installable — `@` refs point to repo paths, need rewriting to `~/.claude/aegis/` absolute paths.
+- **Phase 9 decisions (09-01):** Flat commands/ directory at repo root (mirrors PAUL pattern); allowed-tools per command based on actual process needs (status=read-only, audit/transform=full toolset); install mapping: commands/ → ~/.claude/commands/aegis/, src/ → ~/.claude/aegis/
 
 ### Deferred Issues
 None.
@@ -81,13 +83,13 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-19
-Stopped at: v0.1 milestone fully complete (specs + README)
-Next action: User discussion — installation/usage content, then next milestone planning
-Resume file: .paul/phases/08-end-to-end-validation/08-02-SUMMARY.md
+Stopped at: Phase 9 complete
+Next action: /paul:plan for Phase 10 (Install System)
+Resume file: .paul/phases/09-command-conversion/09-01-SUMMARY.md
 Resume context:
-- v0.1 milestone: 8/8 phases, 90 spec files, README aligned
-- User wants to discuss: new user installation, how to use AEGIS
-- Next milestone options: runtime implementation, release preparation, usage docs
+- Phase 9 done: commands in commands/, all @src/ → @~/.claude/aegis/, allowed-tools added
+- Install mapping established: commands/ → ~/.claude/commands/aegis/, src/ → ~/.claude/aegis/
+- Phase 10 next: interactive install script, per-tool Y/N, framework placement
 Git strategy: feature/v1-implementation (merge to main on v1 release)
 
 ---

@@ -1,6 +1,7 @@
 ---
 name: aegis:transform
 description: Initiate the full AEGIS Transform pipeline on a completed audit
+allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion]
 ---
 
 <objective>
@@ -12,10 +13,10 @@ Produces: Layer B remediation knowledge (playbooks, patterns, guardrails) and La
 </objective>
 
 <execution_context>
-@src/transform/workflows/phase-6-remediation.md
-@src/transform/workflows/phase-7-risk-validation.md
-@src/transform/workflows/phase-8-execution-planning.md
-@src/transform/workflows/transform-safety.md
+@~/.claude/aegis/transform/workflows/phase-6-remediation.md
+@~/.claude/aegis/transform/workflows/phase-7-risk-validation.md
+@~/.claude/aegis/transform/workflows/phase-8-execution-planning.md
+@~/.claude/aegis/transform/workflows/transform-safety.md
 </execution_context>
 
 <context>

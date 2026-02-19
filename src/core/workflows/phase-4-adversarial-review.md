@@ -15,16 +15,16 @@ Output: Devil's Advocate critique (.aegis/findings/devils-advocate.md), new disa
 @.aegis/scope.md
 @.aegis/findings/*.md (ALL finding files from Phases 2-3)
 @.aegis/disagreements/*.md (ALL existing disagreement records)
-@src/core/agents/devils-advocate.md
-@src/core/personas/devils-advocate.md
-@src/schemas/finding.md
-@src/schemas/disagreement.md
-@src/schemas/confidence.md
-@src/rules/epistemic-hygiene.md
-@src/rules/disagreement-protocol.md
-@src/rules/agent-boundaries.md
-@src/core/workflows/session-handoff.md
-@src/core/workflows/disagreement-resolution.md
+@~/.claude/aegis/core/agents/devils-advocate.md
+@~/.claude/aegis/core/personas/devils-advocate.md
+@~/.claude/aegis/schemas/finding.md
+@~/.claude/aegis/schemas/disagreement.md
+@~/.claude/aegis/schemas/confidence.md
+@~/.claude/aegis/rules/epistemic-hygiene.md
+@~/.claude/aegis/rules/disagreement-protocol.md
+@~/.claude/aegis/rules/agent-boundaries.md
+@~/.claude/aegis/core/workflows/session-handoff.md
+@~/.claude/aegis/core/workflows/disagreement-resolution.md
 </required_input>
 
 <process>

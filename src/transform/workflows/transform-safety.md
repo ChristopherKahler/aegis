@@ -10,11 +10,11 @@ Output: Safety validation result (pass/fail per item), intervention level adjust
 </phase_context>
 
 <required_input>
-@src/transform/rules/safety-governance.md
-@src/transform/rules/change-risk-rules.md
-@src/transform/schemas/intervention-level.md
-@src/schemas/confidence.md
-@src/transform/schemas/change-risk.md
+@~/.claude/aegis/transform/rules/safety-governance.md
+@~/.claude/aegis/transform/rules/change-risk-rules.md
+@~/.claude/aegis/transform/schemas/intervention-level.md
+@~/.claude/aegis/schemas/confidence.md
+@~/.claude/aegis/transform/schemas/change-risk.md
 Items to validate (passed by invoking workflow):
 - Playbooks with intervention level classifications
 - Finding confidence scores

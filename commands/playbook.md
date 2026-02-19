@@ -2,6 +2,7 @@
 name: aegis:playbook
 description: Generate a remediation playbook for a specific finding
 argument-hint: "<finding-id>"
+allowed-tools: [Read, Write, Glob, Grep, AskUserQuestion]
 ---
 
 <objective>
@@ -13,8 +14,8 @@ Produces: .aegis/remediation/playbooks/{finding-id}.md and .aegis/remediation/pl
 </objective>
 
 <execution_context>
-@src/transform/workflows/phase-6-remediation.md
-@src/transform/workflows/transform-safety.md
+@~/.claude/aegis/transform/workflows/phase-6-remediation.md
+@~/.claude/aegis/transform/workflows/transform-safety.md
 </execution_context>
 
 <context>

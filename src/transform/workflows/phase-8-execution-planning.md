@@ -17,13 +17,13 @@ CRITICAL: AEGIS Transform NEVER applies changes. This workflow produces a plan o
 @execution/risk-scores.yaml (Phase 7 output)
 @remediation/playbooks/*.md (Phase 6 output)
 @remediation/guardrails/*.md (Phase 7 output)
-@src/transform/agents/execution-validator.md
-@src/transform/schemas/verification-plan.md
-@src/transform/schemas/intervention-level.md
-@src/transform/schemas/change-risk.md
-@src/transform/rules/safety-governance.md
-@src/transform/rules/change-risk-rules.md
-@src/transform/workflows/transform-safety.md
+@~/.claude/aegis/transform/agents/execution-validator.md
+@~/.claude/aegis/transform/schemas/verification-plan.md
+@~/.claude/aegis/transform/schemas/intervention-level.md
+@~/.claude/aegis/transform/schemas/change-risk.md
+@~/.claude/aegis/transform/rules/safety-governance.md
+@~/.claude/aegis/transform/rules/change-risk-rules.md
+@~/.claude/aegis/transform/workflows/transform-safety.md
 </required_input>
 
 <process>

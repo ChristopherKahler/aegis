@@ -2,6 +2,7 @@
 name: aegis:guardrails
 description: Generate project rules from audit findings for AI coding assistants
 argument-hint: "[format]"
+allowed-tools: [Read, Write, Glob, Grep, AskUserQuestion]
 ---
 
 <objective>
@@ -13,8 +14,8 @@ Produces: rule files in .aegis/remediation/guardrails/ (claude-md-rules.md, curs
 </objective>
 
 <execution_context>
-@src/transform/workflows/phase-7-risk-validation.md
-@src/transform/workflows/transform-safety.md
+@~/.claude/aegis/transform/workflows/phase-7-risk-validation.md
+@~/.claude/aegis/transform/workflows/transform-safety.md
 </execution_context>
 
 <context>

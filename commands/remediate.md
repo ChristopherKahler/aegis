@@ -2,6 +2,7 @@
 name: aegis:remediate
 description: Generate remediation plans for all findings or a specific domain
 argument-hint: "[domain-number]"
+allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion]
 ---
 
 <objective>
@@ -13,10 +14,10 @@ Produces: playbooks in .aegis/remediation/playbooks/, patterns in .aegis/remedia
 </objective>
 
 <execution_context>
-@src/transform/workflows/phase-6-remediation.md
-@src/transform/workflows/phase-7-risk-validation.md
-@src/transform/workflows/phase-8-execution-planning.md
-@src/transform/workflows/transform-safety.md
+@~/.claude/aegis/transform/workflows/phase-6-remediation.md
+@~/.claude/aegis/transform/workflows/phase-7-risk-validation.md
+@~/.claude/aegis/transform/workflows/phase-8-execution-planning.md
+@~/.claude/aegis/transform/workflows/transform-safety.md
 </execution_context>
 
 <context>

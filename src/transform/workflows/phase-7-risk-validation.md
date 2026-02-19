@@ -16,17 +16,17 @@ Output: execution/risk-scores.yaml (dimensional risk profiles), remediation/guar
 @.aegis/findings/*.md (for guardrail context)
 @remediation/playbooks/*.md (Phase 6 output)
 @remediation/patterns/*.md (cross-cutting patterns)
-@src/transform/agents/change-risk-modeler.md
-@src/transform/agents/guardrail-generator.md
-@src/transform/schemas/change-risk.md
-@src/transform/schemas/playbook.md
-@src/transform/schemas/intervention-level.md
-@src/transform/rules/safety-governance.md
-@src/transform/rules/change-risk-rules.md
-@src/transform/workflows/transform-safety.md
-@src/domains/11-*.md (change risk domain)
-@src/tools/git-history.md (tool adapter)
-@src/tools/semgrep.md (tool adapter for guardrail format)
+@~/.claude/aegis/transform/agents/change-risk-modeler.md
+@~/.claude/aegis/transform/agents/guardrail-generator.md
+@~/.claude/aegis/transform/schemas/change-risk.md
+@~/.claude/aegis/transform/schemas/playbook.md
+@~/.claude/aegis/transform/schemas/intervention-level.md
+@~/.claude/aegis/transform/rules/safety-governance.md
+@~/.claude/aegis/transform/rules/change-risk-rules.md
+@~/.claude/aegis/transform/workflows/transform-safety.md
+@~/.claude/aegis/domains/11-*.md (change risk domain)
+@~/.claude/aegis/tools/git-history.md (tool adapter)
+@~/.claude/aegis/tools/semgrep.md (tool adapter for guardrail format)
 </required_input>
 
 <process>

@@ -2,6 +2,7 @@
 name: aegis:resume
 description: Resume an interrupted AEGIS diagnostic audit
 argument-hint: "[phase-number]"
+allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion]
 ---
 
 <objective>
@@ -13,12 +14,12 @@ Produces: continued audit execution from the resume point, updated .aegis/STATE.
 </objective>
 
 <execution_context>
-@src/core/workflows/phase-0-context.md
-@src/core/workflows/phase-1-reconnaissance.md
-@src/core/workflows/phase-2-domain-audits.md
-@src/core/workflows/phase-3-cross-domain.md
-@src/core/workflows/phase-4-adversarial-review.md
-@src/core/workflows/phase-5-report.md
+@~/.claude/aegis/core/workflows/phase-0-context.md
+@~/.claude/aegis/core/workflows/phase-1-reconnaissance.md
+@~/.claude/aegis/core/workflows/phase-2-domain-audits.md
+@~/.claude/aegis/core/workflows/phase-3-cross-domain.md
+@~/.claude/aegis/core/workflows/phase-4-adversarial-review.md
+@~/.claude/aegis/core/workflows/phase-5-report.md
 </execution_context>
 
 <context>

@@ -1,6 +1,7 @@
 ---
 name: aegis:status
 description: Display current AEGIS audit state and progress
+allowed-tools: [Read, Glob, Grep]
 ---
 
 <objective>

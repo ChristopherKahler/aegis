@@ -17,16 +17,16 @@ Output: .aegis/findings/staff-engineer.md, .aegis/findings/reality-gap-analyst.m
 @.aegis/signals/git-history.md
 @.aegis/signals/checkov.md
 @.aegis/signals/sonarqube.md
-@src/core/agents/staff-engineer.md
-@src/core/agents/reality-gap-analyst.md
-@src/schemas/finding.md
-@src/schemas/disagreement.md
-@src/schemas/confidence.md
-@src/rules/epistemic-hygiene.md
-@src/rules/disagreement-protocol.md
-@src/rules/agent-boundaries.md
-@src/core/workflows/session-handoff.md
-@src/core/workflows/disagreement-resolution.md
+@~/.claude/aegis/core/agents/staff-engineer.md
+@~/.claude/aegis/core/agents/reality-gap-analyst.md
+@~/.claude/aegis/schemas/finding.md
+@~/.claude/aegis/schemas/disagreement.md
+@~/.claude/aegis/schemas/confidence.md
+@~/.claude/aegis/rules/epistemic-hygiene.md
+@~/.claude/aegis/rules/disagreement-protocol.md
+@~/.claude/aegis/rules/agent-boundaries.md
+@~/.claude/aegis/core/workflows/session-handoff.md
+@~/.claude/aegis/core/workflows/disagreement-resolution.md
 </required_input>
 
 <process>

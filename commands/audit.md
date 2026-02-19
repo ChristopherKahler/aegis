@@ -2,6 +2,7 @@
 name: aegis:audit
 description: Run a full or targeted AEGIS diagnostic audit on a codebase
 argument-hint: "[path-to-repo]"
+allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion]
 ---
 
 <objective>
@@ -13,14 +14,14 @@ Produces: initialized .aegis/ directory with STATE.md and MANIFEST.md, then begi
 </objective>
 
 <execution_context>
-@src/core/workflows/phase-0-context.md
-@src/core/workflows/phase-1-reconnaissance.md
-@src/core/workflows/phase-2-domain-audits.md
-@src/core/workflows/phase-3-cross-domain.md
-@src/core/workflows/phase-4-adversarial-review.md
-@src/core/workflows/phase-5-report.md
-@src/core/workflows/session-handoff.md
-@src/core/workflows/disagreement-resolution.md
+@~/.claude/aegis/core/workflows/phase-0-context.md
+@~/.claude/aegis/core/workflows/phase-1-reconnaissance.md
+@~/.claude/aegis/core/workflows/phase-2-domain-audits.md
+@~/.claude/aegis/core/workflows/phase-3-cross-domain.md
+@~/.claude/aegis/core/workflows/phase-4-adversarial-review.md
+@~/.claude/aegis/core/workflows/phase-5-report.md
+@~/.claude/aegis/core/workflows/session-handoff.md
+@~/.claude/aegis/core/workflows/disagreement-resolution.md
 </execution_context>
 
 <context>

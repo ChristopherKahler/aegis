@@ -2,6 +2,7 @@
 name: aegis:report
 description: Generate or view the AEGIS diagnostic audit report
 argument-hint: "[section]"
+allowed-tools: [Read, Write, Glob, Grep]
 ---
 
 <objective>
@@ -13,7 +14,7 @@ Produces: report files in .aegis/report/ (executive-summary.md, findings-by-doma
 </objective>
 
 <execution_context>
-@src/core/workflows/phase-5-report.md
+@~/.claude/aegis/core/workflows/phase-5-report.md
 </execution_context>
 
 <context>
