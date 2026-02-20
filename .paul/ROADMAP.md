@@ -23,7 +23,7 @@ Phases: 0 of 5 complete
 | Phase | Name | Plans | Focus | Status | Completed |
 |-------|------|-------|-------|--------|-----------|
 | 9 | Command Conversion | 1 | Rewrite command specs into installable Claude Code commands | Complete | 2026-02-19 |
-| 10 | Install System | TBD | Install script, interactive tool setup, framework placement | Not started | - |
+| 10 | Install System | 1 | Install script, interactive tool setup, framework placement | Planning | - |
 | 11 | Project Init & Validation | TBD | /aegis:init + /aegis:validate commands | Not started | - |
 | 12 | Multi-Session UX | TBD | Checkpoints, handoffs, session management | Not started | - |
 | 13 | Getting Started | TBD | User documentation, setup guide | Not started | - |
