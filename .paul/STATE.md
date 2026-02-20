@@ -10,21 +10,21 @@ See: .paul/PROJECT.md (updated 2026-02-18)
 ## Current Position
 
 Milestone: v0.2 Installation & Runtime
-Phase: 11 of 13 (Project Init & Validation) — Executing
-Plan: 11-01 executed, awaiting UNIFY
-Status: APPLY complete, ready for UNIFY
-Last activity: 2026-02-20 — Created init.md + validate.md, updated audit.md
+Phase: 12 of 13 (Multi-Session UX) — Ready to plan
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-02-20 — Phase 11 complete, transitioned to Phase 12
 
 Progress:
-- v0.2: [████░░░░░░] 40% (2/5 phases complete)
-- Phase 11: [██████████] 100% (execution complete)
+- v0.2: [██████░░░░] 60% (3/5 phases complete)
+- Phase 12: [░░░░░░░░░░] 0% (not started)
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ○     [Apply complete, ready for UNIFY]
+  ○        ○        ○     [Ready for new PLAN]
 ```
 
 ## Accumulated Context
@@ -74,6 +74,7 @@ PLAN ──▶ APPLY ──▶ UNIFY
 - **v0.2 vision (user-defined):** Installation & Runtime milestone. Structure mirrors PAUL: `~/.claude/aegis/` (framework — all spec files), `~/.claude/commands/aegis/` (commands only). Interactive install script with Y/N per OSS tool, auto-installs dependencies, tests accessibility. New commands: `/aegis:init` (project setup, creates .aegis/ in target repo), `/aegis:validate` (test tools work, troubleshoot). Multi-session UX: frequent automatic checkpoints, easy handoff generation, set-and-forget between phases. Getting Started doc. Key gap: v0.1 command specs are not installable — `@` refs point to repo paths, need rewriting to `~/.claude/aegis/` absolute paths.
 - **Phase 9 decisions (09-01):** Flat commands/ directory at repo root (mirrors PAUL pattern); allowed-tools per command based on actual process needs (status=read-only, audit/transform=full toolset); install mapping: commands/ → ~/.claude/commands/aegis/, src/ → ~/.claude/aegis/
 - **Phase 10 decisions (10-01):** curl|bash as public install method (zero deps); Python tools via venv not pipx (PEP 668 compat); binary tools via curl to ~/.local/bin (no sudo); smart SonarQube detection (Docker scanner image + server container + localhost:9000); auto-skip already-installed tools; repo public at github.com/ChristopherKahler/aegis; AEGIS_BRANCH=feature/v1-implementation for testing (switch to main before release)
+- **Phase 11 decisions (11-01):** Init separated from audit (project setup independent of audit execution); validate is read-only (safe to run anytime); audit delegates to init (no duplicate .aegis/ creation); .aegis-backup-{timestamp}/ archiving on fresh start; 10 total commands
 
 ### Deferred Issues
 None.
@@ -84,9 +85,9 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Phase 11 APPLY complete, UNIFY pending
-Next action: /paul:unify .paul/phases/11-project-init-validation/11-01-PLAN.md
-Resume file: .paul/phases/11-project-init-validation/11-01-PLAN.md
+Stopped at: Phase 11 complete, ready to plan Phase 12
+Next action: /paul:plan for Phase 12
+Resume file: .paul/ROADMAP.md
 Resume context:
 - Phase 10 install system complete — install.sh (711 lines) with dual-mode, venv, smart SonarQube
 - 14 commits on feature/v1-implementation, all 7/7 tools verified

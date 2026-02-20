@@ -16,7 +16,7 @@ Phases: 8 of 8 complete
 ### v0.2 Installation & Runtime — In progress
 
 Status: In progress
-Phases: 2 of 5 complete
+Phases: 3 of 5 complete
 
 ## v0.2 Phases
 
@@ -24,7 +24,7 @@ Phases: 2 of 5 complete
 |-------|------|-------|-------|--------|-----------|
 | 9 | Command Conversion | 1 | Rewrite command specs into installable Claude Code commands | Complete | 2026-02-19 |
 | 10 | Install System | 1 | Install script, interactive tool setup, framework placement | Complete | 2026-02-20 |
-| 11 | Project Init & Validation | 1 | /aegis:init + /aegis:validate commands | Planning | - |
+| 11 | Project Init & Validation | 1 | /aegis:init + /aegis:validate commands | Complete | 2026-02-20 |
 | 12 | Multi-Session UX | TBD | Checkpoints, handoffs, session management | Not started | - |
 | 13 | Getting Started | TBD | User documentation, setup guide | Not started | - |
 
@@ -172,4 +172,4 @@ Phases: 2 of 5 complete
 
 ---
 *Roadmap created: 2026-02-12*
-*Last updated: 2026-02-20 — Phase 10 complete*
+*Last updated: 2026-02-20 — Phase 11 complete*
