@@ -453,30 +453,14 @@ install_sonarqube
 echo ""
 echo "────────────────────────────────────────"
 
-# ── Helper: ensure pipx is available for Python CLI tools ──
+# ── Helper: install Python CLI tool via venv ──
+# Creates ~/.local/share/aegis/venvs/{tool}/ with isolated Python env
+# Symlinks the binary to ~/.local/bin/{tool}
+# Works on any system with python3 — no pip, pipx, or special flags needed
 
-ensure_pipx() {
-    export PATH="$HOME/.local/bin:$PATH"
-    if command -v pipx &>/dev/null; then
-        return 0
-    fi
-    echo "  pipx not found — installing pipx (needed for Python CLI tools)..."
-    # Use --break-system-packages to bootstrap pipx on PEP 668 systems (Ubuntu 23.04+, WSL)
-    # This is safe — pipx itself is lightweight, and it installs everything else in isolated venvs
-    if python3 -m pip install --user --break-system-packages pipx 2>&1 | tail -2; then
-        python3 -m pipx ensurepath 2>/dev/null
-        if command -v pipx &>/dev/null; then
-            info "pipx installed"
-            return 0
-        fi
-    fi
-    err "Could not install pipx. Need python3 + pip."
-    return 1
-}
-
-# ── Helper: install to ~/.local/bin via curl script ──
-
+AEGIS_VENVS="$HOME/.local/share/aegis/venvs"
 LOCAL_BIN="$HOME/.local/bin"
+
 ensure_local_bin() {
     mkdir -p "$LOCAL_BIN"
     if [[ ":$PATH:" != *":$LOCAL_BIN:"* ]]; then
@@ -484,9 +468,35 @@ ensure_local_bin() {
     fi
 }
 
+install_python_tool() {
+    local tool="$1"
+    ensure_local_bin
+    mkdir -p "$AEGIS_VENVS"
+
+    echo "  Creating isolated Python environment..."
+    if ! python3 -m venv "$AEGIS_VENVS/$tool" 2>&1; then
+        err "Failed to create venv. Is python3-venv installed?"
+        echo "  Try: sudo apt install python3-venv"
+        return 1
+    fi
+
+    echo "  Installing $tool (this may take a moment)..."
+    if "$AEGIS_VENVS/$tool/bin/pip" install "$tool" 2>&1 | tail -3; then
+        # Symlink the binary to ~/.local/bin
+        ln -sf "$AEGIS_VENVS/$tool/bin/$tool" "$LOCAL_BIN/$tool"
+        if command -v "$tool" &>/dev/null; then
+            return 0
+        fi
+    fi
+
+    err "Failed to install $tool in venv."
+    rm -rf "$AEGIS_VENVS/$tool"
+    return 1
+}
+
 install_tool "semgrep" \
     "Static analysis — security, correctness, code quality patterns (6 domains)" \
-    "python3:ensure_pipx && pipx install semgrep" \
+    "python3:install_python_tool semgrep" \
     "brew:brew install semgrep"
 
 echo ""
@@ -511,7 +521,7 @@ echo "────────────────────────�
 
 install_tool "checkov" \
     "Infrastructure-as-Code scanner — Terraform, CloudFormation, K8s (2 domains)" \
-    "python3:ensure_pipx && pipx install checkov" \
+    "python3:install_python_tool checkov" \
     "brew:brew install checkov"
 
 echo ""
