@@ -46,10 +46,10 @@ prompt_yn() {
     local default="${2:-n}"
     local reply
     if [[ "$default" == "y" ]]; then
-        read -rp "$msg [Y/n]: " reply
+        read -rp "$msg [Y/n]: " reply < /dev/tty
         reply="${reply:-y}"
     else
-        read -rp "$msg [y/N]: " reply
+        read -rp "$msg [y/N]: " reply < /dev/tty
         reply="${reply:-n}"
     fi
     [[ "$reply" =~ ^[Yy]$ ]]
@@ -167,7 +167,7 @@ if [[ -d "$AEGIS_HOME" ]] || [[ -d "$AEGIS_COMMANDS" ]]; then
     echo "  [2] Just run tool setup (skip framework/commands)"
     echo "  [3] Cancel"
     echo ""
-    read -rp "  Choose [1/2/3]: " reinstall_choice
+    read -rp "  Choose [1/2/3]: " reinstall_choice < /dev/tty
     case "$reinstall_choice" in
         1)
             echo ""
@@ -294,7 +294,7 @@ sonarqube_server_choice() {
     echo ""
 
     local choice
-    read -rp "  Choose [1/2]: " choice
+    read -rp "  Choose [1/2]: " choice < /dev/tty
 
     case "$choice" in
         1)
