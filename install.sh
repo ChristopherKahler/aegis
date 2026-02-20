@@ -363,9 +363,45 @@ sonarqube_server_choice() {
 
 # Main SonarQube flow — disclaimer + install or skip-with-confirmation
 install_sonarqube() {
-    # Auto-skip if scanner already installed
-    if command -v sonar-scanner &>/dev/null; then
-        info "SonarQube — already installed ($(command -v sonar-scanner))"
+    # Detect existing SonarQube setup
+    local has_scanner=false
+    local has_server=false
+    command -v sonar-scanner &>/dev/null && has_scanner=true
+    # Check for SonarQube server: Docker container or reachable on localhost:9000
+    if docker ps 2>/dev/null | grep -q sonarqube; then
+        has_server=true
+    elif curl -sf http://localhost:9000/api/system/status &>/dev/null; then
+        has_server=true
+    fi
+
+    if [[ "$has_scanner" == "true" ]] && [[ "$has_server" == "true" ]]; then
+        info "SonarQube — already installed (scanner + server detected)"
+        TOOLS_INSTALLED+=("sonarqube")
+        return
+    elif [[ "$has_server" == "true" ]] && [[ "$has_scanner" == "false" ]]; then
+        echo ""
+        info "SonarQube server detected (Docker or localhost:9000)"
+        warn "Scanner CLI not found — needed to send code to the server."
+        echo ""
+        if prompt_yn "  Install sonar-scanner CLI?"; then
+            echo ""
+            if install_sonar_scanner; then
+                info "SonarQube ready (server detected + scanner installed)"
+                TOOLS_INSTALLED+=("sonarqube")
+            else
+                TOOLS_FAILED+=("sonarqube")
+            fi
+            return
+        else
+            warn "SonarQube server found but scanner CLI missing. Install later or run /aegis:validate."
+            TOOLS_SKIPPED+=("sonarqube")
+            return
+        fi
+    elif [[ "$has_scanner" == "true" ]] && [[ "$has_server" == "false" ]]; then
+        echo ""
+        info "sonar-scanner CLI found, but no SonarQube server detected."
+        dim "  If your server is on a different host/port, AEGIS can still use it."
+        dim "  Configure in sonar-project.properties when you run /aegis:init."
         TOOLS_INSTALLED+=("sonarqube")
         return
     fi
