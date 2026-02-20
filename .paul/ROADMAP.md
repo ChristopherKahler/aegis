@@ -15,8 +15,8 @@ Phases: 8 of 8 complete
 
 ### v0.2 Installation & Runtime — In progress
 
-Status: In progress
-Phases: 4 of 5 complete
+Status: Complete
+Phases: 5 of 5 complete
 
 ## v0.2 Phases
 
@@ -26,7 +26,7 @@ Phases: 4 of 5 complete
 | 10 | Install System | 1 | Install script, interactive tool setup, framework placement | Complete | 2026-02-20 |
 | 11 | Project Init & Validation | 1 | /aegis:init + /aegis:validate commands | Complete | 2026-02-20 |
 | 12 | Multi-Session UX | 1 | Checkpoints, handoffs, session management | Complete | 2026-02-21 |
-| 13 | Getting Started | TBD | User documentation, setup guide | Not started | - |
+| 13 | Getting Started | 1 | User documentation, setup guide | Complete | 2026-02-21 |
 
 ## v0.2 Phase Details
 
@@ -172,4 +172,4 @@ Phases: 4 of 5 complete
 
 ---
 *Roadmap created: 2026-02-12*
-*Last updated: 2026-02-21 — Phase 12 complete*
+*Last updated: 2026-02-21 — v0.2 milestone complete (5/5 phases)*

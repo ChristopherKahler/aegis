@@ -12,9 +12,9 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 
 | Attribute | Value |
 |-----------|-------|
-| Version | 0.2.0-dev |
-| Status | In Progress (installation & runtime) |
-| Last Updated | 2026-02-20 |
+| Version | 0.2.0 |
+| Status | Complete |
+| Last Updated | 2026-02-21 |
 
 ## Requirements
 
@@ -34,11 +34,11 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 - Interactive install system with dual-mode tool setup — Phase 10 (install.sh, 711 lines, curl|bash public install)
 - Project init (/aegis:init) and tool validation (/aegis:validate) commands — Phase 11 (10 total commands)
 - Multi-session UX with phase checkpoints, session tracking, and estimated remaining work — Phase 12 (phase-checkpoint workflow + command enhancements)
+- Getting Started guide with step-by-step walkthrough and command reference — Phase 13 (docs/GETTING-STARTED.md)
 
 ### Active (In Progress)
 
 - [ ] README.md alignment with delivered specs (written Phase 1, may have drifted through 7 phases of content creation)
-- [ ] Getting Started documentation
 
 ### Planned (Next)
 
@@ -145,4 +145,4 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-02-21 after Phase 12 — Multi-Session UX complete*
+*Last updated: 2026-02-21 after Phase 13 — v0.2 milestone complete*

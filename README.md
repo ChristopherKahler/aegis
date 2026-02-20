@@ -1474,13 +1474,15 @@ The installer:
 
 After installation, run `/aegis:audit` in Claude Code to start your first audit.
 
+For a complete walkthrough, see [Getting Started](docs/GETTING-STARTED.md).
+
 ### v0.2 Phases
 
 | Phase | Name | Status |
 |-------|------|--------|
 | 9 | Command Conversion | Complete — commands relocated, `@` references rewritten, `allowed-tools` added |
 | 10 | Install System | Complete — interactive installer with dual-mode (local + curl\|bash), venv-based Python tools, smart SonarQube detection |
-| 11 | Project Init & Validation | Planned — `/aegis:init` + `/aegis:validate` commands |
-| 12 | Multi-Session UX | Planned — checkpoints, handoffs, session management |
-| 13 | Getting Started | Planned — user documentation and setup guide |
+| 11 | Project Init & Validation | Complete — `/aegis:init` + `/aegis:validate` commands, `.aegis/` project setup |
+| 12 | Multi-Session UX | Complete — phase checkpoints (continue/pause/abort), session tracking, estimated remaining work |
+| 13 | Getting Started | Complete — Getting Started guide, command reference |
 
