@@ -647,9 +647,15 @@ verify_tool "git-history" "git --version"
 for tool in "${TOOLS_INSTALLED[@]}"; do
     case "$tool" in
         sonarqube)
-            verify_tool "sonar-scanner" "sonar-scanner --version"
+            if command -v sonar-scanner &>/dev/null; then
+                verify_tool "sonar-scanner" "sonar-scanner --version"
+            elif docker image inspect sonarsource/sonar-scanner-cli &>/dev/null 2>&1; then
+                verify_tool "sonar-scanner" "docker image inspect sonarsource/sonar-scanner-cli"
+            else
+                verify_tool "sonar-scanner" "false"
+            fi
             if [[ "$SONARQUBE_MODE" == "docker" ]]; then
-                verify_tool "sonarqube-image" "docker image inspect sonarqube:community"
+                verify_tool "sonarqube-server" "docker image inspect sonarqube:community"
             fi
             ;;
         semgrep)    verify_tool "semgrep" "semgrep --version" ;;
