@@ -20,6 +20,7 @@ Produces: continued audit execution from the resume point, updated .aegis/STATE.
 @~/.claude/aegis/core/workflows/phase-3-cross-domain.md
 @~/.claude/aegis/core/workflows/phase-4-adversarial-review.md
 @~/.claude/aegis/core/workflows/phase-5-report.md
+@~/.claude/aegis/core/workflows/phase-checkpoint.md
 </execution_context>
 
 <context>
@@ -60,6 +61,11 @@ Read .aegis/STATE.md and extract:
 - Finding counts per phase
 - Last action and next action from Resume Info
 - Any unresolved disagreements
+- Session tracking data:
+  - Sessions: total session count so far
+  - Last session: timestamp of last activity
+  - Started: when the audit began
+- Checkpoint History: list of phase completions with timestamps and decisions
 
 If status is "complete":
 ```
@@ -87,6 +93,7 @@ AEGIS AUDIT — RESUME
 Target: [repository path]
 Started: [timestamp]
 Status: [in_progress / paused]
+Session: [N] (last active: [relative time — e.g., "2 hours ago", "yesterday", "3 days ago"])
 
 Phase Progress:
 ┌───────┬──────────────────────────────┬──────────┬──────────┬──────────┐
@@ -100,11 +107,21 @@ Phase Progress:
 │   5   │ Synthesis & Report           │ pending  │ -        │ -        │
 └───────┴──────────────────────────────┴──────────┴──────────┴──────────┘
 
+Cumulative: [N] findings (critical: [N], high: [N], medium: [N], low: [N])
+Disagreements: [N] detected, [N] resolved
+
+Checkpoint History:
+- Phase 0 (Context & Threat Modeling) — [timestamp]
+- Phase 1 (Signal Gathering) — [timestamp]
+  [... one line per completed phase checkpoint]
+
 Last action: [from STATE.md Resume Info]
 Next action: [from STATE.md Resume Info]
 
 ════════════════════════════════════════
 ```
+
+Note: Compute relative time from Last session timestamp (e.g., if last session was 2 hours ago, display "2 hours ago"). If Session Tracking section is missing from STATE.md (pre-Phase 12 audits), display "Session: 1 (no tracking data)" and omit Checkpoint History.
 
 ## Step 4: Present Resume Options
 
@@ -113,7 +130,7 @@ Check if $ARGUMENTS contains a phase number:
 - If NO: present options
 
 ```
-[1] Resume from last checkpoint (recommended) — [describe what resumes]
+[1] Resume from last checkpoint (recommended) — continues Phase [N+1] without re-reading completed phases
 [2] Re-run Phase [N] — [last completed phase] (re-executes from scratch)
 [3] Jump to Phase [N] — [specify phase number]
 [4] Start fresh (WARNING: deletes .aegis/ and all findings)
@@ -135,8 +152,11 @@ If [5]: exit
 ## Step 5: Delegate to Phase Workflow
 
 Based on the selected resume point:
-1. Update .aegis/STATE.md with resume action and timestamp
-2. Delegate to the appropriate phase workflow:
+1. Update .aegis/STATE.md:
+   - Resume Info: last action and next action
+   - Session Tracking: increment Sessions count, update Last session timestamp
+   - Overall status: in_progress (if was paused)
+2. Delegate to the appropriate phase workflow (context loading is handled by the phase workflow and session-handoff — do NOT re-read completed phase outputs at the resume command level):
    - Phase 0 → phase-0-context workflow
    - Phase 1 → phase-1-reconnaissance workflow
    - Phase 2 → phase-2-domain-audits workflow

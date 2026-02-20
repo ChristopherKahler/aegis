@@ -87,12 +87,32 @@ SUMMARY
 ────────────────────────────────────────
 
 Total findings: [N]
-  - Critical: [N]  High: [N]  Medium: [N]  Low: [N]  Info: [N]
+  Critical: [N]  High: [N]  Medium: [N]  Low: [N]  Info: [N]
 Disagreements: [N] total (open: [N], resolved: [N])
 Domains covered: [N] of 14
+Sessions completed: [N]
+
+────────────────────────────────────────
+ESTIMATED REMAINING WORK
+────────────────────────────────────────
+
+[Show for each pending phase:]
+Phase [N] — [Name]: ~[N] session(s)
+
+Estimates per phase:
+  Phase 0: 1 session (single agent — Principal Engineer)
+  Phase 1: 1 session (tool orchestration — no reasoning agents)
+  Phase 2: 1-8 sessions (8 parallel domain specialists)
+  Phase 3: 1-2 sessions (2 sequential agents — Staff Engineer, Reality Gap Analyst)
+  Phase 4: 1 session (single agent — Devil's Advocate)
+  Phase 5: 1 session (single agent — Principal Engineer)
+
+Total estimated remaining: [N]-[M] sessions
 
 ────────────────────────────────────────
 ```
+
+Note: Session estimates are based on phase agent counts. Actual sessions may vary based on context budget and agent complexity. Only show remaining estimates for phases with status "pending" — omit completed and active phases from the estimate. Read Sessions count from .aegis/STATE.md Session Tracking section (default to "-" if section missing).
 
 ## Step 4: Suggest Next Action
 

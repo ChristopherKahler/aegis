@@ -24,6 +24,7 @@ Produces: Phase 0 (Context & Threat Modeling) output, building on the `.aegis/` 
 @~/.claude/aegis/core/workflows/phase-5-report.md
 @~/.claude/aegis/core/workflows/session-handoff.md
 @~/.claude/aegis/core/workflows/disagreement-resolution.md
+@~/.claude/aegis/core/workflows/phase-checkpoint.md
 </execution_context>
 
 <context>
@@ -179,12 +180,45 @@ Estimated sessions: [count based on scope — full ~8-10, quick ~4-5]
 If [1] selected:
 1. Update .aegis/STATE.md: set current phase to 0, overall status to "in_progress"
 2. Record audit scope, domain selection, and tool configuration in .aegis/STATE.md
-3. Delegate to phase-0-context workflow to begin the audit
+3. Update .aegis/STATE.md Session Tracking: set Started to current timestamp, Sessions to 1, Last session to current timestamp
+4. Begin the phase execution loop (Step 7)
 
 Note: .aegis/ directory, STATE.md, and MANIFEST.md were created by /aegis:init in Step 2.
 
 If [2]: return to Step 4
 If [3]: exit without creating any files
+
+## Step 7: Phase Execution Loop
+
+Execute audit phases sequentially with checkpoints between each phase:
+
+```
+For each phase in the audit scope (full: 0-5, quick: 0-2):
+
+  1. Invoke the phase workflow:
+     - Phase 0 → phase-0-context workflow
+     - Phase 1 → phase-1-reconnaissance workflow
+     - Phase 2 → phase-2-domain-audits workflow
+     - Phase 3 → phase-3-cross-domain workflow
+     - Phase 4 → phase-4-adversarial-review workflow
+     - Phase 5 → phase-5-report workflow
+
+  2. After phase workflow completes, invoke phase-checkpoint workflow:
+     - Displays phase completion summary and cumulative progress
+     - Previews the next phase
+     - Offers: [1] Continue  [2] Pause  [3] Abort
+
+  3. Based on user's checkpoint decision:
+     - "Continue": proceed to next iteration of this loop
+     - "Pause": stop loop — STATE.md updated with resume point, exit cleanly
+     - "Abort": stop loop — STATE.md updated, exit cleanly
+
+  4. If user paused or aborted: display resume instructions and stop execution
+```
+
+The final checkpoint (after Phase 5 or last phase in scope) displays "Core audit complete" with next steps (/aegis:report, /aegis:transform) instead of continue/pause/abort options.
+
+Note: Each phase workflow internally handles session-handoff between agents. The checkpoint workflow operates at the phase boundary level, not the agent boundary level.
 
 </process>
 

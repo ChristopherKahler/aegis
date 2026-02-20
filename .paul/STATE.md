@@ -2,7 +2,7 @@
 
 ## Project Reference
 
-See: .paul/PROJECT.md (updated 2026-02-18)
+See: .paul/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Comprehensive codebase auditing to senior/principal engineer standards through multi-agent epistemic-rigorous analysis — plus controlled evolution via AI-consumable transformation artifacts
 **Current focus:** v0.2 Installation & Runtime — making AEGIS installable and usable
@@ -10,14 +10,14 @@ See: .paul/PROJECT.md (updated 2026-02-18)
 ## Current Position
 
 Milestone: v0.2 Installation & Runtime
-Phase: 12 of 13 (Multi-Session UX) — Ready to plan
+Phase: 13 of 13 (Getting Started) — Ready to plan
 Plan: Not started
 Status: Ready to plan
-Last activity: 2026-02-20 — Phase 11 complete, transitioned to Phase 12
+Last activity: 2026-02-21 — Phase 12 complete, transitioned to Phase 13
 
 Progress:
-- v0.2: [██████░░░░] 60% (3/5 phases complete)
-- Phase 12: [░░░░░░░░░░] 0% (not started)
+- v0.2: [████████░░] 80% (4/5 phases complete)
+- Phase 13: [░░░░░░░░░░] 0% (not started)
 
 ## Loop Position
 
@@ -75,6 +75,7 @@ PLAN ──▶ APPLY ──▶ UNIFY
 - **Phase 9 decisions (09-01):** Flat commands/ directory at repo root (mirrors PAUL pattern); allowed-tools per command based on actual process needs (status=read-only, audit/transform=full toolset); install mapping: commands/ → ~/.claude/commands/aegis/, src/ → ~/.claude/aegis/
 - **Phase 10 decisions (10-01):** curl|bash as public install method (zero deps); Python tools via venv not pipx (PEP 668 compat); binary tools via curl to ~/.local/bin (no sudo); smart SonarQube detection (Docker scanner image + server container + localhost:9000); auto-skip already-installed tools; repo public at github.com/ChristopherKahler/aegis; AEGIS_BRANCH=feature/v1-implementation for testing (switch to main before release)
 - **Phase 11 decisions (11-01):** Init separated from audit (project setup independent of audit execution); validate is read-only (safe to run anytime); audit delegates to init (no duplicate .aegis/ creation); .aegis-backup-{timestamp}/ archiving on fresh start; 10 total commands
+- **Phase 12 decisions (12-01):** Checkpoint at phase boundary only (not agent boundary — session-handoff handles that); three checkpoint options (continue/pause/abort); session count estimates not time estimates; backward compatible for pre-Phase 12 STATE.md files
 
 ### Deferred Issues
 None.
@@ -84,15 +85,10 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-20
-Stopped at: Phase 11 complete, ready to plan Phase 12
-Next action: /paul:plan for Phase 12
+Last session: 2026-02-21
+Stopped at: Phase 12 complete, ready to plan Phase 13
+Next action: /paul:plan for Phase 13
 Resume file: .paul/ROADMAP.md
-Resume context:
-- Phase 10 install system complete — install.sh (711 lines) with dual-mode, venv, smart SonarQube
-- 14 commits on feature/v1-implementation, all 7/7 tools verified
-- AEGIS_BRANCH in install.sh = feature/v1-implementation (change to main before release)
-Git strategy: feature/v1-implementation (merge to main on v1 release)
 
 ---
 *STATE.md — Updated after every significant action*

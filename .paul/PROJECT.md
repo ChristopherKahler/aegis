@@ -31,13 +31,13 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 - 8 user-facing slash commands (4 Core + 4 Transform) — Phase 7 (guided wizard UX with safety prerequisites, 1,371 total lines)
 - Complete spec validation (cross-reference integrity, convention compliance, composition correctness) — Phase 8 (90/90 files validated, 6 cross-ref fixes)
 - Version-lock manifest with SHA-256 content hashes for all 90 spec files — Phase 8 (traceability for reproducible audit compositions)
+- Interactive install system with dual-mode tool setup — Phase 10 (install.sh, 711 lines, curl|bash public install)
+- Project init (/aegis:init) and tool validation (/aegis:validate) commands — Phase 11 (10 total commands)
+- Multi-session UX with phase checkpoints, session tracking, and estimated remaining work — Phase 12 (phase-checkpoint workflow + command enhancements)
 
 ### Active (In Progress)
 
 - [ ] README.md alignment with delivered specs (written Phase 1, may have drifted through 7 phases of content creation)
-- [ ] Project init command (/aegis:init) — creates .aegis/ in target repo
-- [ ] Tool validation command (/aegis:validate) — tests installed tools
-- [ ] Multi-session UX — checkpoints, handoffs, session management
 - [ ] Getting Started documentation
 
 ### Planned (Next)
@@ -145,4 +145,4 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-02-20 after Phase 10 — Install System complete*
+*Last updated: 2026-02-21 after Phase 12 — Multi-Session UX complete*

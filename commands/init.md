@@ -110,6 +110,16 @@ Configured by /aegis:audit at audit start.
 
 Last action: Project initialized
 Next action: Run /aegis:audit to begin diagnostic audit
+
+## Session Tracking
+
+Sessions: 0
+Last session: -
+Started: -
+
+## Checkpoint History
+
+(Populated as phases complete)
 ```
 
 ## Step 5: Initialize MANIFEST.md
