@@ -453,10 +453,47 @@ install_sonarqube
 echo ""
 echo "────────────────────────────────────────"
 
+# ── Helper: ensure pipx is available for Python CLI tools ──
+
+ensure_pipx() {
+    if command -v pipx &>/dev/null; then
+        return 0
+    fi
+    echo "  pipx not found — installing pipx (needed for Python CLI tools)..."
+    if command -v pip3 &>/dev/null; then
+        pip3 install --user pipx 2>&1 | tail -2
+        python3 -m pipx ensurepath 2>&1 | tail -1
+        export PATH="$HOME/.local/bin:$PATH"
+        if command -v pipx &>/dev/null; then
+            info "pipx installed"
+            return 0
+        fi
+    elif command -v pip &>/dev/null; then
+        pip install --user pipx 2>&1 | tail -2
+        python3 -m pipx ensurepath 2>&1 | tail -1
+        export PATH="$HOME/.local/bin:$PATH"
+        if command -v pipx &>/dev/null; then
+            info "pipx installed"
+            return 0
+        fi
+    fi
+    err "Could not install pipx. Need python3 + pip."
+    return 1
+}
+
+# ── Helper: install to ~/.local/bin via curl script ──
+
+LOCAL_BIN="$HOME/.local/bin"
+ensure_local_bin() {
+    mkdir -p "$LOCAL_BIN"
+    if [[ ":$PATH:" != *":$LOCAL_BIN:"* ]]; then
+        export PATH="$LOCAL_BIN:$PATH"
+    fi
+}
+
 install_tool "semgrep" \
     "Static analysis — security, correctness, code quality patterns (6 domains)" \
-    "pipx:pipx install semgrep" \
-    "pip:pip install --user semgrep" \
+    "pipx:ensure_pipx && pipx install semgrep" \
     "brew:brew install semgrep"
 
 echo ""
@@ -464,14 +501,15 @@ echo "────────────────────────�
 
 install_tool "trivy" \
     "Vulnerability scanner — OS packages, dependencies, containers, IaC (2 domains)" \
-    "brew:brew install trivy" \
-    "curl:curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin"
+    "curl:ensure_local_bin && curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b $LOCAL_BIN" \
+    "brew:brew install trivy"
 
 echo ""
 echo "────────────────────────────────────────"
 
 install_tool "gitleaks" \
     "Secrets detection — API keys, tokens, passwords in code and history (2 domains)" \
+    "curl:ensure_local_bin && curl -sSfL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks_8.21.2_linux_x64.tar.gz | tar xz -C $LOCAL_BIN gitleaks" \
     "brew:brew install gitleaks" \
     "go:go install github.com/gitleaks/gitleaks/v8@latest"
 
@@ -480,8 +518,7 @@ echo "────────────────────────�
 
 install_tool "checkov" \
     "Infrastructure-as-Code scanner — Terraform, CloudFormation, K8s (2 domains)" \
-    "pipx:pipx install checkov" \
-    "pip:pip install --user checkov" \
+    "pipx:ensure_pipx && pipx install checkov" \
     "brew:brew install checkov"
 
 echo ""
@@ -489,7 +526,7 @@ echo "────────────────────────�
 
 install_tool "syft" \
     "SBOM generator — software bill of materials for dependency inventory (2 domains)" \
-    "curl:curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin" \
+    "curl:ensure_local_bin && curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b $LOCAL_BIN" \
     "brew:brew install syft"
 
 echo ""
@@ -497,7 +534,7 @@ echo "────────────────────────�
 
 install_tool "grype" \
     "Vulnerability scanner — CVE matching against SBOM inventory (2 domains)" \
-    "curl:curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin" \
+    "curl:ensure_local_bin && curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b $LOCAL_BIN" \
     "brew:brew install grype"
 
 # ── 5. Post-install verification ──────
