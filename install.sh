@@ -456,22 +456,15 @@ echo "────────────────────────�
 # ── Helper: ensure pipx is available for Python CLI tools ──
 
 ensure_pipx() {
+    export PATH="$HOME/.local/bin:$PATH"
     if command -v pipx &>/dev/null; then
         return 0
     fi
     echo "  pipx not found — installing pipx (needed for Python CLI tools)..."
-    if command -v pip3 &>/dev/null; then
-        pip3 install --user pipx 2>&1 | tail -2
-        python3 -m pipx ensurepath 2>&1 | tail -1
-        export PATH="$HOME/.local/bin:$PATH"
-        if command -v pipx &>/dev/null; then
-            info "pipx installed"
-            return 0
-        fi
-    elif command -v pip &>/dev/null; then
-        pip install --user pipx 2>&1 | tail -2
-        python3 -m pipx ensurepath 2>&1 | tail -1
-        export PATH="$HOME/.local/bin:$PATH"
+    # Use --break-system-packages to bootstrap pipx on PEP 668 systems (Ubuntu 23.04+, WSL)
+    # This is safe — pipx itself is lightweight, and it installs everything else in isolated venvs
+    if python3 -m pip install --user --break-system-packages pipx 2>&1 | tail -2; then
+        python3 -m pipx ensurepath 2>/dev/null
         if command -v pipx &>/dev/null; then
             info "pipx installed"
             return 0
