@@ -446,6 +446,31 @@ install_tool() {
     fi
 }
 
+# ── Gitleaks installer (dynamic version + platform detection) ──
+
+install_gitleaks() {
+    ensure_local_bin
+    local version
+    version=$(curl -sI "https://github.com/gitleaks/gitleaks/releases/latest" | grep -i "^location:" | grep -oP 'v\K[0-9.]+')
+    if [[ -z "$version" ]]; then
+        err "Could not detect latest gitleaks version."
+        return 1
+    fi
+    local os="linux"
+    local arch="x64"
+    if [[ "$(uname -s)" == "Darwin" ]]; then os="darwin"; fi
+    if [[ "$(uname -m)" == "arm64" ]] || [[ "$(uname -m)" == "aarch64" ]]; then arch="arm64"; fi
+
+    local url="https://github.com/gitleaks/gitleaks/releases/download/v${version}/gitleaks_${version}_${os}_${arch}.tar.gz"
+    echo "  Downloading gitleaks v${version}..."
+    if curl -sSfL "$url" -o /tmp/gitleaks.tar.gz && tar xzf /tmp/gitleaks.tar.gz -C "$LOCAL_BIN" gitleaks; then
+        rm -f /tmp/gitleaks.tar.gz
+        return 0
+    fi
+    rm -f /tmp/gitleaks.tar.gz
+    return 1
+}
+
 # ── Run tool installations ──
 
 install_sonarqube
@@ -512,7 +537,7 @@ echo "────────────────────────�
 
 install_tool "gitleaks" \
     "Secrets detection — API keys, tokens, passwords in code and history (2 domains)" \
-    "curl:ensure_local_bin && curl -sSfL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks_8.21.2_linux_x64.tar.gz | tar xz -C $LOCAL_BIN gitleaks" \
+    "curl:install_gitleaks" \
     "brew:brew install gitleaks" \
     "go:go install github.com/gitleaks/gitleaks/v8@latest"
 
