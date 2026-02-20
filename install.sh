@@ -242,16 +242,19 @@ try_install() {
 
         if command -v "$cmd" &>/dev/null; then
             echo "  Installing via $cmd..."
-            if eval "$install_cmd" 2>&1 | tail -3; then
+            local output
+            if output=$(eval "$install_cmd" 2>&1); then
+                echo "$output" | tail -3
                 return 0
             else
+                echo "$output" | tail -3
                 warn "  $cmd install failed, trying next method..."
             fi
         fi
     done
 
     err "  No suitable install method found for $name."
-    echo "  Install manually or use Docker: docker pull appropriate-image"
+    echo "  Try: pipx, brew, or check the tool's documentation."
     return 1
 }
 
@@ -452,7 +455,8 @@ echo "────────────────────────�
 
 install_tool "semgrep" \
     "Static analysis — security, correctness, code quality patterns (6 domains)" \
-    "pip:pip install semgrep" \
+    "pipx:pipx install semgrep" \
+    "pip:pip install --user semgrep" \
     "brew:brew install semgrep"
 
 echo ""
@@ -476,7 +480,8 @@ echo "────────────────────────�
 
 install_tool "checkov" \
     "Infrastructure-as-Code scanner — Terraform, CloudFormation, K8s (2 domains)" \
-    "pip:pip install checkov" \
+    "pipx:pipx install checkov" \
+    "pip:pip install --user checkov" \
     "brew:brew install checkov"
 
 echo ""
