@@ -363,6 +363,13 @@ sonarqube_server_choice() {
 
 # Main SonarQube flow — disclaimer + install or skip-with-confirmation
 install_sonarqube() {
+    # Auto-skip if scanner already installed
+    if command -v sonar-scanner &>/dev/null; then
+        info "SonarQube — already installed ($(command -v sonar-scanner))"
+        TOOLS_INSTALLED+=("sonarqube")
+        return
+    fi
+
     echo -e "${BOLD}┌─────────────────────────────────────────────────────┐${NC}"
     echo -e "${BOLD}│  SONARQUBE — Important Context                      │${NC}"
     echo -e "${BOLD}│${NC}                                                     ${BOLD}│${NC}"
@@ -431,6 +438,13 @@ install_tool() {
     bold "  $name"
     dim "  $description"
     echo ""
+
+    # Auto-skip if already installed
+    if command -v "$name" &>/dev/null; then
+        info "$name — already installed ($(command -v "$name"))"
+        TOOLS_INSTALLED+=("$name")
+        return
+    fi
 
     if prompt_yn "  Install $name?"; then
         echo ""
