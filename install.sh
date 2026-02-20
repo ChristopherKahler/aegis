@@ -493,7 +493,7 @@ ensure_local_bin() {
 
 install_tool "semgrep" \
     "Static analysis — security, correctness, code quality patterns (6 domains)" \
-    "pipx:ensure_pipx && pipx install semgrep" \
+    "python3:ensure_pipx && pipx install semgrep" \
     "brew:brew install semgrep"
 
 echo ""
@@ -518,7 +518,7 @@ echo "────────────────────────�
 
 install_tool "checkov" \
     "Infrastructure-as-Code scanner — Terraform, CloudFormation, K8s (2 domains)" \
-    "pipx:ensure_pipx && pipx install checkov" \
+    "python3:ensure_pipx && pipx install checkov" \
     "brew:brew install checkov"
 
 echo ""
