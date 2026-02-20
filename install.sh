@@ -153,40 +153,69 @@ fi
 info "AEGIS source verified"
 
 # Check for existing installation
+SKIP_FRAMEWORK=false
+SKIP_COMMANDS=false
 if [[ -d "$AEGIS_HOME" ]] || [[ -d "$AEGIS_COMMANDS" ]]; then
     echo ""
     warn "Existing AEGIS installation detected."
     [[ -d "$AEGIS_HOME" ]] && dim "  Framework: $AEGIS_HOME"
     [[ -d "$AEGIS_COMMANDS" ]] && dim "  Commands:  $AEGIS_COMMANDS"
     echo ""
-    if ! prompt_yn "Overwrite existing installation?"; then
-        echo "Installation cancelled."
-        exit 0
-    fi
+    bold "  What would you like to do?"
+    echo ""
+    echo "  [1] Update everything (framework + commands + tool setup)"
+    echo "  [2] Just run tool setup (skip framework/commands)"
+    echo "  [3] Cancel"
+    echo ""
+    read -rp "  Choose [1/2/3]: " reinstall_choice
+    case "$reinstall_choice" in
+        1)
+            echo ""
+            info "Updating framework and commands, then running tool setup."
+            ;;
+        2)
+            SKIP_FRAMEWORK=true
+            SKIP_COMMANDS=true
+            echo ""
+            info "Skipping framework/commands — jumping to tool setup."
+            ;;
+        *)
+            echo "Installation cancelled."
+            exit 0
+            ;;
+    esac
     echo ""
 fi
 
 # ── 2. Framework installation ─────────
 
-header "Installing Framework"
+if [[ "$SKIP_FRAMEWORK" == "false" ]]; then
+    header "Installing Framework"
 
-mkdir -p "$AEGIS_HOME"
-cp -r "$AEGIS_SOURCE/src/"* "$AEGIS_HOME/"
+    mkdir -p "$AEGIS_HOME"
+    cp -r "$AEGIS_SOURCE/src/"* "$AEGIS_HOME/"
 
-FRAMEWORK_COUNT=$(find "$AEGIS_HOME" -type f | wc -l | tr -d ' ')
-info "Copied $FRAMEWORK_COUNT framework files to ~/.claude/aegis/"
+    FRAMEWORK_COUNT=$(find "$AEGIS_HOME" -type f | wc -l | tr -d ' ')
+    info "Copied $FRAMEWORK_COUNT framework files to ~/.claude/aegis/"
+else
+    FRAMEWORK_COUNT=$(find "$AEGIS_HOME" -type f 2>/dev/null | wc -l | tr -d ' ')
+fi
 
 # ── 3. Commands installation ──────────
 
-header "Installing Commands"
+if [[ "$SKIP_COMMANDS" == "false" ]]; then
+    header "Installing Commands"
 
-mkdir -p "$AEGIS_COMMANDS"
-cp "$AEGIS_SOURCE/commands/"*.md "$AEGIS_COMMANDS/"
+    mkdir -p "$AEGIS_COMMANDS"
+    cp "$AEGIS_SOURCE/commands/"*.md "$AEGIS_COMMANDS/"
 
-COMMAND_COUNT=$(find "$AEGIS_COMMANDS" -name "*.md" -type f | wc -l | tr -d ' ')
-info "Installed $COMMAND_COUNT slash commands to ~/.claude/commands/aegis/"
-dim "  Commands available: /aegis:audit, /aegis:resume, /aegis:status, /aegis:report"
-dim "  Transform:          /aegis:transform, /aegis:remediate, /aegis:playbook, /aegis:guardrails"
+    COMMAND_COUNT=$(find "$AEGIS_COMMANDS" -name "*.md" -type f | wc -l | tr -d ' ')
+    info "Installed $COMMAND_COUNT slash commands to ~/.claude/commands/aegis/"
+    dim "  Commands available: /aegis:audit, /aegis:resume, /aegis:status, /aegis:report"
+    dim "  Transform:          /aegis:transform, /aegis:remediate, /aegis:playbook, /aegis:guardrails"
+else
+    COMMAND_COUNT=$(find "$AEGIS_COMMANDS" -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
+fi
 
 # ── 4. Tool installation (interactive) ─
 
