@@ -1441,12 +1441,45 @@ v0.2 makes AEGIS installable and runnable as a Claude Code extension. The framew
 └── guardrails.md             # /aegis:guardrails
 ```
 
+### Installation
+
+**Prerequisites:** [Claude Code](https://claude.ai/code) installed (`~/.claude/` directory must exist)
+
+**One-command install (recommended):**
+
+```bash
+curl -sSL https://raw.githubusercontent.com/ChristopherKahler/aegis/main/install.sh | bash
+```
+
+**Or clone and install locally:**
+
+```bash
+git clone https://github.com/ChristopherKahler/aegis.git
+cd aegis
+bash install.sh
+```
+
+The installer:
+1. Copies 82 framework files to `~/.claude/aegis/`
+2. Installs 8 slash commands to `~/.claude/commands/aegis/`
+3. Walks you through installing each OSS analysis tool (Y/N per tool)
+4. Verifies each installed tool works
+5. Auto-skips tools already installed on re-run
+
+**Tool installation methods:**
+- **Python tools** (Semgrep, Checkov): Installed via venv to `~/.local/share/aegis/venvs/` — no sudo, PEP 668 compatible
+- **Binary tools** (Trivy, Gitleaks, Syft, Grype): Downloaded via curl to `~/.local/bin/`
+- **SonarQube**: Guided setup — Docker (local server) or SonarQube Cloud, with smart detection of existing Docker installations
+- **Git history**: Always available (uses built-in git commands)
+
+After installation, run `/aegis:audit` in Claude Code to start your first audit.
+
 ### v0.2 Phases
 
 | Phase | Name | Status |
 |-------|------|--------|
 | 9 | Command Conversion | Complete — commands relocated, `@` references rewritten, `allowed-tools` added |
-| 10 | Install System | Planned — interactive install script with per-tool Y/N |
+| 10 | Install System | Complete — interactive installer with dual-mode (local + curl\|bash), venv-based Python tools, smart SonarQube detection |
 | 11 | Project Init & Validation | Planned — `/aegis:init` + `/aegis:validate` commands |
 | 12 | Multi-Session UX | Planned — checkpoints, handoffs, session management |
 | 13 | Getting Started | Planned — user documentation and setup guide |
