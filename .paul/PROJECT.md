@@ -12,9 +12,9 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 
 | Attribute | Value |
 |-----------|-------|
-| Version | 0.1.0 |
-| Status | Validated (spec-complete) |
-| Last Updated | 2026-02-19 |
+| Version | 0.2.0-dev |
+| Status | In Progress (installation & runtime) |
+| Last Updated | 2026-02-20 |
 
 ## Requirements
 
@@ -35,6 +35,10 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 ### Active (In Progress)
 
 - [ ] README.md alignment with delivered specs (written Phase 1, may have drifted through 7 phases of content creation)
+- [ ] Project init command (/aegis:init) — creates .aegis/ in target repo
+- [ ] Tool validation command (/aegis:validate) — tests installed tools
+- [ ] Multi-session UX — checkpoints, handoffs, session management
+- [ ] Getting Started documentation
 
 ### Planned (Next)
 
@@ -106,6 +110,9 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 | git-history dual normalization | Git history feeds both Core diagnosis (Domains 11, 12) and Transform change-risk modeling | 2026-02-18 | Active |
 | Version-lock = traceability, not immutability | Specs evolve as real usage reveals gaps; manifest tracks which versions produced which audit results — the audit system must itself be auditable | 2026-02-19 | Active |
 | v0.1 = validated specs, runtime = future milestone | Live execution (orchestrating Claude Code sessions on real codebases) requires implementation beyond specification | 2026-02-19 | Active |
+| curl\|bash public install method | Zero deps, industry standard — remote install without cloning | 2026-02-20 | Active |
+| Python venv over pipx/pip | PEP 668 blocks pip on modern Ubuntu/WSL2; venv always works | 2026-02-20 | Active |
+| Smart SonarQube detection | Three-layer: Docker scanner image + Docker server + localhost:9000 | 2026-02-20 | Active |
 
 ## Success Metrics
 
@@ -116,6 +123,7 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 | Tool integrations working | 7+ | 8 (all OSS tools) | Complete |
 | Spec validation (cross-ref + convention) | 90 files | 90/90 pass | Complete |
 | Version-lock manifest | 1 | 1 (SHA-256) | Complete |
+| Install script (framework + tools) | 1 | 1 (install.sh) | Complete |
 | End-to-end audit on real repo | 1 | 0 | Future milestone |
 
 ## Tech Stack
@@ -137,5 +145,4 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-02-19 after Phase 8 — v0.1 milestone complete*
-*Last updated: 2026-02-19 after Phase 6*
+*Last updated: 2026-02-20 after Phase 10 — Install System complete*
