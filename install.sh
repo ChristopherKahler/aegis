@@ -228,6 +228,108 @@ try_install() {
 
 # ── SonarQube (special handling) ──
 
+# Scanner CLI installer (shared by Docker and Cloud paths)
+install_sonar_scanner() {
+    echo "  Installing sonar-scanner CLI..."
+    if command -v npm &>/dev/null; then
+        if npm install -g sonar-scanner 2>&1 | tail -2; then
+            info "sonar-scanner installed via npm"
+            return 0
+        fi
+    fi
+    if command -v brew &>/dev/null; then
+        if brew install sonar-scanner 2>&1 | tail -2; then
+            info "sonar-scanner installed via brew"
+            return 0
+        fi
+    fi
+    err "Failed to install sonar-scanner CLI. Need npm or brew."
+    return 1
+}
+
+# Server choice — extracted so "changed mind" path can skip the disclaimer
+sonarqube_server_choice() {
+    bold "  SonarQube server options:"
+    echo ""
+    echo "  [1] Docker (local)"
+    echo "      Runs sonarqube:community on localhost:9000"
+    echo "      Requires Docker installed and running"
+    echo "      ~800MB image download"
+    echo "      Server must be running during audits"
+    echo ""
+    echo "  [2] SonarQube Cloud"
+    echo "      Uses sonarcloud.io (free for public repos)"
+    echo "      Requires account + authentication token"
+    echo "      No local server needed"
+    echo "      Token configuration guided after install"
+    echo ""
+
+    local choice
+    read -rp "  Choose [1/2]: " choice
+
+    case "$choice" in
+        1)
+            SONARQUBE_MODE="docker"
+            echo ""
+            if ! command -v docker &>/dev/null; then
+                err "Docker not found. Install Docker first, then re-run install.sh."
+                TOOLS_FAILED+=("sonarqube")
+                return
+            fi
+            if ! docker info &>/dev/null 2>&1; then
+                err "Docker daemon not running. Start Docker, then re-run install.sh."
+                TOOLS_FAILED+=("sonarqube")
+                return
+            fi
+
+            echo "  Pulling SonarQube Community image..."
+            if ! docker pull sonarqube:community; then
+                err "Failed to pull SonarQube image."
+                TOOLS_FAILED+=("sonarqube")
+                return
+            fi
+            info "SonarQube server image pulled"
+
+            if ! install_sonar_scanner; then
+                TOOLS_FAILED+=("sonarqube")
+                return
+            fi
+
+            echo ""
+            info "SonarQube (Docker local) installed"
+            dim "  Start server: docker run -d --name sonarqube -p 9000:9000 sonarqube:community"
+            dim "  Server must be running before AEGIS audit."
+            dim "  Default credentials: admin / admin"
+            dim "  Dashboard: http://localhost:9000"
+            TOOLS_INSTALLED+=("sonarqube")
+            ;;
+        2)
+            SONARQUBE_MODE="cloud"
+            echo ""
+            if ! install_sonar_scanner; then
+                TOOLS_FAILED+=("sonarqube")
+                return
+            fi
+
+            echo ""
+            info "SonarQube (Cloud) — scanner CLI installed"
+            echo ""
+            bold "  To configure SonarQube Cloud:"
+            echo "  1. Create account at https://sonarcloud.io"
+            echo "  2. Generate token at https://sonarcloud.io/account/security"
+            echo "  3. Set environment variable: export SONAR_TOKEN=your-token"
+            echo "  4. Create sonar-project.properties in your target project"
+            dim "  Run /aegis:validate after setup to verify connection."
+            TOOLS_INSTALLED+=("sonarqube")
+            ;;
+        *)
+            warn "Invalid choice. Skipping SonarQube."
+            TOOLS_SKIPPED+=("sonarqube")
+            ;;
+    esac
+}
+
+# Main SonarQube flow — disclaimer + install or skip-with-confirmation
 install_sonarqube() {
     echo -e "${BOLD}┌─────────────────────────────────────────────────────┐${NC}"
     echo -e "${BOLD}│  SONARQUBE — Important Context                      │${NC}"
@@ -256,138 +358,9 @@ install_sonarqube() {
     echo ""
 
     if prompt_yn "Install SonarQube?"; then
-        # User wants SonarQube — choose server type
         echo ""
-        bold "  SonarQube server options:"
-        echo ""
-        echo "  [1] Docker (local)"
-        echo "      Runs sonarqube:community on localhost:9000"
-        echo "      Requires Docker installed and running"
-        echo "      ~800MB image download"
-        echo "      Server must be running during audits"
-        echo ""
-        echo "  [2] SonarQube Cloud"
-        echo "      Uses sonarcloud.io (free for public repos)"
-        echo "      Requires account + authentication token"
-        echo "      No local server needed"
-        echo "      Token configuration guided after install"
-        echo ""
-
-        local choice
-        read -rp "  Choose [1/2]: " choice
-
-        case "$choice" in
-            1)
-                SONARQUBE_MODE="docker"
-                echo ""
-                # Check Docker availability
-                if ! command -v docker &>/dev/null; then
-                    err "Docker not found. Install Docker first, then re-run install.sh."
-                    warn "SonarQube skipped — Docker required for local server."
-                    TOOLS_FAILED+=("sonarqube")
-                    return
-                fi
-                if ! docker info &>/dev/null 2>&1; then
-                    err "Docker daemon not running. Start Docker, then re-run install.sh."
-                    warn "SonarQube skipped — Docker must be running."
-                    TOOLS_FAILED+=("sonarqube")
-                    return
-                fi
-
-                echo "  Pulling SonarQube Community image..."
-                if docker pull sonarqube:community; then
-                    info "SonarQube server image pulled"
-                else
-                    err "Failed to pull SonarQube image."
-                    TOOLS_FAILED+=("sonarqube")
-                    return
-                fi
-
-                # Install scanner CLI
-                echo "  Installing sonar-scanner CLI..."
-                if command -v npm &>/dev/null; then
-                    npm install -g sonar-scanner 2>&1 | tail -2 && info "sonar-scanner installed via npm" || {
-                        if command -v brew &>/dev/null; then
-                            brew install sonar-scanner 2>&1 | tail -2 && info "sonar-scanner installed via brew" || {
-                                err "Failed to install sonar-scanner CLI."
-                                TOOLS_FAILED+=("sonarqube")
-                                return
-                            }
-                        else
-                            err "Failed to install sonar-scanner CLI (npm failed, brew not available)."
-                            TOOLS_FAILED+=("sonarqube")
-                            return
-                        fi
-                    }
-                elif command -v brew &>/dev/null; then
-                    brew install sonar-scanner 2>&1 | tail -2 && info "sonar-scanner installed via brew" || {
-                        err "Failed to install sonar-scanner CLI."
-                        TOOLS_FAILED+=("sonarqube")
-                        return
-                    }
-                else
-                    err "Neither npm nor brew found. Install sonar-scanner manually."
-                    TOOLS_FAILED+=("sonarqube")
-                    return
-                fi
-
-                echo ""
-                info "SonarQube (Docker local) installed"
-                dim "  Start server: docker run -d --name sonarqube -p 9000:9000 sonarqube:community"
-                dim "  Server must be running before AEGIS audit."
-                dim "  Default credentials: admin / admin"
-                dim "  Dashboard: http://localhost:9000"
-                TOOLS_INSTALLED+=("sonarqube")
-                ;;
-            2)
-                SONARQUBE_MODE="cloud"
-                echo ""
-                # Install scanner CLI only
-                echo "  Installing sonar-scanner CLI..."
-                if command -v npm &>/dev/null; then
-                    npm install -g sonar-scanner 2>&1 | tail -2 && info "sonar-scanner installed via npm" || {
-                        if command -v brew &>/dev/null; then
-                            brew install sonar-scanner 2>&1 | tail -2 && info "sonar-scanner installed via brew" || {
-                                err "Failed to install sonar-scanner CLI."
-                                TOOLS_FAILED+=("sonarqube")
-                                return
-                            }
-                        else
-                            err "Failed to install sonar-scanner CLI."
-                            TOOLS_FAILED+=("sonarqube")
-                            return
-                        fi
-                    }
-                elif command -v brew &>/dev/null; then
-                    brew install sonar-scanner 2>&1 | tail -2 && info "sonar-scanner installed via brew" || {
-                        err "Failed to install sonar-scanner CLI."
-                        TOOLS_FAILED+=("sonarqube")
-                        return
-                    }
-                else
-                    err "Neither npm nor brew found. Install sonar-scanner manually."
-                    TOOLS_FAILED+=("sonarqube")
-                    return
-                fi
-
-                echo ""
-                info "SonarQube (Cloud) — scanner CLI installed"
-                echo ""
-                bold "  To configure SonarQube Cloud:"
-                echo "  1. Create account at https://sonarcloud.io"
-                echo "  2. Generate token at https://sonarcloud.io/account/security"
-                echo "  3. Set environment variable: export SONAR_TOKEN=your-token"
-                echo "  4. Create sonar-project.properties in your target project"
-                dim "  Run /aegis:validate after setup to verify connection."
-                TOOLS_INSTALLED+=("sonarqube")
-                ;;
-            *)
-                warn "Invalid choice. Skipping SonarQube."
-                TOOLS_SKIPPED+=("sonarqube")
-                ;;
-        esac
+        sonarqube_server_choice
     else
-        # User said N — confirm skip with "are you sure"
         echo ""
         echo -e "  ${YELLOW}⚠ Skipping SonarQube means AEGIS loses:${NC}"
         echo "    • Code complexity analysis (cyclomatic, cognitive)"
@@ -407,9 +380,9 @@ install_sonarqube() {
             dim "  SonarQube skipped."
         else
             echo ""
-            # User changed mind — recurse into install flow
-            install_sonarqube
-            return
+            echo "  OK — let's set up SonarQube."
+            echo ""
+            sonarqube_server_choice
         fi
     fi
 }
