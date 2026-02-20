@@ -366,7 +366,12 @@ install_sonarqube() {
     # Detect existing SonarQube setup
     local has_scanner=false
     local has_server=false
-    command -v sonar-scanner &>/dev/null && has_scanner=true
+    # Check for scanner: native CLI or Docker scanner image
+    if command -v sonar-scanner &>/dev/null; then
+        has_scanner=true
+    elif docker image inspect sonarsource/sonar-scanner-cli &>/dev/null 2>&1; then
+        has_scanner=true
+    fi
     # Check for SonarQube server: Docker container or reachable on localhost:9000
     if docker ps 2>/dev/null | grep -q sonarqube; then
         has_server=true
