@@ -34,12 +34,8 @@
 
     <!-- Line 2: blank -->
 
-    <!-- Line 3: AEGIS ASCII art -->
-    <text x="20" y="95" fill="#bb9af7" font-size="13">    _    _____ ____ ___ ____</text>
-    <text x="20" y="112" fill="#bb9af7" font-size="13">   / \  | ____/ ___|_ _/ ___|</text>
-    <text x="20" y="129" fill="#bb9af7" font-size="13">  / _ \ |  _|| |  _ | |\___ \</text>
-    <text x="20" y="146" fill="#bb9af7" font-size="13"> / ___ \| |__| |_| || | ___) |</text>
-    <text x="20" y="163" fill="#bb9af7" font-size="13">/_/   \_\_____\____|___|____/</text>
+    <!-- AEGIS title -->
+    <text x="20" y="120" fill="#bb9af7" font-size="48" font-weight="bold" letter-spacing="12">AEGIS</text>
 
     <!-- Line: tagline -->
     <text x="20" y="188" fill="#565f89" font-size="12">Automated Epistemic Governance &amp; Intelligence System</text>
