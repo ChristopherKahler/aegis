@@ -928,12 +928,3 @@ Phase 1 gathers evidence across six orthogonal dimensions:
 5. **Runtime Characteristics** — OpenAPI/gRPC schemas, backward compatibility checks
 6. **Policy Posture** — IaC compliance, secrets exposure, governance policies
 
----
-
-## Related Reading
-
-The original design conversation that shaped AEGIS is preserved as reference material:
-
-**[`reference/original-design-conversation.md`](reference/original-design-conversation.md)**
-
-This is a multi-turn conversation exploring the audit domain, agent personas, epistemic schema, reality gap framework, and disagreement visualization model. It is NOT the source of truth (this README is), but is useful for understanding the reasoning behind design decisions and for gleaning ideas that haven't yet been formalized into the system.
