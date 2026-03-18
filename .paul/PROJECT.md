@@ -12,40 +12,52 @@ Any codebase can be comprehensively audited to senior/principal engineer standar
 
 | Attribute | Value |
 |-----------|-------|
-| Version | 0.0.0 |
-| Status | Design |
-| Last Updated | 2026-02-12 |
+| Version | 0.2.0 |
+| Status | Complete |
+| Last Updated | 2026-02-21 |
 
 ## Requirements
 
 ### Validated (Shipped)
 
-None yet.
+- Formal epistemic schema enforcement in agent outputs — Phase 2 (9 schema files: 5 Core + 4 Transform)
+- Disagreement resolution protocol between agents — Phase 2 (disagreement schema + protocol rules)
+- Signal normalization layer (tool output → unified format) — Phase 2 (signal schema)
+- 14 audit domain knowledge modules with failure patterns and best practices — Phase 3 (14 domain files: 6 infrastructure + 8 application/synthesis)
+- Tool integrations: SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft, Grype, git-history — Phase 4 (8 tool adapter specifications, 4,008 total lines)
+- 17 agent persona specifications (12 Core + 5 Transform) with distinct cognitive identities — Phase 5 (17 persona files, 1,829 total lines)
+- 17 agent assembly manifests (12 Core + 5 Transform) — Phase 6 (thin composition manifests)
+- 12 orchestration workflows (8 Core + 4 Transform) — Phase 6 (phase orchestration + utilities + safety governance)
+- 8 user-facing slash commands (4 Core + 4 Transform) — Phase 7 (guided wizard UX with safety prerequisites, 1,371 total lines)
+- Complete spec validation (cross-reference integrity, convention compliance, composition correctness) — Phase 8 (90/90 files validated, 6 cross-ref fixes)
+- Version-lock manifest with SHA-256 content hashes for all 90 spec files — Phase 8 (traceability for reproducible audit compositions)
+- Interactive install system with dual-mode tool setup — Phase 10 (install.sh, 711 lines, curl|bash public install)
+- Project init (/aegis:init) and tool validation (/aegis:validate) commands — Phase 11 (10 total commands)
+- Multi-session UX with phase checkpoints, session tracking, and estimated remaining work — Phase 12 (phase-checkpoint workflow + command enhancements)
+- Getting Started guide with step-by-step walkthrough and command reference — Phase 13 (docs/GETTING-STARTED.md)
 
 ### Active (In Progress)
 
-- [ ] System design documented (README.md) — complete
+- [ ] README.md alignment with delivered specs (written Phase 1, may have drifted through 7 phases of content creation)
 
 ### Planned (Next)
 
-- [ ] PAUL-style agent prompt templates for all 12 personas
-- [ ] Phase 0 (Context & Threat Modeling) session workflow
-- [ ] Phase 1 (Signal Gathering) tool integration and automation
-- [ ] Phase 2 (Deep Domain Audits) parallel agent sessions
-- [ ] Phase 3 (Change Risk, Team Risk, Reality Gap) synthesis agents
-- [ ] Phase 4 (Adversarial Review) Devil's Advocate session
-- [ ] Phase 5 (Synthesis & Report) Principal Engineer final report
-- [ ] Formal epistemic schema enforcement in agent outputs
-- [ ] Disagreement resolution protocol between agents
-- [ ] Signal normalization layer (tool output → unified format)
+- ~~User-facing slash commands (/aegis:audit, /aegis:resume, /aegis:status, /aegis:report)~~ — Shipped Phase 7
+- ~~Transform commands (/aegis:transform, /aegis:remediate, /aegis:playbook, /aegis:guardrails)~~ — Shipped Phase 7
+- ~~Agent assembly manifests (12 Core + 5 Transform)~~ — Shipped Phase 6
+- ~~Phase orchestration workflows (Phases 0-8)~~ — Shipped Phase 6
+- ~~Formal epistemic schema enforcement~~ — Shipped Phase 2
+- ~~Disagreement resolution protocol~~ — Shipped Phase 2
+- ~~Signal normalization layer~~ — Shipped Phase 2
 - [ ] Cross-signal correlation engine
-- [ ] Tool integrations: SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft+Grype, CodeScene
+- ~~Tool integrations: SonarQube, Semgrep, Trivy, Gitleaks, Checkov, Syft+Grype~~ — Shipped Phase 4
+- [ ] CodeScene integration (optional paid enhancement)
 
 ### Out of Scope
 
 - GUI/dashboard (CLI-first, report output is markdown)
 - Real-time monitoring (audit is point-in-time)
-- Auto-remediation (AEGIS reports, humans fix)
+- Auto-remediation (AEGIS Transform produces plans; PAUL executes with human oversight)
 
 ## Target Users
 
@@ -92,15 +104,27 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 | 7-layer epistemic schema | Forces structured reasoning, prevents opinion soup | 2026-02-12 | Active |
 | Disagreements as first-class objects | Senior engineers surface disagreement, not hide it | 2026-02-12 | Active |
 | Reality Gap as dedicated framework | Most incidents live in code-vs-runtime divergence | 2026-02-12 | Active |
+| Strict 1:1 failure/best-practice mapping in domains | Convention requires each failure pattern has exactly one corresponding best practice — prevents many-to-one dilution | 2026-02-13 | Active |
+| Synthesis domain pattern (Domain 13) | Synthesis domains describe process failures, not codebase failures — enables meta-analysis domains | 2026-02-15 | Active |
+| SBOM pipeline: Syft → Grype | Syft catalogs inventory, Grype scans for CVEs — separate tools, complementary pipeline | 2026-02-18 | Active |
+| git-history dual normalization | Git history feeds both Core diagnosis (Domains 11, 12) and Transform change-risk modeling | 2026-02-18 | Active |
+| Version-lock = traceability, not immutability | Specs evolve as real usage reveals gaps; manifest tracks which versions produced which audit results — the audit system must itself be auditable | 2026-02-19 | Active |
+| v0.1 = validated specs, runtime = future milestone | Live execution (orchestrating Claude Code sessions on real codebases) requires implementation beyond specification | 2026-02-19 | Active |
+| curl\|bash public install method | Zero deps, industry standard — remote install without cloning | 2026-02-20 | Active |
+| Python venv over pipx/pip | PEP 668 blocks pip on modern Ubuntu/WSL2; venv always works | 2026-02-20 | Active |
+| Smart SonarQube detection | Three-layer: Docker scanner image + Docker server + localhost:9000 | 2026-02-20 | Active |
 
 ## Success Metrics
 
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
-| Audit domains covered | 14 | 0 | Not started |
-| Agent personas implemented | 12 | 0 | Not started |
-| Tool integrations working | 7+ | 1 (SonarQube) | In progress |
-| End-to-end audit on real repo | 1 | 0 | Not started |
+| Audit domains covered | 14 | 14 | Complete |
+| Agent personas implemented | 17 | 17 | Complete |
+| Tool integrations working | 7+ | 8 (all OSS tools) | Complete |
+| Spec validation (cross-ref + convention) | 90 files | 90/90 pass | Complete |
+| Version-lock manifest | 1 | 1 (SHA-256) | Complete |
+| Install script (framework + tools) | 1 | 1 (install.sh) | Complete |
+| End-to-end audit on real repo | 1 | 0 | Future milestone |
 
 ## Tech Stack
 
@@ -121,4 +145,4 @@ Built as a tool for Chris AI Systems / C&C Strategic Consulting. Can be used int
 
 ---
 *PROJECT.md — Updated when requirements or context change*
-*Last updated: 2026-02-12*
+*Last updated: 2026-02-21 after Phase 13 — v0.2 milestone complete*

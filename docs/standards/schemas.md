@@ -6,12 +6,15 @@ Schemas define **HOW** agents produce output. They are the data contracts of the
 
 Without schemas, agent output drifts. One agent describes severity as "high", another as "H", another as "3". One agent includes a confidence score, another omits it. Schemas eliminate this drift by enforcing a single structural contract that all agents must conform to.
 
-AEGIS uses approximately 5 schema files, each defining a reusable data structure consumed by agents and workflows.
+Transform extends the schema set with remediation and change-risk schemas, while Core schemas remain shared across both Core and Transform systems.
+
+AEGIS uses approximately 9 schema files (5 Core + 4 Transform), each defining a reusable data structure consumed by agents and workflows.
 
 ## Location
 
 ```
-src/schemas/
+src/schemas/             (Core — shared by both systems)
+src/transform/schemas/   (Transform-specific)
 ```
 
 ## Naming
@@ -24,6 +27,10 @@ src/schemas/
 - `confidence.md`
 - `signal.md`
 - `report-section.md`
+- `playbook.md`
+- `change-risk.md`
+- `intervention-level.md`
+- `verification-plan.md`
 
 ## Required Structure
 
@@ -63,7 +70,8 @@ used_by: [which agents/workflows consume this schema]
 |-----------|------|-----|
 | Referenced BY | Agent assembly manifests (`src/agents/`) | `schemas.output`, `schemas.confidence`, `schemas.signal_input` fields |
 | Referenced BY | Workflows (`src/workflows/`) | For output validation steps |
-| Does NOT reference | Personas, domains, tools | Schemas are universal contracts, independent of who fills them or what data feeds them |
+| Referenced BY | Transform workflows (`src/transform/workflows/`) | Transform workflows reference Transform schemas for output validation |
+| Does NOT reference | Personas, domains, tools | Schemas are universal contracts, independent of who fills them or what data feeds them. **Exception:** Transform schemas may reference Core schemas (e.g., playbook schema references finding schema's `finding_id` format) |
 
 ## Example Skeleton
 
@@ -199,3 +207,63 @@ source code and rotate the exposed credentials immediately.
 | Missing enum values | Every enum field must list ALL valid values explicitly. "severity: one of several levels" is incomplete. "severity: critical, high, medium, low, informational" is complete. |
 | No validation rules | A schema without validation rules is just a template. Validation rules make schemas enforceable — they define what "correct" means. |
 | Version not updated on changes | Breaking changes to a schema (adding required fields, changing enum values, renaming fields) must increment the version. Consumers depend on the contract; changing it silently breaks the system. |
+| Playbook without intervention level | Every remediation must be classified. A playbook with no intervention level is ungoverned. |
+| Risk assessment without evidence | Scores without evidence are opinions. Every risk dimension requires supporting evidence. |
+
+## Transform Schema Definitions
+
+Transform introduces 4 additional schemas that live in `src/transform/schemas/`. These schemas govern remediation planning, change-risk assessment, intervention governance, and verification procedures. They build on top of Core schemas — particularly the finding schema — and are consumed exclusively by Transform agents and workflows.
+
+### Remediation Playbook (`playbook.md`)
+
+The playbook schema defines a structured remediation plan for a single finding. Each playbook maps a finding through transformation layers (abstract pattern to project-specific fix) and includes risk metadata and verification steps.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `finding_ref` | string | yes | Finding ID being remediated (e.g., `F-04-001`). Must match a valid finding ID from the Core finding schema. |
+| `intervention_level` | enum | yes | Governance level for this remediation. Valid values: `suggesting`, `planning`, `authorizing`, `executing`. |
+| `transformation_layers` | object | yes | Contains: `abstract_pattern` (string), `framework_mapping` (string), `language_mapping` (string), `project_context` (string). Each layer refines the remediation from general principle to project-specific guidance. |
+| `before_example` | string | yes | Code showing the anti-pattern as it exists in the target codebase. |
+| `after_example` | string | yes | Code showing the correct pattern after remediation. |
+| `verification_steps` | list of strings | yes | Ordered steps to verify the fix works. Each step must be concrete and executable. |
+| `risk_metadata` | object | yes | Contains: `blast_radius` (1-5), `coupling_risk` (1-5), `regression_probability` (1-5), `architectural_tension` (1-5). Each dimension scored with justification. |
+| `educational_context` | string | no | Pedagogical explanation for AI-assisted developers. Explains *why* the anti-pattern is harmful and *why* the remediation is preferred. |
+
+### Change Risk Assessment (`change-risk.md`)
+
+The change-risk schema captures a multi-dimensional risk evaluation for a proposed change. Every change that Transform considers must be assessed across four risk dimensions, each backed by evidence, before a recommendation is issued.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `change_id` | string | yes | Unique change identifier. |
+| `finding_refs` | list of strings | yes | Finding IDs this change addresses. Each must match a valid finding ID. |
+| `blast_radius` | object | yes | Contains: `score` (integer, 1-5), `evidence` (string), `affected_files` (list of strings). How widely the change ripples through the codebase. |
+| `coupling_risk` | object | yes | Contains: `score` (integer, 1-5), `evidence` (string), `new_dependencies` (list of strings). Whether the change introduces or tightens coupling. |
+| `regression_probability` | object | yes | Contains: `score` (integer, 1-5), `evidence` (string), `test_coverage_pct` (number). Likelihood the change breaks existing functionality. |
+| `architectural_tension` | object | yes | Contains: `score` (integer, 1-5), `evidence` (string), `design_conflicts` (list of strings). Whether the change conflicts with the codebase's architectural direction. |
+| `overall_risk` | enum | yes | Aggregate risk classification. Valid values: `low`, `medium`, `high`, `critical`. |
+| `recommendation` | enum | yes | Action recommendation based on risk assessment. Valid values: `proceed`, `proceed_with_caution`, `human_review_required`, `reject`. |
+
+### Intervention Level (`intervention-level.md`)
+
+The intervention-level schema defines the governance tiers that control what Transform is permitted to do. Each level sets thresholds for finding confidence, evidence requirements, and high-risk behavior.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `level` | enum | yes | The intervention tier. Valid values: `suggesting`, `planning`, `authorizing`, `executing`. |
+| `minimum_finding_confidence` | enum | no | Minimum confidence a finding must have for this level to apply. Valid values: `low`, `medium`, `high`. |
+| `minimum_evidence_sources` | integer | no | Minimum number of independent evidence sources required. |
+| `allowed_when_risk_high` | boolean | no | Whether this intervention level is permitted when the change risk exceeds "high". |
+
+### Verification Plan (`verification-plan.md`)
+
+The verification-plan schema defines the checks that must be performed before, after, and in regression testing of a change. It also specifies rollback criteria and procedures, ensuring every Transform change is reversible.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `change_id` | string | yes | The change this verification plan covers. Must match a change-risk assessment's `change_id`. |
+| `pre_change_checks` | list of objects | yes | Each object contains: `check_name` (string), `command_or_instruction` (string), `expected_result` (string). Checks to run before applying the change. |
+| `post_change_checks` | list of objects | yes | Each object contains: `check_name` (string), `command_or_instruction` (string), `expected_result` (string). Checks to run after applying the change. |
+| `regression_checks` | list of objects | yes | Each object contains: `check_name` (string), `command_or_instruction` (string), `expected_result` (string). Checks to confirm no existing functionality is broken. |
+| `rollback_criteria` | list of strings | yes | Conditions under which rollback is required. Each criterion must be specific and observable. |
+| `rollback_procedure` | string | yes | How to undo the change. Must be a concrete, step-by-step procedure. |

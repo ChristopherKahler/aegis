@@ -8,24 +8,66 @@ Multi-agent codebase audit framework with decomposed components and forensic-gra
 
 ## 1. Directory Structure
 
-| Directory | Purpose |
-|-----------|---------|
-| `src/commands/` | User entry points — slash commands that invoke workflows (`/aegis:audit`, `/aegis:resume`) |
-| `src/personas/` | Identity definitions — 12 core personas defining how agents think, argue, and calibrate confidence |
-| `src/domains/` | Knowledge modules — 14 domain-specific failure patterns, questions, and red flags (00-13) |
-| `src/schemas/` | Output contracts — Finding structure, disagreement records, confidence vectors, signal format, report sections |
-| `src/rules/` | Epistemic governance — Behavioral constraints applied universally to all agents |
-| `src/tools/` | Tool integrations — Adapter configs and output normalizers for semgrep, trivy, syft/grype, etc. |
-| `src/agents/` | Assembly manifests — Composition definitions specifying which persona + domains + tools + schemas form each agent |
-| `src/workflows/` | Phase orchestration — Step-by-step execution logic for each audit phase |
-| `docs/` | Documentation root — Architecture, standards, getting started, user guide |
-| `docs/standards/` | Convention specifications — Per-component-type standards (persona standard, domain standard, etc.) |
-| `.aegis-template/` | Audit workspace scaffold — Copied into target repo at audit start, contains STATE.md, MANIFEST.md, output directories |
-| `.aegis-template/context/` | Phase 0 outputs — Codebase understanding signals |
-| `.aegis-template/signals/` | Phase 1 outputs — Raw tool execution results normalized to signal schema |
-| `.aegis-template/findings/` | Phase 2 outputs — Domain-specific audit findings from individual agents |
-| `.aegis-template/review/` | Phase 3 outputs — Cross-agent disagreement resolution and confidence calibration |
-| `.aegis-template/report/` | Phase 4 outputs — Final audit report and executive summary |
+### Two-System Layout
+
+AEGIS is organized as two systems sharing common infrastructure:
+
+```
+aegis/
+├── src/
+│   ├── core/                       # AEGIS Core (Diagnosis Engine)
+│   │   ├── commands/               # Core user entry points (/aegis:audit, /aegis:resume)
+│   │   ├── personas/               # 12 Core audit personas
+│   │   ├── agents/                 # 12 Core agent assemblies
+│   │   └── workflows/              # Core phase orchestration (Phases 0-5)
+│   ├── transform/                  # AEGIS Transform (Controlled Evolution Engine)
+│   │   ├── commands/               # Transform entry points (/aegis:transform, /aegis:remediate)
+│   │   ├── personas/               # 5 Transform personas
+│   │   ├── schemas/                # Transform-specific schemas (playbook, change-risk, verification)
+│   │   ├── rules/                  # Safety & liability rules
+│   │   ├── agents/                 # 5 Transform agent assemblies
+│   │   ├── workflows/              # Transform phase orchestration (Phases 6-8)
+│   │   └── patterns/               # Pattern corpus (accumulated over time)
+│   ├── domains/                    # Shared — 14 domain knowledge modules (Core + Transform)
+│   ├── schemas/                    # Shared — Core output contracts (finding, disagreement, signal, etc.)
+│   ├── rules/                      # Shared — Epistemic governance (applies to all agents)
+│   └── tools/                      # Shared — Tool adapters and output normalizers
+├── docs/
+│   ├── ARCHITECTURE.md             # This file
+│   ├── standards/                  # Per-component-type conventions
+│   └── ...
+└── .aegis-template/                # Audit workspace scaffold
+    ├── context/                    # Phase 0 outputs
+    ├── signals/                    # Phase 1 outputs
+    ├── findings/                   # Phase 2-3 outputs
+    ├── review/                     # Phase 4 outputs
+    ├── report/                     # Phase 5 outputs
+    ├── remediation/                # Phase 6-7 outputs (Layer B)
+    └── execution/                  # Phase 8 outputs (Layer C)
+```
+
+### Component Directory Reference
+
+| Directory | System | Purpose |
+|-----------|--------|---------|
+| `src/core/commands/` | Core | User entry points — slash commands that invoke Core workflows |
+| `src/core/personas/` | Core | Identity definitions — 12 Core personas defining how agents think, argue, and calibrate confidence |
+| `src/core/agents/` | Core | Assembly manifests — 12 Core agent compositions |
+| `src/core/workflows/` | Core | Phase orchestration — Execution logic for Phases 0-5 |
+| `src/transform/commands/` | Transform | User entry points — slash commands that invoke Transform workflows |
+| `src/transform/personas/` | Transform | Identity definitions — 5 Transform personas for intervention specialists |
+| `src/transform/schemas/` | Transform | Transform-specific output contracts (playbook, change-risk, verification-plan) |
+| `src/transform/rules/` | Transform | Safety & liability rules (confidence gating, conservative bias, no auto-execution) |
+| `src/transform/agents/` | Transform | Assembly manifests — 5 Transform agent compositions |
+| `src/transform/workflows/` | Transform | Phase orchestration — Execution logic for Phases 6-8 |
+| `src/transform/patterns/` | Transform | Pattern corpus — Accumulated anti-pattern/remediation pairs |
+| `src/domains/` | Shared | Knowledge modules — 14 domain-specific failure patterns, questions, and red flags |
+| `src/schemas/` | Shared | Core output contracts — Finding, disagreement, confidence, signal, report schemas |
+| `src/rules/` | Shared | Epistemic governance — Behavioral constraints applied to all agents |
+| `src/tools/` | Shared | Tool integrations — Adapter configs and output normalizers |
+| `docs/` | — | Documentation root — Architecture, standards, guides |
+| `docs/standards/` | — | Convention specifications — Per-component-type standards |
+| `.aegis-template/` | — | Audit workspace scaffold — Copied into target repo at audit start |
 
 ---
 
@@ -33,16 +75,16 @@ Multi-agent codebase audit framework with decomposed components and forensic-gra
 
 ### Component Types
 
-| Type | Count | Purpose | Defines | Referenced By |
-|------|-------|---------|---------|---------------|
-| **Personas** | 12 | WHO — identity, risk philosophy, thinking style | How an agent thinks, argues, calibrates confidence | Agent assembly manifests |
-| **Domains** | 14 | WHAT — failure patterns, questions, red flags | What to audit, what to look for, what matters | Agent assembly manifests, tool affinities |
-| **Schemas** | ~5 | HOW — output format contracts | Finding structure, disagreement records, confidence vectors, signal format, report sections | All agents (output), workflows (validation) |
-| **Rules** | few | CONSTRAINTS — epistemic governance | Behavioral constraints that apply to ALL agents | All agents (enforcement) |
-| **Tools** | 7+ | INPUTS — signal sources + normalization | How to run tools, parse output, normalize to signal schema | Domain affinities, workflow orchestration |
-| **Agents** | 12 | ASSEMBLY — composition manifests | Which persona + domains + tools + schemas + rules compose each agent | Workflows (invocation) |
-| **Workflows** | ~8 | ORCHESTRATION — phase sequencing | Step-by-step execution logic for each audit phase | Commands (delegation) |
-| **Commands** | ~4 | ENTRY — user-facing slash commands | Guided wizard UX entry points | Users (invocation) |
+| Type | Count | System | Purpose | Defines | Referenced By |
+|------|-------|--------|---------|---------|---------------|
+| **Personas** | 12 + 5 | Core / Transform | WHO — identity, risk philosophy, thinking style | How an agent thinks, argues, calibrates confidence | Agent assembly manifests |
+| **Domains** | 14 | Shared | WHAT — failure patterns, questions, red flags, best practices | What to audit, what to look for, what matters | Agent assembly manifests, tool affinities |
+| **Schemas** | ~5 + ~4 | Shared / Transform | HOW — output format contracts | Finding, disagreement, confidence, signal, report (Core) + playbook, change-risk, intervention-level, verification-plan (Transform) | All agents (output), workflows (validation) |
+| **Rules** | few + few | Shared / Transform | CONSTRAINTS — epistemic governance + safety governance | Behavioral constraints for all agents (Core) + safety rules for Transform agents | All agents (enforcement) |
+| **Tools** | 7+ | Shared | INPUTS — signal sources + normalization | How to run tools, parse output, normalize to signal schema | Domain affinities, workflow orchestration |
+| **Agents** | 12 + 5 | Core / Transform | ASSEMBLY — composition manifests | Which persona + domains + tools + schemas + rules compose each agent | Workflows (invocation) |
+| **Workflows** | ~8 + ~4 | Core / Transform | ORCHESTRATION — phase sequencing | Step-by-step execution logic for each phase | Commands (delegation) |
+| **Commands** | ~4 + ~4 | Core / Transform | ENTRY — user-facing slash commands | Guided wizard UX entry points | Users (invocation) |
 
 ### Decomposed Agent Architecture
 
@@ -65,6 +107,48 @@ Agent = Persona + Domains[] + Schemas + Rules + Tool Interfaces
 - **Independent evolution:** Domains evolve based on industry standards and CVE databases. Personas evolve based on role archetypes. Tool mappings evolve based on tooling ecosystem changes. These three axes are orthogonal.
 - **Version-locked compositions:** A reproducible audit requires locking specific versions of persona, domains, schemas, rules, and tools. This is impossible with monolithic agents where all components are entangled in a single file.
 - **Reusability:** The same domain (e.g., "05-dependencies") is used by multiple agents (Security Engineer, SRE, Principal Engineer). Duplication creates maintenance burden and version drift.
+
+### Two-System Model
+
+AEGIS operates as two complementary systems sharing common infrastructure.
+
+**Shared components** (used by both Core and Transform):
+- **Domains** (`src/domains/`) — Transform agents consume domain knowledge to contextualize remediation. The same failure patterns that Core agents detect are the patterns Transform agents remediate.
+- **Core schemas** (`src/schemas/`) — Transform agents consume Layer A outputs (findings, disagreements, confidence) as input. The schemas that define these structures are shared.
+- **Core rules** (`src/rules/`) — Epistemic governance applies to all agents. Transform agents must meet the same evidence and confidence standards.
+- **Tool adapters** (`src/tools/`) — Some tools produce signals consumed by both systems (e.g., git history mining feeds both change risk analysis and remediation context).
+
+**Separate components** (system-specific):
+- **Personas** — Core personas are domain experts optimized for finding truth. Transform personas are intervention specialists optimized for producing safe, actionable change. These are fundamentally different cognitive profiles.
+- **Agents** — Core agents work independently (decentralized diagnosis). Transform agents coordinate (centralized intervention). Different assembly patterns.
+- **Workflows** — Core workflows orchestrate Phases 0-5. Transform workflows orchestrate Phases 6-8. Different execution models (parallel vs sequential).
+- **Commands** — Core commands start and manage audits. Transform commands initiate remediation pipelines.
+- **Transform schemas** — Playbook, change-risk, verification-plan schemas are Transform-specific. Core has no use for them.
+- **Transform rules** — Safety and liability rules (confidence gating, conservative bias, no auto-execution) apply only to Transform agents.
+
+**Why separation matters:** Diagnosis and intervention have different cognitive requirements. A diagnostic agent should be aggressive about finding problems — false negatives are worse than false positives. A Transform agent should be conservative about proposing changes — a bad fix is worse than no fix. Mixing these postures in a single system produces mediocre diagnosis and reckless intervention.
+
+**How they connect:** Core Layer A outputs feed Transform Layer B/C inputs. The connection point is the `.aegis/` directory — specifically the `findings/`, `review/`, and `report/` directories that Transform reads as input.
+
+### Output Layer Architecture
+
+AEGIS produces three output layers with a strict derivation chain:
+
+```
+Layer A (Phases 0-5)  →  Layer B (Phases 6-7)  →  Layer C (Phase 8)
+Diagnostic artifacts     Remediation knowledge     Change orchestration
+Immutable               Derived from A             Derived from B
+```
+
+**Layer A → Layer B:** Findings + domain knowledge + confidence scores → remediation playbooks, best-practice patterns, educational context, guardrails.
+
+**Layer B → Layer C:** Playbooks + risk scores → dependency-ordered execution plans, verification steps, PAUL project artifacts.
+
+**Dual format specification:** Every Layer B and Layer C artifact has two representations:
+- **Human-readable** (`.md`) — Explanations, rationale, before/after examples, educational context
+- **Machine-consumable** (`.yaml`) — Structured data with file targets, change instructions, verification steps, risk metadata, intervention level
+
+This dual format ensures that both human developers and AI assistants can consume Transform output effectively.
 
 ---
 
@@ -89,10 +173,12 @@ Agent = Persona + Domains[] + Schemas + Rules + Tool Interfaces
 Used in workflows and commands to lazy-load files at execution time:
 
 ```markdown
-Load the persona: @src/personas/security-engineer.md
+Load the persona: @src/core/personas/security-engineer.md
+Load the Transform persona: @src/transform/personas/remediation-architect.md
+Load the shared domain: @src/domains/04-security.md
 ```
 
-Files are read when needed, not preloaded.
+Files are read when needed, not preloaded. Note: system prefix (`core/` or `transform/`) is required for system-specific components. Shared components use root `src/` paths.
 
 ### Assembly References (Component IDs)
 
@@ -102,7 +188,7 @@ Used in agent manifests to reference components by ID:
 persona: security-engineer
 ```
 
-Resolved at runtime to `src/personas/security-engineer.md` based on component ID in frontmatter.
+Resolved at runtime to the appropriate system path based on which system the agent belongs to.
 
 ### Domain Mapping (Numeric IDs)
 
@@ -112,7 +198,7 @@ Used in agent manifests to reference domains by number:
 domains: [04, 05, 06]
 ```
 
-Maps to `src/domains/04-security.md`, `src/domains/05-dependencies.md`, `src/domains/06-secrets.md`.
+Maps to `src/domains/04-security.md`, `src/domains/05-dependencies.md`, `src/domains/06-secrets.md`. Domains are shared — the same path works for both Core and Transform agents.
 
 ### Tool Affinity (Tool IDs)
 
@@ -123,6 +209,35 @@ tool_affinities: [semgrep, trivy, syft-grype]
 ```
 
 References tool IDs defined in `src/tools/{tool-id}.md`.
+
+### Transform Cross-References
+
+Transform agents reference Core outputs:
+
+```markdown
+# In a Transform workflow or agent context:
+@.aegis/findings/{agent-id}/finding-NNN.md    # Reference specific Core finding
+@.aegis/report/findings-by-domain.md           # Reference Core synthesis
+@src/domains/04-security.md                     # Reference shared domain knowledge
+```
+
+Remediation playbooks reference both findings and domain best practices:
+
+```yaml
+# In a Layer B playbook:
+finding_ref: F-04-001                           # Core finding being remediated
+domain_ref: domain-04                           # Domain providing best-practice context
+intervention_level: planning                    # Intervention classification
+```
+
+Layer C plans reference Layer B evidence:
+
+```yaml
+# In a Layer C execution plan:
+playbook_ref: playbook-F-04-001                # Layer B playbook being executed
+risk_assessment_ref: risk-F-04-001             # Change risk assessment
+verification_ref: verify-F-04-001              # Verification plan
+```
 
 ---
 
@@ -140,8 +255,11 @@ References tool IDs defined in `src/tools/{tool-id}.md`.
 | **Tool file naming** | `{kebab-name}.md` | `semgrep.md`, `syft-grype.md` |
 | **Schema file naming** | `{kebab-name}.md` | `finding.md`, `disagreement.md` |
 | **Rule file naming** | `{kebab-name}.md` | `epistemic-hygiene.md` |
-| **Workflow file naming** | `phase-{N}-{kebab-name}.md` | `phase-0-context.md`, `phase-2-domain-audits.md` |
-| **Command file naming** | `{kebab-name}.md` | `audit.md`, `resume.md` |
+| **Workflow file naming** | `phase-{N}-{kebab-name}.md` | `phase-0-context.md`, `phase-2-domain-audits.md`, `phase-6-remediation.md` |
+| **Command file naming** | `{kebab-name}.md` | `audit.md`, `resume.md`, `transform.md`, `remediate.md` |
+| **Playbook file naming** | `playbook-{finding-id}.md/yaml` | `playbook-F-04-001.md`, `playbook-F-04-001.yaml` |
+| **Risk assessment naming** | `risk-{finding-id}.yaml` | `risk-F-04-001.yaml` |
+| **Verification plan naming** | `verify-{finding-id}.md` | `verify-F-04-001.md` |
 
 **Conventions:**
 
@@ -204,6 +322,9 @@ Each audit run creates a `MANIFEST.md` in `.aegis/` recording:
 4. **Auditability:** Domain knowledge is independently testable and versionable.
 5. **Flexibility:** Components evolve independently on orthogonal axes (personas, domains, tools, schemas).
 6. **Reproducibility:** Same codebase + same manifest = same audit results.
+7. **Two-System Separation:** Diagnosis (Core) and intervention (Transform) have separate personas, agents, and workflows. Shared infrastructure (domains, core schemas, rules, tools) prevents duplication.
+8. **Dual Format Output:** Transform artifacts carry both human-readable markdown and machine-consumable structured data.
+9. **Conservative Intervention:** Transform defaults to the lowest intervention level. Escalation requires evidence, not confidence.
 
 ---
 

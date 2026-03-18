@@ -6,12 +6,13 @@ Workflows define **ORCHESTRATION** — step-by-step execution logic for AEGIS au
 
 Workflows are the operational backbone of AEGIS. They handle multi-session agent invocation, session boundary management, disagreement resolution sequencing, and artifact creation. Workflows do not analyze code, interpret signals, or render judgments — that is agent work. Workflows ensure agents are invoked correctly, receive the right context, produce output in the right format, and that phase transitions happen cleanly.
 
-AEGIS uses approximately 8 workflow files: one per audit phase plus utility workflows for cross-cutting concerns.
+AEGIS uses approximately 12 workflow files: 8 for Core (Phases 0-5 + utilities) and 4 for Transform (Phases 6-8 + PAUL handoff).
 
 ## Location
 
 ```
-src/workflows/
+src/core/workflows/      (Core phase orchestration)
+src/transform/workflows/ (Transform phase orchestration)
 ```
 
 ## Naming
@@ -29,6 +30,12 @@ src/workflows/
 - `phase-5-report.md`
 - `session-handoff.md`
 - `disagreement-resolution.md`
+
+**Transform examples:**
+- `phase-6-remediation.md`
+- `phase-7-risk-validation.md`
+- `phase-8-execution-planning.md`
+- `paul-handoff.md`
 
 ## Required Structure
 
@@ -190,6 +197,49 @@ All output files must conform to their respective schemas.
 </error_handling>
 ````
 
+## Transform Workflow Types
+
+Transform workflows orchestrate Phases 6-8 and the PAUL handoff. They follow the same structural conventions as Core workflows (XML tags, step structure, error handling) but with Transform-specific concerns.
+
+**Phase 6 — Remediation Synthesis Workflow:**
+- Invokes: Remediation Architect, then Pedagogy Agent (sequential)
+- Input: Complete `.aegis/` Layer A record
+- Steps: (1) Load all findings grouped by root cause, (2) Invoke Remediation Architect to produce playbooks at all 4 transformation layers, (3) Invoke Pedagogy Agent to enrich with educational context, (4) Classify each playbook by intervention level, (5) Validate all playbooks against playbook schema
+- Output: `remediation/playbooks/`, `remediation/patterns/`, `remediation/REMEDIATION-SUMMARY.md`
+- Error handling: If a finding cannot be remediated (insufficient confidence, unclear root cause), record as "unremediated" with reason
+
+**Phase 7 — Change Risk Validation Workflow:**
+- Invokes: Change Risk Modeler, then Guardrail Generator (sequential)
+- Input: Phase 6 playbooks + codebase structure + git history + test coverage
+- Steps: (1) Score every proposed change across 4 risk dimensions, (2) Flag changes exceeding risk thresholds for intervention level downgrade, (3) Invoke Guardrail Generator to produce project rules, (4) Establish final risk-adjusted priority ordering
+- Output: `execution/risk-scores.yaml`, `remediation/guardrails/`
+- Error handling: If risk scoring fails for a change, default to maximum risk and flag for human review
+
+**Phase 8 — Execution Planning Workflow:**
+- Invokes: Execution Validator
+- Input: Risk-scored change plan from Phase 7
+- Steps: (1) Define verification steps for every proposed change, (2) Build dependency graph, (3) Generate PAUL project artifacts (PROJECT.md, ROADMAP.md, phased plans), (4) Embed risk metadata and intervention levels in PAUL tasks, (5) Validate PAUL project structure
+- Output: `execution/change-graph.yaml`, `execution/verification-plan.md`, `execution/paul-project/`
+- Error handling: If PAUL project generation fails, produce a manual remediation plan as fallback
+
+**PAUL Handoff Workflow:**
+- Purpose: Finalize Transform output and prepare for handoff to user's AI assistant
+- Steps: (1) Validate all Layer B and C artifacts exist and are internally consistent, (2) Generate handoff summary, (3) Archive Transform state, (4) Present PAUL project to user
+- Output: Handoff summary document, validated PAUL project
+- This is the terminal workflow — after this, AEGIS's role is complete
+
+### PAUL Handoff Specification
+
+A Layer C PAUL project must contain:
+
+| Artifact | Required | Description |
+|----------|----------|-------------|
+| `PROJECT.md` | yes | Project definition with AEGIS audit reference, target codebase, remediation scope |
+| `ROADMAP.md` | yes | Phased plan with dependency ordering, phase descriptions, verification gates |
+| Phase plans | yes | Per-phase PLAN.md with tasks, acceptance criteria, risk metadata per task |
+| Risk metadata per task | yes | Intervention level, change risk scores, finding confidence, verification plan ref |
+| Verification gates per phase | yes | Pre-change, post-change, regression, and rollback criteria |
+
 ## Anti-Patterns
 
 | Anti-Pattern | Why It's Wrong |
@@ -200,3 +250,5 @@ All output files must conform to their respective schemas.
 | Missing session handoff specs | Multi-session workflows must explicitly define what passes between sessions. What state is persisted? What context is reloaded? What is lost? Without handoff specs, session boundaries become data loss boundaries. |
 | Hardcoded agent lists | Workflows should reference agents via the manifest or phase configuration, not hardcode names. "Invoke security-engineer, then principal-engineer" breaks when agents are added or removed. Reference the set of agents assigned to this phase. |
 | Missing error handling | Every workflow step that can fail must have a defined failure response. "If step fails, stop" is insufficient. What state is saved? Can the user resume? What diagnostic information is provided? |
+| Transform workflow without safety checks | Every Transform workflow must validate intervention levels and check risk thresholds before producing output. A workflow that generates remediation without checking confidence gating is unsafe. |
+| PAUL handoff without verification | The PAUL project must be validated before handoff. Missing verification gates, incomplete risk metadata, or unclassified intervention levels make the handoff unreliable. |

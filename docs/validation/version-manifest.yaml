@@ -1,0 +1,363 @@
+---
+# AEGIS v0.1.0 Version-Lock Manifest
+# Generated: 2026-02-19
+# Purpose: Content-hash inventory for reproducibility and change detection
+
+aegis_version: "0.1.0"
+generated: "2026-02-19"
+total_files: 90
+total_lines: 14992
+hash_algorithm: sha256
+
+domains:
+  - path: src/domains/00-context.md
+    id: domain-00
+    name: Context & Intent
+    sha256: 48ccd12f2d99765772dee21ef9b97f7c8b45396e8e256631e624f3f018982438
+  - path: src/domains/01-architecture.md
+    id: domain-01
+    name: Architecture & System Design
+    sha256: fed13e147b14dbdf741896055bb96ee5ab5ff0c6ebd1159431d589c19d102b0d
+  - path: src/domains/02-data.md
+    id: domain-02
+    name: Data & State Integrity
+    sha256: 65205e84074599b0e29d3829c3fe6960449a4e78d3e4461ac9dab3c5000957d8
+  - path: src/domains/03-correctness.md
+    id: domain-03
+    name: Correctness & Logic
+    sha256: 74b8984bd050e227c179f73cce936284b3240deca0985870a307be8fea7ecd2d
+  - path: src/domains/04-security.md
+    id: domain-04
+    name: Security
+    sha256: 38ecf3917b026620d1d461e59910faf1e2a5312dcacf7d137a2f2aa062334a7f
+  - path: src/domains/05-compliance.md
+    id: domain-05
+    name: Compliance Privacy & Governance
+    sha256: 6fe77ddb121ed3040c7a5348fd12c96278781a9a5858cbf1991786180258328a
+  - path: src/domains/06-testing.md
+    id: domain-06
+    name: Testing Strategy & Verification
+    sha256: bdc3b3fb1c65f089395dcf5ffab8b1e544026b4da8f6947098d888ee797197e6
+  - path: src/domains/07-reliability.md
+    id: domain-07
+    name: Reliability & Resilience
+    sha256: 1a3d3fa82eaec8cdee259e5794904159d73a72a1b7f655226967a743a433c259
+  - path: src/domains/08-performance.md
+    id: domain-08
+    name: Scalability & Performance
+    sha256: d25a623c45fd7cbe2a7a3de3171c9122350a73b3d6a1b776ca6f65515dad99d1
+  - path: src/domains/09-maintainability.md
+    id: domain-09
+    name: Maintainability & Code Health
+    sha256: 609d46a137f0f3c090859f48b94f27945286b6e3072ffbe3895908da4e047bdb
+  - path: src/domains/10-operability.md
+    id: domain-10
+    name: Operability & Developer Experience
+    sha256: 4e714ec092f6fb840f4ae4b6b96b6634eeec3722574f13b90a385f806eec8862
+  - path: src/domains/11-change-risk.md
+    id: domain-11
+    name: Change Risk & Evolvability
+    sha256: d7db8a33254b3499dba131aacdc301c92dd6c0540c1c9f89df3b3045eccf2719
+  - path: src/domains/12-team-risk.md
+    id: domain-12
+    name: Team Ownership & Knowledge Risk
+    sha256: 1b2e05cd564cb80683b9722c9d47caeeac6288e0fad02f9a35e909a327ac4f40
+  - path: src/domains/13-risk-synthesis.md
+    id: domain-13
+    name: Risk Synthesis & Forecasting
+    sha256: 2c2cb59d42d88817f3a0cc66cbd97db67bb97ee4640f811297723990885ae755
+
+rules:
+  - path: src/rules/epistemic-hygiene.md
+    id: epistemic-hygiene
+    name: Epistemic Hygiene
+    sha256: 1c6decd45693a0d085c347d70432969664858b5064661fdb4b17f80d713c5cb2
+  - path: src/rules/disagreement-protocol.md
+    id: disagreement-protocol
+    name: Disagreement Protocol
+    sha256: 1988f70dd03f4535994c133ae3ac40a3735515db654e205f902d9061c7b3956a
+  - path: src/rules/agent-boundaries.md
+    id: agent-boundaries
+    name: Agent Boundaries
+    sha256: bc6774bbef67370dfcb1af15f770943d22d148a212adbb8acc5da4d608b6bbb9
+  - path: src/transform/rules/safety-governance.md
+    id: safety-governance
+    name: Safety Governance
+    sha256: 37dc9d4eb0016f3df602ae91d5beb41b98da74df2a898c4c972678db1355b17f
+  - path: src/transform/rules/change-risk-rules.md
+    id: change-risk-rules
+    name: Change Risk Rules
+    sha256: 8441a62e44262eede36e060949fcc22d904ab8852f7c7e8f646be06dcf4c4053
+
+schemas:
+  - path: src/schemas/finding.md
+    id: finding
+    name: Epistemic Finding
+    sha256: 6ca5899e5a126d98d1d396eb9eb612684f48a6633538d116c72b0b9aff44b551
+  - path: src/schemas/disagreement.md
+    id: disagreement
+    name: Disagreement Record
+    sha256: c4b367499fea589061ac956e8e503b357f786f57a99abeaf254d44f21f19fe74
+  - path: src/schemas/confidence.md
+    id: confidence
+    name: Confidence Vector
+    sha256: 5e5026f534bb1ad0cb38878c59d122f491af79f2cad602d807cd0f26ee8b115b
+  - path: src/schemas/signal.md
+    id: signal
+    name: Signal
+    sha256: 14ed61f58e3e7cd890b321843ec2a48144b3bc2be72ec73972a8f8f817aa2401
+  - path: src/schemas/report-section.md
+    id: report-section
+    name: Report Section
+    sha256: 27cb5ba6561e14458c4a6e44043b9d75e65c8455084505a42746fd59ab8e56e2
+  - path: src/transform/schemas/change-risk.md
+    id: change-risk
+    name: Change Risk Assessment
+    sha256: e104b5d74ae655527b89d4f01ea8f3b98a11afc61cbb99f120b628a018a8cd94
+  - path: src/transform/schemas/intervention-level.md
+    id: intervention-level
+    name: Intervention Level
+    sha256: 8ef3689a0ec90f88d804c3c772738d6ad2eb3d155447c947c50e30e274d1bb34
+  - path: src/transform/schemas/playbook.md
+    id: playbook
+    name: Remediation Playbook
+    sha256: f2c24cce8f9681e7a6f785f609043482cbc2d698e4dab72bc29827294c613d32
+  - path: src/transform/schemas/verification-plan.md
+    id: verification-plan
+    name: Verification Plan
+    sha256: 20522a4c10ea44a801d0e03aae33382c9bc105caafd5ba91040b7e24ad359e7c
+
+tools:
+  - path: src/tools/sonarqube.md
+    id: sonarqube
+    name: SonarQube
+    sha256: 4a8885265dd1de17422ccd4cda385408fa4af905ca8b5e6101444f1dbbd58193
+  - path: src/tools/semgrep.md
+    id: semgrep
+    name: Semgrep
+    sha256: 34abb31f81c1ae06429e06fd93ab614aeb1be9d26d7f1c5536459c7735d5ec08
+  - path: src/tools/trivy.md
+    id: trivy
+    name: Trivy
+    sha256: e2ce98f25d8d6e09bb1120f80ad96d45b375404716b9ccb2363ab62631b26123
+  - path: src/tools/gitleaks.md
+    id: gitleaks
+    name: Gitleaks
+    sha256: f470525e10e56c3a949e7447c24c5058ce91eb073b7e8d790d5d8ebe98b155bf
+  - path: src/tools/checkov.md
+    id: checkov
+    name: Checkov
+    sha256: b7e12abf859a919ec783f240091e7aa37b1dde40659b08e4750c02a3bdcf9fd0
+  - path: src/tools/syft.md
+    id: syft
+    name: Syft
+    sha256: 85c575f41c4fa4ee2200a66ebaff1048854ea7b8e8c86a09d4a4f3800d6103e7
+  - path: src/tools/grype.md
+    id: grype
+    name: Grype
+    sha256: 52add1905a142f99e1fc346485a1a929e9b82835b30c36582635b574971c7359
+  - path: src/tools/git-history.md
+    id: git-history
+    name: Git History Miner
+    sha256: 4e71feec44d54694d03a7d3b0ae60d3d5974f95c0fa03bb9b5abb7567310b16e
+
+core_personas:
+  - path: src/core/personas/principal-engineer.md
+    id: principal-engineer
+    name: Principal Engineer
+    sha256: e2b6355757fa89975cf110d30f1ef69608d5654495f7e7d285ee4adf00b42647
+  - path: src/core/personas/architect.md
+    id: architect
+    name: Architect
+    sha256: 282e43ebe016047870edd58efc999b9c454da0b95826433472a0d2767c190796
+  - path: src/core/personas/data-engineer.md
+    id: data-engineer
+    name: Data Engineer
+    sha256: 465e0558f0d2a13d42bf98824c5a95fa4c4b9036039584ed679037e7b9fd9cf2
+  - path: src/core/personas/security-engineer.md
+    id: security-engineer
+    name: Security Engineer
+    sha256: 0a42f47cd8f4b95abd29bde196f34f6ac3a1f9e77526d75bcb80608b30802ceb
+  - path: src/core/personas/compliance-officer.md
+    id: compliance-officer
+    name: Compliance Officer
+    sha256: 12a81d42ebbbd88a3cc31f027bb0bc32a16d3047f7fa6e85701bc60f415208c1
+  - path: src/core/personas/senior-app-engineer.md
+    id: senior-app-engineer
+    name: Senior Application Engineer
+    sha256: 1b22ffa1749e1e67332b78ecea8be65f2c8b0e706ea82f668a0a00519d7e6e38
+  - path: src/core/personas/sre.md
+    id: sre
+    name: SRE
+    sha256: 07d86384952538d159c558e501367ebf16ed3eddfc38b16ad4b8f2fc196e1ba1
+  - path: src/core/personas/performance-engineer.md
+    id: performance-engineer
+    name: Performance Engineer
+    sha256: f60abce2413f6fbe224c4a7c4010d44eb6b6d34926e1966bfd56e068a9a850ef
+  - path: src/core/personas/test-engineer.md
+    id: test-engineer
+    name: Test Engineer
+    sha256: a708b78a64ade1e9805d4370b09ae610f8e157e6ab34b7223258799437234472
+  - path: src/core/personas/staff-engineer.md
+    id: staff-engineer
+    name: Staff Engineer
+    sha256: 5c92b668e2f8752d7a92f18706be12e04dbc64ba4efc54bf8013e20a6e3c083d
+  - path: src/core/personas/reality-gap-analyst.md
+    id: reality-gap-analyst
+    name: Reality Gap Analyst
+    sha256: 50f358af8dda6a701c3460fd28d9b921b3686d68d25fb1f3c1f7a475db1796b3
+  - path: src/core/personas/devils-advocate.md
+    id: devils-advocate
+    name: "Devil's Advocate Reviewer"
+    sha256: 78c0e6c3131b6df63f37ba9e04a8071e392135e1c4b3c0e15cafe8dab2e6a4f8
+
+transform_personas:
+  - path: src/transform/personas/remediation-architect.md
+    id: remediation-architect
+    name: Remediation Architect
+    sha256: 7963d37cbcb6e3383d1c997abeec316b5c77a7a60dc11050ccd3b2ee5168961f
+  - path: src/transform/personas/change-risk-modeler.md
+    id: change-risk-modeler
+    name: Change Risk Modeler
+    sha256: cb258e76d14456938fcbb66bcc86607f1fe4e6685bad5057bbfafa9250e3d499
+  - path: src/transform/personas/pedagogy-agent.md
+    id: pedagogy-agent
+    name: Pedagogy Agent
+    sha256: 4666918a4d909ad55de011839ae2880069ffa857a838b9e4970afd75db30aec8
+  - path: src/transform/personas/guardrail-generator.md
+    id: guardrail-generator
+    name: Guardrail Generator
+    sha256: 38ff209bea350f3f095a2f0038f4eec36ba6f33e53ffc0dc553cbb5c6397ec05
+  - path: src/transform/personas/execution-validator.md
+    id: execution-validator
+    name: Execution Validator
+    sha256: 1b9927bcf61b29943b20c881a50a5b59af85a2a5e6e359a6201c55a7b4277155
+
+core_agents:
+  - path: src/core/agents/principal-engineer.md
+    id: principal-engineer
+    sha256: b8496eb315c599053365b0312fda4179363baea9fbcc27257a990f23b1e058af
+  - path: src/core/agents/architect.md
+    id: architect
+    sha256: e25895eae0367a9ec2fef622e7bcea655f97f5f2aad0c108839245b61257ac5c
+  - path: src/core/agents/data-engineer.md
+    id: data-engineer
+    sha256: a92d63f431e3bf636abf4c8cb17c4f3cb9b0da19ffc77b7fc6db0d3decfe7004
+  - path: src/core/agents/security-engineer.md
+    id: security-engineer
+    sha256: 4ae207c6143b3dcb6827983165db1be08117173df72450991f1b6635ac11cca9
+  - path: src/core/agents/compliance-officer.md
+    id: compliance-officer
+    sha256: 284c61142294252b0bba73b4616f27ad9b7898e2eb23cfed94f3fb2229f97f35
+  - path: src/core/agents/senior-app-engineer.md
+    id: senior-app-engineer
+    sha256: 657ec815c25335d48d8b97e62d227fcf6870fb92d06f575be8a6e7ea2ec84ef4
+  - path: src/core/agents/sre.md
+    id: sre
+    sha256: 1d7c8c2b556c442d5c6279084a7fe7815020c8655e2154dc468c6aa7c8cbefdd
+  - path: src/core/agents/performance-engineer.md
+    id: performance-engineer
+    sha256: 525c771b3f61897f306c9daf9eadc87523d95dbadc55915d29b067489edb9641
+  - path: src/core/agents/test-engineer.md
+    id: test-engineer
+    sha256: 8ca1763b12fc7452543190ba2f66f4cafd6b3e2c9783b441cd61e7506fb2ffc2
+  - path: src/core/agents/staff-engineer.md
+    id: staff-engineer
+    sha256: 1e04755987608865190611bd4f0705fb71cb3a5b05aae44ee4b91b0e7d105f49
+  - path: src/core/agents/reality-gap-analyst.md
+    id: reality-gap-analyst
+    sha256: c142296f48b5d9c82f178058e90aadeb97841c0d4272ad8afa6c0e33b5b40d05
+  - path: src/core/agents/devils-advocate.md
+    id: devils-advocate
+    sha256: 63375d0b04942160305a5757ee7ee31e8cc65defd548af6a8b8cd578e0ea803c
+
+transform_agents:
+  - path: src/transform/agents/remediation-architect.md
+    id: remediation-architect
+    sha256: ca69b488361a850f6f8cfb9611cd007343058d8f24c27368089a18688c1d03d9
+  - path: src/transform/agents/change-risk-modeler.md
+    id: change-risk-modeler
+    sha256: 62081835bccde5698c0c71eacb4fa028065698a70ca8193d6141ccf1c4679b6c
+  - path: src/transform/agents/pedagogy-agent.md
+    id: pedagogy-agent
+    sha256: ad1aa5c905d02e95aee46b73c1f37ce2cda7cbfebfda32a8a31f7ebd7ab78e44
+  - path: src/transform/agents/guardrail-generator.md
+    id: guardrail-generator
+    sha256: 759616a1ab70964d5e6f004141c1d37d51f387c3e57d8d7f7b4127b61bd1e274
+  - path: src/transform/agents/execution-validator.md
+    id: execution-validator
+    sha256: c2cd7298263b6fac8d1cd81cf1a013a12cb9a595fe2905b244e32be6b5df1db3
+
+core_workflows:
+  - path: src/core/workflows/phase-0-context.md
+    sha256: 0359bb124495c2255b185b2854fdf2f0f661fe2dce5d652d65a86b68f2332429
+  - path: src/core/workflows/phase-1-reconnaissance.md
+    sha256: 2b4c7d2fce56ef15f0010afd58b994dc51a2b29f618a91064d7dc5983f37cb72
+  - path: src/core/workflows/phase-2-domain-audits.md
+    sha256: 7ee31722f642dcaf57afc06ad27f294e6db97506acd39832d14790f8a6ee3037
+  - path: src/core/workflows/phase-3-cross-domain.md
+    sha256: bd9650452579faa77c211f33c1db35d5be94ca610e1dfc1c4834a72ca6def1da
+  - path: src/core/workflows/phase-4-adversarial-review.md
+    sha256: cbc5466811116827f054e22483fa213a61d92b62f2365ded8c0d99fcc1f77646
+  - path: src/core/workflows/phase-5-report.md
+    sha256: 58ae414f4c6ca4cd5453f2c20100087bf264446f9b1a9a3ac2c30e25a2fa8afd
+  - path: src/core/workflows/session-handoff.md
+    sha256: 6ba6833d2d5280ae663da6c54fb47c12a6d72bac8ff306aefde15d968c5fd046
+  - path: src/core/workflows/disagreement-resolution.md
+    sha256: 5be2f269beddf6b68bc1eda21ed899d619e43d6cb59f7c5ecb861793fb0a06e4
+
+core_commands:
+  - path: src/core/commands/audit.md
+    name: aegis:audit
+    sha256: ae4068cfc9b32edc2b68545953166d8cf7f32bc11c92e9335add157680ba814b
+  - path: src/core/commands/resume.md
+    name: aegis:resume
+    sha256: b8296612d7f7235860beb2a32984311fcb362ef8e32ac9273e5d956766bb291a
+  - path: src/core/commands/status.md
+    name: aegis:status
+    sha256: 659f21993b808ffaaa21ef228ff5410954a9f2ce12d8de169fe631bc4b77255e
+  - path: src/core/commands/report.md
+    name: aegis:report
+    sha256: 1541cfec30f70952ed2a97ae32c7d16e2078187e086e503fe07c0897ddf60d3f
+
+transform_workflows:
+  - path: src/transform/workflows/phase-6-remediation.md
+    sha256: 0eab22270f45d4b0c6800126d7ca0764d073b4fe565f7af40be6cbd9fa606aee
+  - path: src/transform/workflows/phase-7-risk-validation.md
+    sha256: f5f031c7ee835ae51a57b9cb90208de3042f792da486125f7c9a5d285235ba5c
+  - path: src/transform/workflows/phase-8-execution-planning.md
+    sha256: b6e9b18436eaaffccbbb8d962d5e8c2831a19b797523218496eda256c8565c8d
+  - path: src/transform/workflows/transform-safety.md
+    sha256: 580cc406c9a865d952e748eaf7dc3f4f0a10b7b4154a35277dc6857853522ad5
+
+transform_commands:
+  - path: src/transform/commands/transform.md
+    name: aegis:transform
+    sha256: 8f8b518aa98262673d17726b2e45586a1aac9d687a9cb9190393f219116bd1ef
+  - path: src/transform/commands/remediate.md
+    name: aegis:remediate
+    sha256: 473b76b39d03ff9cd859a4d2784ad650f0f501c210f98e00c95cae76d3c657ad
+  - path: src/transform/commands/playbook.md
+    name: aegis:playbook
+    sha256: 9187b069a187950802579d6e99bd114a6193e49bac211ce699fa2db39d34da4b
+  - path: src/transform/commands/guardrails.md
+    name: aegis:guardrails
+    sha256: ef4c09710722968a56c2fc7c88f62f53a9e024a0a17285a5864672c9fa0d3320
+
+transform_schemas:
+  - path: src/transform/schemas/change-risk.md
+    id: change-risk
+    name: Change Risk Assessment
+    sha256: e104b5d74ae655527b89d4f01ea8f3b98a11afc61cbb99f120b628a018a8cd94
+  - path: src/transform/schemas/intervention-level.md
+    id: intervention-level
+    name: Intervention Level
+    sha256: 8ef3689a0ec90f88d804c3c772738d6ad2eb3d155447c947c50e30e274d1bb34
+  - path: src/transform/schemas/playbook.md
+    id: playbook
+    name: Remediation Playbook
+    sha256: f2c24cce8f9681e7a6f785f609043482cbc2d698e4dab72bc29827294c613d32
+  - path: src/transform/schemas/verification-plan.md
+    id: verification-plan
+    name: Verification Plan
+    sha256: 20522a4c10ea44a801d0e03aae33382c9bc105caafd5ba91040b7e24ad359e7c

@@ -10,28 +10,57 @@ When an AEGIS audit is initiated on a target codebase, a `.aegis/` directory is 
 
 ```
 .aegis/
-├── STATE.md              # Current audit position
-├── MANIFEST.md           # Version-locked component references
-├── context/              # Phase 0 output
-│   ├── scope.md          # Audit scope and non-goals
-│   └── threat-model.md   # Risk profile and threat model
-├── signals/              # Phase 1 output
-│   └── {tool-id}/        # Per-tool normalized signals
-│       └── signals.md    # Normalized signal data
-├── findings/             # Phase 2-3 output
-│   └── {agent-id}/       # Per-agent finding files
+├── STATE.md                    # Current audit position
+├── MANIFEST.md                 # Version-locked component references
+│
+│   ── Layer A: Diagnostic Artifacts (Phases 0-5) ──
+│
+├── context/                    # Phase 0 output
+│   ├── scope.md                # Audit scope and non-goals
+│   └── threat-model.md         # Risk profile and threat model
+├── signals/                    # Phase 1 output
+│   └── {tool-id}/              # Per-tool normalized signals
+│       └── signals.md          # Normalized signal data
+├── findings/                   # Phase 2-3 output
+│   └── {agent-id}/             # Per-agent finding files
 │       ├── finding-001.md
 │       └── finding-NNN.md
-├── review/               # Phase 4 output
-│   └── devils-advocate.md  # Adversarial review critique
-└── report/               # Phase 5 output
-    ├── executive-summary.md
-    ├── findings-by-domain.md
-    ├── disagreements.md
-    └── remediation-roadmap.md
+├── review/                     # Phase 4 output
+│   └── devils-advocate.md      # Adversarial review critique
+├── report/                     # Phase 5 output
+│   ├── executive-summary.md
+│   ├── findings-by-domain.md
+│   ├── disagreements.md
+│   └── remediation-roadmap.md
+│
+│   ── Layer B: Remediation Knowledge (Phases 6-7) ──
+│
+├── remediation/                # Layer B root
+│   ├── REMEDIATION-SUMMARY.md  # Overview of all remediation
+│   ├── playbooks/              # Per-finding remediation playbooks
+│   │   ├── {finding-id}.md     # Human-readable playbook
+│   │   └── {finding-id}.yaml   # Machine-consumable playbook
+│   ├── patterns/               # Best practice patterns applied
+│   │   └── {pattern-id}.md     # Correct pattern documentation
+│   └── guardrails/             # Generated project rules
+│       ├── claude-md-rules.md  # Rules for .claude/CLAUDE.md
+│       └── cursorrules.md      # Rules for .cursorrules
+│
+│   ── Layer C: Change Orchestration (Phase 8) ──
+│
+└── execution/                  # Layer C root
+    ├── change-graph.yaml       # Dependency-ordered change plan
+    ├── risk-scores.yaml        # Per-change risk assessment
+    ├── verification-plan.md    # How to verify all changes
+    └── paul-project/           # PAUL-ready project artifacts
+        ├── PROJECT.md          # PAUL project definition
+        ├── ROADMAP.md          # Phased remediation plan
+        └── phases/             # Pre-planned PAUL phases
 ```
 
 ### Operational State Structure
+
+#### Layer A — Diagnostic Artifacts (Phases 0-5)
 
 | Directory/File | Created By | Created During | Purpose |
 |----------------|------------|----------------|---------|
@@ -54,6 +83,34 @@ When an AEGIS audit is initiated on a target codebase, a `.aegis/` directory is 
 | `report/findings-by-domain.md` | Principal Engineer | Phase 5 | Organized view of all findings |
 | `report/disagreements.md` | Principal Engineer | Phase 5 | Documented agent disagreements and resolutions |
 | `report/remediation-roadmap.md` | Principal Engineer | Phase 5 | Prioritized action plan with timelines |
+
+#### Layer B — Remediation Knowledge (Phases 6-7)
+
+| Directory/File | Created By | Created During | Purpose |
+|----------------|------------|----------------|---------|
+| `remediation/` | System | Phase 6 initialization | Root directory for all remediation artifacts |
+| `remediation/REMEDIATION-SUMMARY.md` | Remediation Architect | Phase 6 | Overview of all remediation: finding count, playbook count, intervention level distribution |
+| `remediation/playbooks/` | Remediation Architect + Pedagogy Agent | Phase 6 | Container for per-finding remediation playbooks |
+| `remediation/playbooks/{finding-id}.md` | Remediation Architect + Pedagogy Agent | Phase 6 | Human-readable playbook: explanation, rationale, before/after examples, educational context |
+| `remediation/playbooks/{finding-id}.yaml` | Remediation Architect | Phase 6 | Machine-consumable playbook: file targets, change instructions, verification steps, risk metadata, intervention level |
+| `remediation/patterns/` | Pedagogy Agent | Phase 6 | Best-practice patterns extracted during remediation |
+| `remediation/patterns/{pattern-id}.md` | Pedagogy Agent | Phase 6 | Correct pattern documentation at all 4 transformation layers |
+| `remediation/guardrails/` | Guardrail Generator | Phase 7 | Generated project rules for future AI usage |
+| `remediation/guardrails/claude-md-rules.md` | Guardrail Generator | Phase 7 | Rules formatted for `.claude/CLAUDE.md` |
+| `remediation/guardrails/cursorrules.md` | Guardrail Generator | Phase 7 | Rules formatted for `.cursorrules` |
+
+#### Layer C — Change Orchestration (Phase 8)
+
+| Directory/File | Created By | Created During | Purpose |
+|----------------|------------|----------------|---------|
+| `execution/` | System | Phase 8 initialization | Root directory for execution planning artifacts |
+| `execution/change-graph.yaml` | Remediation Architect | Phase 8 | Dependency-ordered graph of all proposed changes |
+| `execution/risk-scores.yaml` | Change Risk Modeler | Phase 7-8 | Per-change risk assessment (blast radius, coupling, regression, architectural tension) |
+| `execution/verification-plan.md` | Execution Validator | Phase 8 | Consolidated verification plan for all changes |
+| `execution/paul-project/` | System | Phase 8 | PAUL-ready project directory |
+| `execution/paul-project/PROJECT.md` | System | Phase 8 | PAUL project definition referencing AEGIS audit |
+| `execution/paul-project/ROADMAP.md` | System | Phase 8 | Phased remediation plan with dependency ordering |
+| `execution/paul-project/phases/` | System | Phase 8 | Pre-planned PAUL phases with risk-scored tasks |
 
 ## Archival Output Structure
 
@@ -159,9 +216,71 @@ The manifest enables audit reproduction. Given the same codebase state (target c
 - **Debugging**: Isolate component changes that affect audit behavior
 - **Compliance**: Demonstrate audit methodology was unchanged
 
+## Dual Format Specification
+
+Transform artifacts (Layers B and C) carry both human-readable and machine-consumable representations. This is a convention, not optional.
+
+### Human-Readable Format (`.md`)
+
+Contains:
+- Explanation and rationale for the remediation
+- Before/after code examples
+- Educational context (why this pattern matters)
+- Best-practice references
+- Verification instructions in prose
+
+### Machine-Consumable Format (`.yaml`)
+
+Contains:
+- File targets (paths and line numbers)
+- Change instructions (structured diffs or transformation rules)
+- Verification steps (executable checks)
+- Risk metadata (blast radius, coupling, regression probability, architectural tension scores)
+- Intervention level classification
+- Finding references (which Layer A findings this remediates)
+- Dependency references (which other changes must happen first)
+
+### Convention
+
+- Every Layer B playbook has both `{finding-id}.md` and `{finding-id}.yaml`
+- Layer C artifacts are primarily `.yaml` (operational data) with `.md` summaries for human review
+- The `.yaml` representation is the authoritative source for machine consumption (PAUL, AI assistants)
+- The `.md` representation is the authoritative source for human understanding
+- Neither representation is derived from the other — both are produced by the same agent during the same phase
+
+## Pipeline Flow
+
+Data flows through AEGIS in a strict derivation chain across three layers.
+
+```
+Phase 0-5 (Core)          Phase 6-7 (Transform)       Phase 8 (Transform)
+┌──────────────────┐      ┌──────────────────┐         ┌──────────────────┐
+│    Layer A        │ ───▶ │    Layer B        │ ──────▶ │    Layer C        │
+│  Diagnostic       │      │  Remediation      │         │  Change           │
+│  Artifacts        │      │  Knowledge        │         │  Orchestration    │
+│                   │      │                   │         │                   │
+│  findings/        │      │  remediation/     │         │  execution/       │
+│  review/          │      │    playbooks/     │         │    change-graph   │
+│  report/          │      │    patterns/      │         │    risk-scores    │
+│  signals/         │      │    guardrails/    │         │    paul-project/  │
+│  context/         │      │                   │         │                   │
+└──────────────────┘      └──────────────────┘         └──────────────────┘
+     Immutable               Derived from A              Derived from B
+```
+
+### Derivation Rules
+
+1. **Layer B cannot exist without Layer A.** Transform cannot run without a completed Core audit.
+2. **Layer C cannot exist without Layer B.** Execution planning cannot run without remediation knowledge.
+3. **Layer A is never mutated by Transform.** Findings remain as produced by Core agents. Transform may reference them but never modifies them.
+4. **Layer B artifacts reference Layer A findings.** Every playbook links to the finding(s) it remediates.
+5. **Layer C artifacts reference Layer B playbooks.** Every execution plan links to the remediation knowledge it implements.
+
 ## Audit Lifecycle
 
 State flows through AEGIS execution phases sequentially, with parallelization opportunities within phases.
+
+### Core Phases (Layer A)
 
 | Phase | Name | Creates | Agent(s) | Description |
 |-------|------|---------|----------|-------------|
@@ -171,12 +290,26 @@ State flows through AEGIS execution phases sequentially, with parallelization op
 | 3 | Change Risk, Team Risk & Reality Gap | `findings/{agent}/` | Staff Engineer, Reality Gap Analyst | Synthesis-heavy analysis |
 | 4 | Adversarial Review | `review/` | Devil's Advocate | Challenge assumptions, attack confidence |
 | 5 | Synthesis & Report | `report/` | Principal Engineer | Final report, disagreement resolution |
+
+### Transform Phases (Layers B & C)
+
+| Phase | Name | Creates | Agent(s) | Description |
+|-------|------|---------|----------|-------------|
+| 6 | Remediation Synthesis | `remediation/playbooks/`, `remediation/patterns/` | Remediation Architect, Pedagogy Agent | Produce playbooks at all 4 transformation layers |
+| 7 | Change Risk Validation | `remediation/guardrails/`, `execution/risk-scores.yaml` | Change Risk Modeler, Guardrail Generator | Score change risk, generate guardrails |
+| 8 | Execution Planning | `execution/` | Execution Validator | Verification plans, PAUL project generation |
+
+### Completion
+
+| Step | Name | Creates | Actor | Description |
+|------|------|---------|-------|-------------|
 | Complete | Archival | `audits/{date}-{hash}/` | (system) | Archive `.aegis/` to immutable record |
 
 ### Execution Model
 
-- **Sequential phases**: Phases execute in order (0 → 1 → 2 → 3 → 4 → 5 → Complete)
+- **Sequential phases**: Phases execute in order (0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → Complete)
 - **Parallel agents**: Phase 2 agents can run in parallel within the phase
+- **Transform is optional**: Phases 6-8 only run when Transform is explicitly initiated after Core completion
 - **Resumability**: Audit can pause and resume at any phase boundary
 - **State persistence**: `STATE.md` tracks progress and enables resume
 
@@ -187,6 +320,9 @@ State flows through AEGIS execution phases sequentially, with parallelization op
 - Phase 3 depends on Phase 2 (findings inform synthesis)
 - Phase 4 depends on Phases 2-3 (all findings must exist for review)
 - Phase 5 depends on Phase 4 (adversarial feedback informs final report)
+- Phase 6 depends on Phase 5 (complete Layer A record required for remediation)
+- Phase 7 depends on Phase 6 (playbooks must exist for risk scoring)
+- Phase 8 depends on Phase 7 (risk-scored plan required for execution planning)
 
 ## State Document Format
 
@@ -216,6 +352,9 @@ The `STATE.md` file tracks audit progress and enables resumption after interrupt
 | 3 | [pending/active/complete] | [list] | [count] | | |
 | 4 | [pending/active/complete] | devils-advocate | [count] | | |
 | 5 | [pending/active/complete] | principal-engineer | - | | |
+| 6 | [pending/active/complete/skipped] | remediation-architect, pedagogy-agent | [playbook count] | | |
+| 7 | [pending/active/complete/skipped] | change-risk-modeler, guardrail-generator | [risk scores] | | |
+| 8 | [pending/active/complete/skipped] | execution-validator | [PAUL artifacts] | | |
 
 ## Summary
 
@@ -231,8 +370,8 @@ Next action: [what to do next]
 
 ### State Values
 
-- **Status values**: `pending`, `active`, `complete`
-- **Current Phase**: Integer 0-5, or "complete" after archival
+- **Status values**: `pending`, `active`, `complete`, `skipped` (Transform phases only — `skipped` when Transform is not run)
+- **Current Phase**: Integer 0-8, or "complete" after archival
 - **Agent list**: Comma-separated agent IDs for phases with multiple agents
 - **Findings count**: Number of finding files created by agents in that phase
 

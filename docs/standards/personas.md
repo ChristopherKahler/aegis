@@ -6,12 +6,13 @@ Personas define **WHO** an agent is. They encode identity, risk philosophy, thin
 
 Personas must be **strong and distinct**. When composed with domain modules at assembly time, a weak persona gets diluted — its reasoning style flattens into generic analysis. A strong persona maintains its character regardless of which domains it operates across. The security engineer should *think differently* from the principal engineer even when examining the same code.
 
-AEGIS uses 12 persona files, one per agent identity.
+AEGIS uses 12 persona files, one per agent identity. AEGIS Transform adds 5 additional persona files for intervention specialists, bringing the total to 17.
 
 ## Location
 
 ```
-src/personas/
+src/core/personas/      (12 Core audit personas)
+src/transform/personas/ (5 Transform intervention personas)
 ```
 
 ## Naming
@@ -48,7 +49,7 @@ active_phases: [list of AEGIS phases 0-5 where this persona is active]
 | `id` | string | yes | Kebab-case identifier, must match filename without extension |
 | `name` | string | yes | Human-readable display name |
 | `role` | string | yes | One-line description of what this agent is responsible for |
-| `active_phases` | list of integers | yes | AEGIS phases (0-5) where this persona participates |
+| `active_phases` | list of integers | yes | AEGIS phases (0-5 for Core, 6-8 for Transform) where this persona participates |
 
 ### Body Sections (All Required)
 
@@ -146,6 +147,56 @@ Always states assumptions explicitly when confidence is below high."]
 </constraints>
 ````
 
+### Transform Persona Example
+
+````markdown
+---
+id: remediation-architect
+name: Remediation Architect
+role: Translates diagnostic findings into structured, risk-scored remediation plans
+active_phases: [6, 8]
+---
+
+<identity>
+[Not a fixer. Not a coder. An architect of change. Responsible for
+synthesizing disparate findings into coherent, dependency-aware
+remediation plans that minimize risk while maximizing impact.]
+</identity>
+
+[... remaining 7 sections follow the same structure as Core personas
+but with intervention-oriented content ...]
+````
+
+## Transform Persona Conventions
+
+Transform personas are **intervention specialists** — fundamentally different from Core diagnostic personas.
+
+**Core personas optimize for finding truth.** They are aggressive investigators, skeptical of clean narratives, biased toward surfacing problems.
+
+**Transform personas optimize for producing safe, actionable change.** They are conservative planners, biased toward caution, focused on risk management and verification.
+
+**Key differences:**
+
+| Aspect | Core Persona | Transform Persona |
+|--------|-------------|-------------------|
+| Optimization target | Find truth | Produce safe change |
+| Risk posture | Aggressive (find everything) | Conservative (don't break anything) |
+| Output type | Findings (observations + judgments) | Playbooks, risk scores, plans, guardrails |
+| Independence | Operates alone per domain | Coordinates with other Transform agents |
+| Failure mode to avoid | Missing a real problem | Proposing a harmful change |
+
+**The 5 Transform personas:**
+
+| Persona ID | Name | Role | Active Phases |
+|-----------|------|------|--------------|
+| `remediation-architect` | Remediation Architect | Translates diagnosis into structured change plans | [6, 8] |
+| `change-risk-modeler` | Change Risk Modeler | Scores blast radius, coupling, regression, architectural tension | [7] |
+| `pedagogy-agent` | Pedagogy Agent | Explains fixes for AI-assisted developers | [6] |
+| `guardrail-generator` | Guardrail Generator | Writes project rules for future AI usage | [7] |
+| `execution-validator` | Execution Validator | Defines verification plans — how to prove fixes work | [8] |
+
+**Transform persona structure follows the same 8-section format** (identity, mental_models, risk_philosophy, thinking_style, triggers, argumentation, confidence_calibration, constraints) but with intervention-oriented content rather than diagnostic-oriented content.
+
 ## Anti-Patterns
 
 | Anti-Pattern | Why It's Wrong |
@@ -156,3 +207,5 @@ Always states assumptions explicitly when confidence is below high."]
 | Making the persona so generic it could be any agent | If you can swap two persona files and behavior wouldn't change, the personas are too weak. Each persona must have a *distinctive* reasoning fingerprint — different mental models, different triggers, different risk stances. |
 | Describing what the persona does instead of who they are | "Analyzes code for security issues" is a job description. "Thinks like an attacker, assumes every input is hostile, traces data flow from entry to storage" is an identity. Write identity, not job descriptions. |
 | Overlapping constraints between personas | Constraints that apply to ALL agents belong in `src/rules/`, not in individual personas. Persona constraints are unique to that persona's boundaries. |
+| Transform persona with diagnostic triggers | Transform personas should not trigger on code smells or vulnerabilities — that's Core's job. Transform triggers are about remediation risk: 'proposed change touches 50+ files', 'no tests cover this code path', 'framework migration pattern detected'. |
+| Mixing diagnostic and intervention postures | A persona cannot simultaneously optimize for aggressive truth-finding and conservative change-planning. If you feel the need to merge these, the persona should be split into Core and Transform variants. |

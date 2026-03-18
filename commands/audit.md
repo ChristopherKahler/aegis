@@ -1,0 +1,233 @@
+---
+name: aegis:audit
+description: Run a full or targeted AEGIS diagnostic audit on a codebase
+argument-hint: "[path-to-repo]"
+allowed-tools: [Read, Write, Edit, Bash, Glob, Grep, Task, AskUserQuestion]
+---
+
+<objective>
+Initiates a new AEGIS diagnostic audit on a target codebase. This is the primary entry point for all Core audit operations. Guides the user through scope selection, domain targeting, tool configuration, and confirmation before delegating to the Phase 0 workflow.
+
+If no `.aegis/` directory exists, delegates project initialization to `/aegis:init` before proceeding.
+If an existing audit is detected, routes to `/aegis:resume` instead of starting fresh.
+
+Produces: Phase 0 (Context & Threat Modeling) output, building on the `.aegis/` structure created by `/aegis:init`.
+</objective>
+
+<execution_context>
+@~/.claude/commands/aegis/init.md
+@~/.claude/aegis/core/workflows/phase-0-context.md
+@~/.claude/aegis/core/workflows/phase-1-reconnaissance.md
+@~/.claude/aegis/core/workflows/phase-2-domain-audits.md
+@~/.claude/aegis/core/workflows/phase-3-cross-domain.md
+@~/.claude/aegis/core/workflows/phase-4-adversarial-review.md
+@~/.claude/aegis/core/workflows/phase-5-report.md
+@~/.claude/aegis/core/workflows/session-handoff.md
+@~/.claude/aegis/core/workflows/disagreement-resolution.md
+@~/.claude/aegis/core/workflows/phase-checkpoint.md
+</execution_context>
+
+<context>
+$ARGUMENTS
+@.aegis/STATE.md
+@.aegis/MANIFEST.md
+</context>
+
+<process>
+
+## Step 1: Determine Target Repository
+
+Check if $ARGUMENTS contains a repository path:
+- If YES: use the provided path as the audit target
+- If NO: use the current working directory
+
+Validate the target:
+- Confirm the path exists and is a directory
+- Check for .git/ (warn if absent — not required but informative)
+- Display target path for user confirmation
+
+## Step 2: Ensure Project Initialized
+
+Check if `.aegis/STATE.md` exists in the target repository:
+
+- If YES (existing project): Read STATE.md to determine status.
+  - If status is "initialized" (init done but no audit started): proceed to Step 3
+  - If status is "in_progress" or "paused": An audit is already in progress.
+    ```
+    ════════════════════════════════════════
+    EXISTING AUDIT DETECTED
+    ════════════════════════════════════════
+
+    Target: [path]
+    Current Phase: [from STATE.md]
+    Status: [from STATE.md]
+    Findings so far: [count]
+
+    [1] Resume existing audit (recommended) → runs /aegis:resume
+    [2] Start fresh (WARNING: archives existing .aegis/ state)
+    [3] Cancel
+    ════════════════════════════════════════
+    ```
+    - If [1]: delegate to /aegis:resume
+    - If [2]: run /aegis:init logic (archives old .aegis/, creates fresh), then proceed to Step 3
+    - If [3]: exit
+
+- If NO (no .aegis/ directory): Project not yet initialized.
+  - Run /aegis:init process to create .aegis/ with STATE.md, MANIFEST.md, and findings/
+  - The init process handles: git repo validation, tool detection, .gitignore update
+  - After init completes, proceed to Step 3
+
+## Step 3: Repository Analysis
+
+Analyze the target repository and display:
+```
+════════════════════════════════════════
+TARGET REPOSITORY
+════════════════════════════════════════
+
+Path: [absolute path]
+Languages: [detected from file extensions]
+Frameworks: [detected from config files — package.json, requirements.txt, go.mod, etc.]
+Repository size: [file count estimate]
+Last commit: [if git repo — short hash + date]
+════════════════════════════════════════
+```
+
+## Step 4: Select Audit Scope
+
+Present audit scope options:
+```
+════════════════════════════════════════
+AUDIT SCOPE
+════════════════════════════════════════
+
+[1] Full audit — all phases (0-5), all 14 domains (recommended for first run)
+[2] Targeted audit — select specific domains to include
+[3] Quick scan — Phases 0-2 only (context + signals + domain audits, no synthesis/adversarial)
+[4] Cancel
+════════════════════════════════════════
+```
+
+If [2] (Targeted) selected, present domain checklist:
+```
+Select domains to include:
+
+[ ] 00 — Context & Intent
+[ ] 01 — Architecture & System Design
+[ ] 02 — Data & State Integrity
+[ ] 03 — Correctness & Logic
+[ ] 04 — Security
+[ ] 05 — Compliance, Privacy & Governance
+[ ] 06 — Testing Strategy & Verification
+[ ] 07 — Reliability & Resilience
+[ ] 08 — Scalability & Performance
+[ ] 09 — Maintainability & Code Health
+[ ] 10 — Operability & Developer Experience
+[ ] 11 — Change Risk & Evolvability
+[ ] 12 — Team, Ownership & Knowledge Risk
+[ ] 13 — Risk Synthesis & Forecasting
+
+Enter domain numbers (comma-separated), "all" for full audit, or "back" to return to scope selection:
+```
+
+Note: Domain 00 (Context) is always included regardless of selection — it is required for scope establishment.
+
+## Step 5: Audit Configuration
+
+Present optional configuration:
+```
+════════════════════════════════════════
+AUDIT CONFIGURATION
+════════════════════════════════════════
+
+Tool selection (all enabled by default):
+  [x] SonarQube — code quality, complexity, duplication
+  [x] Semgrep — pattern-based security/correctness scanning
+  [x] Trivy — vulnerability and misconfiguration scanning
+  [x] Gitleaks — secrets detection
+  [x] Checkov — infrastructure-as-code scanning
+  [x] Syft + Grype — SBOM generation + CVE matching
+  [x] git-history — churn, author concentration, change frequency
+
+Toggle tools? Enter tool names to disable, "ok" to continue, or "back" to return to scope selection:
+════════════════════════════════════════
+```
+
+If the target has no IaC files, note that Checkov will be skipped automatically.
+If no .git/ directory, note that git-history and Gitleaks will have limited output.
+
+## Step 6: Confirm and Execute
+
+Display the audit plan for confirmation:
+```
+════════════════════════════════════════
+AUDIT PLAN
+════════════════════════════════════════
+
+Target: [path]
+Scope: [Full / Targeted / Quick]
+Phases: [0-5 or 0-2]
+Domains: [count] of 14 [list if targeted]
+Tools: [count] enabled [list any disabled]
+Estimated sessions: [count based on scope — full ~8-10, quick ~4-5]
+
+[1] Start audit (recommended)
+[2] Modify scope
+[3] Cancel
+════════════════════════════════════════
+```
+
+If [1] selected:
+1. Update .aegis/STATE.md: set current phase to 0, overall status to "in_progress"
+2. Record audit scope, domain selection, and tool configuration in .aegis/STATE.md
+3. Update .aegis/STATE.md Session Tracking: set Started to current timestamp, Sessions to 1, Last session to current timestamp
+4. Begin the phase execution loop (Step 7)
+
+Note: .aegis/ directory, STATE.md, and MANIFEST.md were created by /aegis:init in Step 2.
+
+If [2]: return to Step 4
+If [3]: exit without creating any files
+
+## Step 7: Phase Execution Loop
+
+Execute audit phases sequentially with checkpoints between each phase:
+
+```
+For each phase in the audit scope (full: 0-5, quick: 0-2):
+
+  1. Invoke the phase workflow:
+     - Phase 0 → phase-0-context workflow
+     - Phase 1 → phase-1-reconnaissance workflow
+     - Phase 2 → phase-2-domain-audits workflow
+     - Phase 3 → phase-3-cross-domain workflow
+     - Phase 4 → phase-4-adversarial-review workflow
+     - Phase 5 → phase-5-report workflow
+
+  2. After phase workflow completes, invoke phase-checkpoint workflow:
+     - Displays phase completion summary and cumulative progress
+     - Previews the next phase
+     - Offers: [1] Continue  [2] Pause  [3] Abort
+
+  3. Based on user's checkpoint decision:
+     - "Continue": proceed to next iteration of this loop
+     - "Pause": stop loop — STATE.md updated with resume point, exit cleanly
+     - "Abort": stop loop — STATE.md updated, exit cleanly
+
+  4. If user paused or aborted: display resume instructions and stop execution
+```
+
+The final checkpoint (after Phase 5 or last phase in scope) displays "Core audit complete" with next steps (/aegis:report, /aegis:transform) instead of continue/pause/abort options.
+
+Note: Each phase workflow internally handles session-handoff between agents. The checkpoint workflow operates at the phase boundary level, not the agent boundary level.
+
+</process>
+
+<success_criteria>
+- [ ] Target repository identified and validated
+- [ ] Audit scope clearly defined and confirmed by user
+- [ ] Tool configuration confirmed (defaults or user-modified)
+- [ ] .aegis/ directory initialized with STATE.md and MANIFEST.md
+- [ ] Phase 0 workflow delegation begins successfully
+- [ ] User receives clear feedback on what will happen next
+- [ ] Cancellation available at every decision point
+</success_criteria>
