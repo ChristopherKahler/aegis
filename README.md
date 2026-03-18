@@ -2,6 +2,70 @@
 
 **Automated Epistemic Governance & Intelligence System**
 
+<p align="center">
+  <img src="docs/terminal.svg" alt="AEGIS terminal demo" width="700"/>
+</p>
+
+A multi-session, multi-agent codebase audit system built on [Claude Code](https://claude.ai/code). AEGIS deploys 12 senior engineering personas across 14 audit domains to produce epistemically rigorous, adversarially reviewed findings on any codebase.
+
+---
+
+## Quick Install
+
+```bash
+curl -sSL https://raw.githubusercontent.com/ChristopherKahler/aegis/main/install.sh | bash
+```
+
+Then run `/aegis:audit` in Claude Code.
+
+> **Requires:** [Claude Code](https://claude.ai/code) installed (`~/.claude/` directory must exist)
+
+---
+
+## Contents
+
+- [Identity](#identity)
+- [What AEGIS Is](#what-aegis-is)
+- [Core Philosophy](#core-philosophy)
+- [The 14 Audit Domains](#the-14-audit-domains)
+- [The Agent Team](#the-agent-team)
+- [Execution Phases](#execution-phases)
+- [The Three Output Layers](#the-three-output-layers)
+- [AEGIS Transform](#aegis-transform)
+- [Intervention Levels](#intervention-levels)
+- [The Transformation Model](#the-transformation-model)
+- [Transform Agent Team](#transform-agent-team)
+- [Transform Execution Phases](#transform-execution-phases)
+- [Commands](#commands)
+- [Change Risk in Remediation](#change-risk-in-remediation)
+- [Safety & Liability Framework](#safety--liability-framework)
+- [PAUL Integration](#paul-integration)
+- [Pattern Corpus & Feedback Loop](#pattern-corpus--feedback-loop)
+- [The Formal Epistemic Schema](#the-formal-epistemic-schema)
+- [Disagreement Resolution System](#disagreement-resolution-system)
+- [Disagreement Visualization Model](#disagreement-visualization-model)
+- [Reality Gap Framework](#reality-gap-framework)
+- [Language-Specific Failure Models](#language-specific-failure-models)
+- [Tooling Stack](#tooling-stack)
+- [Output Format](#output-format)
+- [Signal Categories](#signal-categories)
+- [Installation & Runtime](#v02--installation--runtime)
+- [Ecosystem](#ecosystem)
+
+---
+
+## Ecosystem
+
+AEGIS is part of a broader Claude Code extension ecosystem:
+
+| System | What It Does | Link |
+|--------|-------------|------|
+| **AEGIS** | Multi-agent codebase auditing — diagnosis + controlled evolution | You are here |
+| **PAUL** | Project orchestration — Plan, Apply, Unify Loop | [GitHub](https://github.com/ChristopherKahler/paul) |
+| **CARL** | Context Augmentation & Reinforcement Layer — dynamic rules loaded JIT by intent | [GitHub](https://github.com/ChristopherKahler/carl) |
+| **BASE** | Builder's Automated State Engine — workspace lifecycle, health tracking, drift prevention | [GitHub](https://github.com/ChristopherKahler/base) |
+| **CC Strategic AI** | Skool community — courses, community, live support | [Skool](https://skool.com/cc-strategic-ai) |
+
 ---
 
 ## Identity
@@ -1407,7 +1471,7 @@ v0.1 does not include runtime execution — actually orchestrating Claude Code s
 
 ---
 
-## v0.2 — Installation & Runtime (In Progress)
+## v0.2 — Installation & Runtime
 
 v0.2 makes AEGIS installable and runnable as a Claude Code extension. The framework installs to `~/.claude/aegis/` and commands install to `~/.claude/commands/aegis/`, mirroring the PAUL framework installation pattern.
 
